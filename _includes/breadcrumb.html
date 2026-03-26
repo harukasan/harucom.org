@@ -1,0 +1,42 @@
+{%- assign page_lang = page.lang | default: "en" -%}
+{%- if page_lang == "ja" -%}
+  {%- assign home_url = "/" -%}
+  {%- assign home_label = "Home" -%}
+{%- else -%}
+  {%- assign home_url = "/en/" -%}
+  {%- assign home_label = "Home" -%}
+{%- endif -%}
+
+{%- assign crumbs = "" | split: "" -%}
+{%- assign current_permalink = page.permalink -%}
+
+{%- comment -%}
+Find parent pages by checking all site pages whose permalink is a prefix
+of the current page's permalink (excluding home and self).
+For /docs/reference/keyboard/ this finds /docs/ and /docs/reference/.
+{%- endcomment -%}
+
+{%- for p in site.pages -%}
+  {%- if p.permalink and p.lang == page_lang
+      and p.permalink != current_permalink
+      and p.permalink != home_url -%}
+    {%- assign plen = p.permalink | size -%}
+    {%- assign prefix = current_permalink | truncate: plen, "" -%}
+    {%- if prefix == p.permalink -%}
+      {%- assign crumbs = crumbs | push: p -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Sort by permalink length (shorter = higher in hierarchy) {%- endcomment -%}
+{%- assign crumbs = crumbs | sort: "permalink" -%}
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item"><a href="{{ home_url | relative_url }}">{{ home_label }}</a></li>
+    {%- for crumb in crumbs -%}
+    <li class="breadcrumb-item"><a href="{{ crumb.url | relative_url }}">{{ crumb.title | escape }}</a></li>
+    {%- endfor -%}
+    <li class="breadcrumb-item breadcrumb-current" aria-current="page">{{ page.title | escape }}</li>
+  </ol>
+</nav>

@@ -1,0 +1,31 @@
+{% comment %}
+Home page hero component (full-width, larger).
+Usage:
+{% include hero-home.html
+title="Site Title"
+description="Tagline"
+image="/assets/images/hero.jpg"
+%}
+All parameters are optional. Falls back to site/page settings.
+{% endcomment %}
+
+{%- assign hero_title = include.title | default: page.hero_title | default: site.title -%}
+{%- assign hero_description = include.description | default: page.hero_description | default: site.description -%}
+{%- assign hero_image = include.image | default: page.hero_image -%}
+
+<div class="hero-home {% if hero_image %}hero-home--with-image{% endif %}">
+  {%- if hero_image -%}
+  <div class="hero-home__image">
+    <img src="{{ hero_image | relative_url }}" alt="{{ hero_title | escape }}">
+  </div>
+  {%- endif -%}
+  <div class="hero-home__content">
+    {%- if hero_title -%}
+    <h1 class="hero-home__title">{{ hero_title }}</h1>
+    {%- endif -%}
+    {%- if hero_description -%}
+    <p class="hero-home__description">
+      Accessible Ruby Computer</p>
+    {%- endif -%}
+  </div>
+</div>

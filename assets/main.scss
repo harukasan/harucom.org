@@ -1,0 +1,23 @@
+---
+---
+
+// Override Minima's variables before importing
+$base-font-family: "Roboto", "BIZ UDPGothic", "Helvetica Neue", Arial, Meiryo, sans-serif;
+$code-font-family: "Roboto Mono", monospace;
+$base-font-size: 16px;
+$base-line-height: 1.625;
+$content-width: 800px;
+
+// Light mode colors (Charcoal Design System)
+$text-color: #1f1f1f; // neutral.light.90
+$background-color: #ffffff; // neutral.light.0
+$brand-color: #1F75BC; // blue.light.60 (text.info)
+$brand-color-light: #D8EBFB; // blue.light.10
+$brand-color-dark: #185182; // blue.light.70
+$grey-color: #717171; // neutral.light.60
+$grey-color-light: #e8e8e8; // neutral.light.10
+$grey-color-dark: #515151; // neutral.light.70
+$border-color: rgba(31, 31, 31, 0.1); // neutral-a.light.10
+
+@import "minima";
+@import "custom";

@@ -1,0 +1,30 @@
+{% comment %}
+  Hero component for pages.
+  Usage:
+    {% include hero.html
+       title="Page Title"
+       description="Short description"
+       image="/assets/images/hero.jpg"
+    %}
+  All parameters are optional. Falls back to page front matter.
+{% endcomment %}
+
+{%- assign hero_title = include.title | default: page.hero_title | default: page.title -%}
+{%- assign hero_description = include.description | default: page.hero_description -%}
+{%- assign hero_image = include.image | default: page.hero_image -%}
+
+<div class="hero {% if hero_image %}hero--with-image{% endif %}">
+  {%- if hero_image -%}
+  <div class="hero__image">
+    <img src="{{ hero_image | relative_url }}" alt="{{ hero_title | escape }}">
+  </div>
+  {%- endif -%}
+  <div class="hero__content">
+    {%- if hero_title -%}
+    <h1 class="hero__title">{{ hero_title }}</h1>
+    {%- endif -%}
+    {%- if hero_description -%}
+    <p class="hero__description">{{ hero_description }}</p>
+    {%- endif -%}
+  </div>
+</div>
