@@ -16,7 +16,11 @@ The rendering runs on its own in C, so Ruby only changes parameters.
 ## Contents
 
 - [Getting Started](#getting-started)
-- [Working with Channels](#working-with-channels)
+  - [Driving a Channel](#driving-a-channel)
+  - [Assigning a Source to a Channel](#assigning-a-source-to-a-channel)
+  - [Playing an Audio Sample](#playing-an-audio-sample)
+- [Playing Sound](#playing-sound)
+- [Using the Channel Object](#using-the-channel-object)
 - [Sources](#sources)
   - [PWMAudio::Tone](#pwmaudiotone)
   - [PWMAudio::Sample](#pwmaudiosample)
@@ -28,7 +32,10 @@ The rendering runs on its own in C, so Ruby only changes parameters.
 
 ## Getting Started
 
+### Driving a Channel
+
 Creating a `Board::PWMAudio` sets up the audio output.
+It initializes the board's audio pins, GPIO 24 and 25.
 
 ```ruby
 require "board/pwm_audio"
@@ -43,7 +50,8 @@ audio.stop(0)
 audio.deinit
 ```
 
-Note frequencies are available as constants.
+There are eight channels, numbered 0 to 7.
+Each plays its own sound, and sounds played at once are mixed together.
 
 ```ruby
 A = Board::PWMAudio
@@ -53,65 +61,27 @@ audio.beep(0, A::E4, 200)
 audio.beep(0, A::G4, 200)
 ```
 
-Playing a WAV file takes a channel and a source, which the next two sections cover in turn.
+### Assigning a Source to a Channel
 
-## Working with Channels
-
-`Board::PWMAudio.new` initializes the audio output on the board's audio pins (GPIO 24 and 25).
-There are eight channels, numbered 0 to 7.
-
-There are two ways to drive a channel: pass its number, or work with the channel object
-returned by `audio.channel(0)`.
-
-```ruby
-audio.tone(0, 440)           # by number
-audio.channel(0).tone(440)   # channel object
-```
-
-| Operation | By number | Channel object |
-|-----------|-----------|----------------|
-| Play a waveform | `audio.tone(0, 440, waveform:, volume:)` | `ch.tone(440, waveform:, volume:)` |
-| Stop | `audio.stop(0)` | `ch.stop` |
-| Stereo balance (0 left, 8 center, 15 right) | `audio.pan(0, 8)` | `ch.pan = 8` |
-| Mute | `audio.mute(0, true)` | `ch.mute = true` |
-| Volume (0 to 15, 15 by default) | — | `ch.volume = 12` |
-| Assign a source | — | `ch.source = kick` |
-| Play the source | — | `ch.play` |
-
-The sources you assign to `source` are covered in [Sources](#sources).
-Samples are played through the channel object.
-
-Some methods belong to `audio` rather than to one channel.
-
-| Method | Description |
-|--------|-------------|
-| `audio.beep(0, 440, 200)` | Play for the given number of milliseconds and stop. This blocks until it finishes |
-| `audio.stop_all` | Stop every channel |
-| `audio.deinit` | Stop the output and release the hardware |
-
-The level fades over a few milliseconds, so a stop never clicks.
-Muting leaves the channel's other settings alone.
-
-## Sources
-
-A channel plays one source at a time. There are three kinds.
-A waveform plays until it is stopped, and a sample plays once and stops at its end.
-
-### PWMAudio::Tone
+`audio.channel(0)` returns the channel object, which takes a source and plays it.
 
 ```ruby
 ch = audio.channel(0)
 ch.source = PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
 ch.volume = 12
 ch.play
+
+sleep 1
+ch.stop
 ```
 
-Describes an oscillator.
+There are three kinds of source: waveforms, samples, and streams.
+See [Sources](#sources) for the details.
 
-### PWMAudio::Sample
+### Playing an Audio Sample
 
-The drum sounds live as files in `/data/drums`. Read one, wrap it in a
-`PWMAudio::Sample`, and a channel plays it.
+The drum sounds live as WAV files in `/data/drums`.
+Read one, wrap it in a `PWMAudio::Sample`, and a channel plays it.
 
 ```ruby
 kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
@@ -119,6 +89,75 @@ kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
 ch = audio.channel(3)
 ch.source = kick
 ch.play
+```
+
+A waveform plays until it is stopped, and a sample plays once and stops at its end.
+Calling `play` again restarts it from the beginning.
+
+## Playing Sound
+
+The methods on `audio` take a channel number. Reach for these to play a sound quickly.
+
+| Method | Description |
+|--------|-------------|
+| `audio.tone(channel, frequency, waveform:, volume:)` | Play a continuous tone at the given frequency in Hz |
+| `audio.beep(channel, frequency, duration_ms, waveform:, volume:)` | Play for the given number of milliseconds and stop. This blocks until it finishes |
+| `audio.stop(channel)` | Stop the channel |
+| `audio.stop_all` | Stop every channel |
+| `audio.pan(channel, value)` | Stereo balance (0 left, 8 center, 15 right) |
+| `audio.mute(channel, flag)` | Mute the channel, leaving its other settings alone |
+| `audio.channel(index)` | Get the channel object |
+| `audio.load_sample(slot, data)` | Load a sample into the [bank](#the-sample-bank) |
+| `audio.sample_clock` | The current [playback position](#scheduling-sound) in samples |
+| `audio.deinit` | Stop the output and release the hardware |
+
+`waveform` picks the oscillator and `volume` runs from 0 to 15, 15 by default.
+The level fades over a few milliseconds, so a stop never clicks.
+
+The methods that schedule sound (`tone_at`, `play_at`, `stop_at`, `cancel_scheduled`)
+are covered in [Scheduling Sound](#scheduling-sound).
+
+## Using the Channel Object
+
+`audio.channel(index)` returns a `PWMAudio::Channel`.
+Reach for it when a source is involved.
+The same channel number always returns the same object.
+
+| Method | Description |
+|--------|-------------|
+| `ch.source = source` | Assign a source |
+| `ch.play` | Play the assigned source |
+| `ch.tone(frequency, waveform:, volume:)` | Assign a waveform and play it |
+| `ch.stop` | Stop the sound |
+| `ch.volume = 12` | Volume (0 to 15, 15 by default) |
+| `ch.pan = 8` | Stereo balance (0 left, 8 center, 15 right) |
+| `ch.mute = true` | Mute the channel |
+| `ch.index` | The channel number |
+| `ch.source` | The source it holds |
+
+`play` also takes `volume:` and `slot:`.
+A slot is a sound loaded into the [sample bank](#the-sample-bank).
+
+The methods that schedule sound (`play_at`, `tone_at`, `stop_at`, `cancel_scheduled`)
+are covered in [Scheduling Sound](#scheduling-sound).
+
+## Sources
+
+There are three kinds of source. Each one is assigned to a channel and played from there.
+
+### PWMAudio::Tone
+
+```ruby
+PWMAudio::Tone.new(440)
+PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
+```
+
+Describes an oscillator. `frequency` and `waveform` read it back.
+
+### PWMAudio::Sample
+
+```ruby
+PWMAudio::Sample.new(data)
 ```
 
 Wraps 16-bit PCM WAV or QOA data, mono or stereo.
@@ -138,6 +177,7 @@ song.play
 ```
 
 Plays a file straight from flash, so a track too large for RAM plays fine.
+It takes the same formats as `PWMAudio::Sample`.
 
 Do not rewrite the file while it is playing. Writing moves its blocks and the sound breaks.
 
@@ -149,8 +189,8 @@ Preloading short sounds lets one channel play several of them.
 audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
 audio.load_sample(1, File.open("/data/drums/oh.wav", "r") { |f| f.read })
 
-now = audio.sample_clock
-audio.play_at(now + 5000, 5, 14, 0)   # play slot 0 on channel 5
+ch = audio.channel(5)
+ch.play(slot: 0)
 ```
 
 Sounds sharing a channel cut each other off, which is what you want for
@@ -168,12 +208,12 @@ audio.tone_at(now + 25_000, 0, 440)   # start in 0.5 s
 audio.stop_at(now + 50_000, 0)        # stop in 1 s
 ```
 
-| Operation | By number | Channel object |
-|-----------|-----------|----------------|
-| Play a waveform | `audio.tone_at(at, 0, 440)` | `ch.tone_at(at, 440)` |
-| Play the source | `audio.play_at(at, 0, volume, slot)` | `ch.play_at(at)` |
-| Stop | `audio.stop_at(at, 0)` | `ch.stop_at(at)` |
-| Drop pending events | `audio.cancel_scheduled(0)` | `ch.cancel_scheduled` |
+| Operation | By channel number | Channel object |
+|-----------|-------------------|----------------|
+| Play a waveform | `audio.tone_at(at, channel, frequency)` | `ch.tone_at(at, frequency)` |
+| Play the source | `audio.play_at(at, channel, volume, slot)` | `ch.play_at(at, volume:, slot:)` |
+| Stop | `audio.stop_at(at, channel)` | `ch.stop_at(at)` |
+| Drop pending events | `audio.cancel_scheduled(channel)` | `ch.cancel_scheduled` |
 
 The queue holds 32 events, and a full queue returns `false`.
 Before retriggering a note, drop the pending events so a stale scheduled stop cannot cut it.
