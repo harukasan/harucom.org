@@ -29,6 +29,7 @@ ref: docs
 
 ## コマンド
 
+- [テキストエディタ](/docs/app/edit/)
 - [PicoRabbit](/docs/picorabbit/)
 - [Johakyu（ライブコーディング）](/docs/johakyu/)
 - [デモアプリ](/docs/demos/)

@@ -146,27 +146,10 @@ IRB のプロンプトでは日本語も入力できます。
 irb> edit hello.rb
 ```
 
-### ショートカットキー
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> で保存、<kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> で終了します。
+`.rb` のファイルを開くと色分けと自動インデントが働き、<kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> で日本語も入力できます。
 
-| キー | 動作 |
-|------|------|
-| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | 保存 |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | 終了 |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | 元に戻す |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | やり直し |
-| <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | カーソルを移動する |
-| <kbd>Home</kbd> / <kbd>End</kbd> | 行頭に移動する / 行末に移動する |
-| <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
-
-エディタはステータスバーにファイル名と位置を表示し、未保存の変更がある場合は `[+]` が表示されます。
-
-### エディタの便利な機能
-
-Ruby のコードを書きやすくするしくみが入っています。
-
-- **色分け** — 文字列やキーワード、コメントなどが色分けされて表示されます。
-- **自動インデント** — `def` や `if` のあとで改行すると、字下げが自動で入ります。`end` を打つと字下げが戻ります。
-- **日本語入力** — <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> で[日本語入力](../japanese-input/)に切り替わります。コメントや文字列に日本語を書けます。
+キー操作や画面の見かたは[テキストエディタ](../app/edit/)をご覧ください。
 
 ## はじめてのプログラム
 
@@ -218,6 +201,7 @@ irb> run hello.rb
 * [再起動する](../restart/)
 * [ファイルを読み書きする](../files/)
 * [コマンドを使う](../commands/)
+* [テキストエディタを使いこなす](../app/edit/)
 * [日本語を入力する](../japanese-input/)
 * [設定を変える](../settings/)
 * [デモアプリを試す](../demos/)

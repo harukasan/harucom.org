@@ -145,27 +145,11 @@ Use the `edit` command to launch the text editor, where you can save and edit Ru
 irb> edit hello.rb
 ```
 
-### Editor Shortcuts
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> saves and <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> quits.
+A `.rb` file gets syntax highlighting and auto indent, and <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd>
+switches to Japanese input.
 
-| Key | Action |
-|-----|--------|
-| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | Save |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | Quit |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | Undo |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | Redo |
-| <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
-| <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
-| <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
-
-The editor displays the filename and position in the status bar. `[+]` is shown when there are unsaved changes.
-
-### Editor Features
-
-The editor helps with writing Ruby.
-
-- **Syntax highlighting** — strings, keywords, and comments are colored.
-- **Auto indent** — a newline after `def` or `if` is indented for you, and typing `end` pulls the indent back.
-- **Japanese input** — <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> switches to [Japanese input](../japanese-input/) for comments and strings.
+For the key bindings and the screen layout, see [Text Editor](../app/edit/).
 
 ## Your First Program
 
@@ -217,6 +201,7 @@ Open the editor again to check if the content is correct.
 * [Restart](../restart/)
 * [File I/O](../files/)
 * [Commands](../commands/)
+* [Text Editor](../app/edit/)
 * [Japanese Input](../japanese-input/)
 * [Settings and Screen Zoom](../settings/)
 * [Demo Apps](../demos/)

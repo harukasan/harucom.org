@@ -29,6 +29,7 @@ ref: docs
 
 ## Commands
 
+- [Text Editor](/en/docs/app/edit/)
 - [PicoRabbit](/en/docs/picorabbit/)
 - [Johakyu (Live Coding)](/en/docs/johakyu/)
 - [Demo Apps](/en/docs/demos/)

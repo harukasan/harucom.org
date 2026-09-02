@@ -6,16 +6,15 @@ lang: en
 ref: docs-commands
 ---
 
-Harucom comes with commands for looking at files, copying them, and moving around the filesystem.
-Type the command name at the IRB prompt to run it.
+Harucom's IRB runs commands for looking at files and copying them.
 
 ```ruby
 irb> ls
 irb> cat hello.rb
 ```
 
-Commands are just Ruby scripts stored in `/app`.
-You can read them with `cat`, and you can write your own.
+These commands are Ruby scripts stored in `/app`.
+You can print one with `cat`, or change it with the [`edit` command](../app/edit/).
 See [File I/O](../files/) for details.
 
 ## Contents
@@ -36,8 +35,8 @@ irb> ls /app
 irb> ls -l
 ```
 
-Lists the files in the current directory. Directories are shown in color.
-With `-l`, the permissions, size, and modification time are shown as well.
+Lists the files in the current directory.
+Directories are shown in a different color from files.
 
 ### cat — Show the contents of a file
 
@@ -47,7 +46,8 @@ irb> cat -n hello.rb
 irb> cat file1.rb file2.rb
 ```
 
-Prints the file as it is. `-n` adds line numbers.
+Prints the file as it is.
+`-n` numbers each line.
 Several files given at once are printed one after another.
 
 ### head / tail — Show the beginning or the end
@@ -59,7 +59,7 @@ irb> tail hello.rb
 ```
 
 `head` prints the beginning of a file and `tail` prints the end.
-Both show 10 lines by default, which `-n` changes.
+`-n` changes how many lines they show.
 
 ## Moving Around
 
@@ -78,14 +78,15 @@ irb> cd ..
 irb> cd
 ```
 
-Running `cd` without an argument moves to the root directory `/`.
-
-After moving, `ls`, `cat`, and `edit` take plain file names relative to that directory.
+Changes the directory you are working in, the current directory.
+After moving, a plain file name passed to `ls`, `cat`, or `edit` refers to a file in that directory.
 
 ```ruby
 irb> cd /app
 irb> cat ls.rb
 ```
+
+Running `cd` without an argument moves to the root directory `/`.
 
 ## Working with Files
 
@@ -151,7 +152,7 @@ As with `rm`, system directories need `-f`.
 
 | Command | Description |
 |---------|-------------|
-| [`edit`](../getting-started/#editing-files-with-the-text-editor) | Edit a file in the text editor |
+| [`edit`](../app/edit/) | Edit a file in the text editor |
 | [`run`](../files/#running-scripts) | Run a Ruby script |
 | [`zoom`](../settings/#zooming-the-screen) | Change the text size on screen |
 | [`picorabbit`](../picorabbit/) | Show slides |
