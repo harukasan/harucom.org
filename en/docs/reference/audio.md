@@ -53,16 +53,7 @@ audio.beep(0, A::E4, 200)
 audio.beep(0, A::G4, 200)
 ```
 
-Drum sounds are stored as files in `/data/drums`.
-
-```ruby
-audio = Board::PWMAudio.new
-
-kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
-ch = audio.channel(3)
-ch.source = kick
-ch.play
-```
+Playing a WAV file takes a channel and a source, which the next two sections cover in turn.
 
 ## Working with Channels
 
@@ -87,6 +78,7 @@ audio.channel(0).tone(440)   # channel object
 | Assign a source | — | `ch.source = kick` |
 | Play the source | — | `ch.play` |
 
+The sources you assign to `source` are covered in [Sources](#sources).
 Samples are played through the channel object.
 
 Some methods belong to `audio` rather than to one channel.
@@ -97,34 +89,36 @@ Some methods belong to `audio` rather than to one channel.
 | `audio.stop_all` | Stop every channel |
 | `audio.deinit` | Stop the output and release the hardware |
 
-A waveform plays until it is stopped. A sample plays once and stops at its end.
 The level fades over a few milliseconds, so a stop never clicks.
 Muting leaves the channel's other settings alone.
 
 ## Sources
 
 A channel plays one source at a time. There are three kinds.
-
-```ruby
-ch = audio.channel(0)
-ch.source = PWMAudio::Tone.new(440)
-ch.volume = 12
-ch.play
-```
+A waveform plays until it is stopped, and a sample plays once and stops at its end.
 
 ### PWMAudio::Tone
 
 ```ruby
-tone = PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
+ch = audio.channel(0)
+ch.source = PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
+ch.volume = 12
+ch.play
 ```
 
-Describes an oscillator. Assign it to a channel and play it.
+Describes an oscillator.
 
 ### PWMAudio::Sample
 
+The drum sounds live as files in `/data/drums`. Read one, wrap it in a
+`PWMAudio::Sample`, and a channel plays it.
+
 ```ruby
-data = File.open("/data/drums/sd.wav", "r") { |f| f.read }
-sample = PWMAudio::Sample.new(data)
+kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
+
+ch = audio.channel(3)
+ch.source = kick
+ch.play
 ```
 
 Wraps 16-bit PCM WAV or QOA data, mono or stereo.

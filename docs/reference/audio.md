@@ -52,16 +52,8 @@ audio.beep(0, A::E4, 200)
 audio.beep(0, A::G4, 200)
 ```
 
-ドラムの音はファイルとして `/data/drums` に入っています。
-
-```ruby
-audio = Board::PWMAudio.new
-
-kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
-ch = audio.channel(3)
-ch.source = kick
-ch.play
-```
+WAV ファイルなどの音を鳴らすには、チャンネルと音源を組み合わせます。
+順に説明します。
 
 ## チャンネルを操作する
 
@@ -86,6 +78,7 @@ audio.channel(0).tone(440)   # チャンネルオブジェクト
 | 音源を割り当てる | — | `ch.source = kick` |
 | 音源を鳴らす | — | `ch.play` |
 
+`source` に割り当てる音源は次の[音源](#音源)で説明します。
 サンプルを鳴らすときはチャンネルオブジェクトを使います。
 
 `audio` にはチャンネルによらないメソッドもあります。
@@ -96,34 +89,36 @@ audio.channel(0).tone(440)   # チャンネルオブジェクト
 | `audio.stop_all` | すべてのチャンネルを止める |
 | `audio.deinit` | オーディオ出力を停止して後始末をする |
 
-波形は止めるまで鳴り続け、サンプルは最後まで鳴ると止まります。
-音は数ミリ秒かけて消えるので、ぷつっというノイズは出ません。
+音は数ミリ秒かけて消えるので、止めてもぷつっというノイズは出ません。
 消音してもチャンネルの設定はそのまま残ります。
 
 ## 音源
 
 チャンネルには音源を1つ割り当てて鳴らします。音源は3種類あります。
-
-```ruby
-ch = audio.channel(0)
-ch.source = PWMAudio::Tone.new(440)
-ch.volume = 12
-ch.play
-```
+波形は止めるまで鳴り続け、サンプルは最後まで鳴ると止まります。
 
 ### PWMAudio::Tone
 
 ```ruby
-tone = PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
+ch = audio.channel(0)
+ch.source = PWMAudio::Tone.new(440, waveform: PWMAudio::SINE)
+ch.volume = 12
+ch.play
 ```
 
-波形と周波数を表すオブジェクトです。チャンネルに割り当てて鳴らします。
+波形と周波数を表すオブジェクトです。
 
 ### PWMAudio::Sample
 
+ドラムの音はファイルとして `/data/drums` に入っています。
+読み込んで `PWMAudio::Sample` に渡すと、チャンネルで鳴らせます。
+
 ```ruby
-data = File.open("/data/drums/sd.wav", "r") { |f| f.read }
-sample = PWMAudio::Sample.new(data)
+kick = PWMAudio::Sample.new(File.open("/data/drums/bd.wav", "r") { |f| f.read })
+
+ch = audio.channel(3)
+ch.source = kick
+ch.play
 ```
 
 WAV（16ビット PCM）または QOA のデータを渡すと、音源として使えます。
