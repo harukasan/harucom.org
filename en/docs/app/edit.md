@@ -16,35 +16,36 @@ Use it to write Ruby scripts and to change settings files.
 - [Key Bindings](#key-bindings)
 - [Saving](#saving)
 - [Quitting](#quitting)
-- [Help with Writing Ruby](#help-with-writing-ruby)
+- [Syntax Highlighting and Auto Indent](#syntax-highlighting-and-auto-indent)
 
 ## Starting the Editor
 
-At the IRB prompt, type `edit` followed by a file name.
+At the IRB prompt, type `edit` followed by the name of the file to edit.
 
 ```ruby
 irb> edit hello.rb
 ```
 
-A file that does not exist yet is created. An existing one is opened as it is.
+A file that does not exist yet is created.
+An existing one is opened as it is.
 
-Give a path to open a file elsewhere.
-
-```ruby
-irb> edit /app/hello.rb
-```
-
-After moving with `cd`, a plain file name refers to a file in that directory.
-
-The editor also starts without a file name. In that case you are asked for one when you save.
+The editor also starts without a file name.
+In that case you name the file when you save it.
 
 ```ruby
 irb> edit
 ```
 
+After moving with `cd`, a plain file name opens a file in that directory.
+A path from `/` works too.
+
+```ruby
+irb> edit /app/hello.rb
+```
+
 ## Reading the Screen
 
-The top line is the status bar. It shows the file name and the line and column of the cursor.
+The status bar at the top shows the file name and the cursor position.
 
 ```
  hello.rb [+]  12:5
@@ -53,40 +54,27 @@ The top line is the status bar. It shows the file name and the line and column o
 `[+]` means there are changes you have not saved yet.
 Without a file name, the status bar shows `[untitled]`.
 
-The bottom line is the command bar, which lists the keys you use most.
-While [Japanese input](../../japanese-input/) is on, the mode appears at the right, such as `[あ]`.
-
-```
- Ctrl-S:Save  Ctrl-Q:Quit  Ctrl-Z:Undo  Ctrl-Y:Redo                    [あ]
-```
-
 ## Key Bindings
 
 | Key | Action |
 |-----|--------|
-| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | Save |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | Quit |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | Undo |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | Redo |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
 | <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
 | <kbd>Backspace</kbd> | Delete the character before the cursor |
 | <kbd>Delete</kbd> | Delete the character at the cursor |
 | <kbd>Enter</kbd> | Insert a new line |
+| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | Save |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | Quit |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | Undo |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | Redo |
 
 ## Saving
 
 <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> saves the file.
-The status bar shows `Saved hello.rb` and the `[+]` disappears.
 
-When the editor was started without a file name, it asks for one.
-
-```
- Save as: memo.txt
-```
-
-Press <kbd>Esc</kbd> to cancel the save.
+When the file has no name yet, the editor asks for one.
+<kbd>Esc</kbd> cancels the save.
 
 ## Quitting
 
@@ -100,19 +88,19 @@ With unsaved changes, the editor asks first.
 
 <kbd>y</kbd> quits without saving and <kbd>n</kbd> returns to editing.
 
-## Help with Writing Ruby
+## Syntax Highlighting and Auto Indent
 
 When the file name ends in `.rb`, the editor helps with writing Ruby.
 
 ### Syntax Highlighting
 
-Strings, keywords, comments, and numbers are colored, which makes a missing `end`
-or an unclosed string easier to spot.
+Strings, keywords, comments, and numbers are colored,
+which makes a missing `end` or an unclosed string easy to spot.
 
 ### Auto Indent
 
 A newline after `def`, `if`, or `do` is indented for you.
-Typing `end` or `else` pulls that line back to where it belongs.
+Typing `end` or `else` moves that line back to where it belongs on its own.
 
 ```ruby
 def greet(name)
@@ -120,13 +108,9 @@ def greet(name)
 end
 ```
 
-### Japanese Input
-
-<kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> switches to [Japanese input](../../japanese-input/)
-for comments and strings.
-
 ## Related Pages
 
+- [Japanese Input](../../japanese-input/) — Japanese can be typed in the editor too
 - [Commands](../../commands/) — file handling with `cat`, `cp`, and the rest
 - [File I/O](../../files/) — where files live and how to run scripts
 - [Getting Started](../../getting-started/) — writing your first program
