@@ -38,6 +38,11 @@ Harucom's flash memory has the following directories.
 │   ├── edit.rb
 │   ├── run.rb
 │   └── ...
+├── etc/          # Settings
+│   └── env.yml
+├── data/         # Data files
+│   ├── drums/
+│   └── ...
 └── system.rb     # Boot script
 ```
 
@@ -45,12 +50,17 @@ Harucom's flash memory has the following directories.
 |-----------|-------------|
 | `/lib/` | A place for libraries. Scripts here can be loaded with `require`. |
 | `/app/` | A place for command scripts. Scripts saved here can be run as commands from IRB. |
+| `/etc/` | A place for settings. [Settings](../settings/) live in `env.yml` here. |
+| `/data/` | Data files such as the drum samples. |
 | `/system.rb` | A script that runs when Harucom starts up. |
 
 You can place files in any directory on Harucom.
 Feel free to save your own scripts and data files in the root directory `/`.
 
-System scripts are reset to their defaults when the power is cycled.
+Changes to the system scripts persist across a power cycle.
+A firmware update writes the system files back to their defaults.
+To return everything to the factory state, see
+[formatting the filesystem](../settings/#formatting-the-filesystem).
 
 ## Running Scripts
 
@@ -96,3 +106,5 @@ Hello, Harucom!
 ```
 
 Arguments after the command name are available as `ARGV` inside the script.
+
+Commands for working with files, such as `ls` and `cp`, are listed in [Commands](../commands/).

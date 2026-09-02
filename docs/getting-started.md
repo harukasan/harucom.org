@@ -101,8 +101,42 @@ irb> loop do
 | <kbd>Backspace</kbd> | 文字を削除する |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | カーソルを移動する |
 | <kbd>Home</kbd> / <kbd>End</kbd> | 行頭に移動する / 行末に移動する |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | 行頭に移動する / 行末に移動する |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
-| <kbd>Backspace</kbd> | 文字を削除する |
+| <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | 画面をクリアする |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | ファイルを読み込んで入力欄に貼り付ける |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | 画面の文字の大きさを切り替える |
+| <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | IRB を終了する（すぐに起動し直します） |
+
+画面の幅より長い行を入力すると、カーソルに合わせて横にスクロールします。
+
+`/app` にあるコマンドの名前を入力すると、その部分の色が変わります。
+入力したものがコマンドとして実行されるかどうかが、実行する前にわかります。
+
+### ファイルを読み込んで実行する
+
+<kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> を押すとファイル名を聞かれます。
+入力すると、そのファイルの中身が入力欄に読み込まれます。
+そのまま手直しして <kbd>Enter</kbd> で実行できます。
+
+### 実行中のアプリを中断する
+
+`picorabbit` のように、中断に対応しているアプリを実行しているときは
+<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> を押すと、アプリを止めたまま IRB に戻れます。
+続きから再開するには `fg` と入力します。
+
+```ruby
+irb> jobs
+[stopped] picorabbit
+
+irb> fg
+```
+
+### 日本語を入力する
+
+IRB のプロンプトでは日本語も入力できます。
+<kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> を押すと日本語入力に切り替わります。
+くわしくは[日本語を入力する](../japanese-input/)をご覧ください。
 
 ## テキストエディターでファイルを編集する
 
@@ -125,6 +159,14 @@ irb> edit hello.rb
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
 
 エディタはステータスバーにファイル名と位置を表示し、未保存の変更がある場合は `[+]` が表示されます。
+
+### エディタの便利な機能
+
+Ruby のコードを書きやすくするしくみが入っています。
+
+- **色分け** — 文字列やキーワード、コメントなどが色分けされて表示されます。
+- **自動インデント** — `def` や `if` のあとで改行すると、字下げが自動で入ります。`end` を打つと字下げが戻ります。
+- **日本語入力** — <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> で[日本語入力](../japanese-input/)に切り替わります。コメントや文字列に日本語を書けます。
 
 ## はじめてのプログラム
 
@@ -175,5 +217,9 @@ irb> run hello.rb
 
 * [再起動する](../restart/)
 * [ファイルを読み書きする](../files/)
+* [コマンドを使う](../commands/)
+* [日本語を入力する](../japanese-input/)
+* [設定を変える](../settings/)
+* [デモアプリを試す](../demos/)
 * [プログラミングリファレンスを読む](../reference/)
 

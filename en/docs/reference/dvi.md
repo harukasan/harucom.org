@@ -121,6 +121,29 @@ Each cell has a character code and an attribute (foreground and background color
 | `DVI::Text::COLS` | 106 (columns) |
 | `DVI::Text::ROWS` | 37 (rows) |
 
+These constants describe the grid at 640x480. The screen can also run at 320x240,
+so read `DVI::Text.cols` and `DVI::Text.rows` for the current grid.
+
+```ruby
+DVI::Text.cols   #=> 106
+DVI::Text.rows   #=> 37
+```
+
+#### DVI::Text.set_resolution(width, height)
+
+```ruby
+DVI::Text.set_resolution(320, 240)   # 53 columns x 18 rows, characters twice as large
+DVI::Text.set_resolution(640, 480)   # back to 106 columns x 37 rows
+```
+
+Switches the text mode resolution. The two accepted sizes are 640x480 and 320x240.
+At 320x240 each pixel is doubled on the way out, which makes the characters easier to read.
+
+The change is applied at VSync, and `cols` and `rows` report the new grid as soon as the
+call returns. Screen contents are not converted, so clear and redraw afterwards.
+
+To change the size of the IRB screen, the [`zoom` command](../../settings/#zooming-the-screen) is enough.
+
 ### Color Constants
 
 The following constants can be used for foreground and background colors in attributes.
@@ -538,7 +561,7 @@ Common color examples:
 | `0x03` | Blue |
 | `0xFC` | Yellow |
 
-You can use the `color(r, g, b)` method from the [P5 Drawing Library](p5.md) to convert standard RGB values (0-255) to RGB332.
+You can use the `color(r, g, b)` method from the [P5 Drawing Library](../p5/) to convert standard RGB values (0-255) to RGB332.
 
 ---
 

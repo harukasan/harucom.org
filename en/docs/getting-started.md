@@ -101,7 +101,41 @@ irb> loop do
 | <kbd>Backspace</kbd> | Delete a character |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
 | <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | Jump to beginning / end of line |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
+| <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | Clear the screen |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | Load a file into the input |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | Switch the text size on screen |
+| <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | Quit IRB (it starts again right away) |
+
+A line longer than the screen scrolls sideways as the cursor moves.
+
+Typing the name of a command in `/app` colors that part of the line,
+so you can tell it will run as a command before pressing Enter.
+
+### Loading a File into the Input
+
+Pressing <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> asks for a file name and loads its contents
+into the input area. Edit it there and run it with <kbd>Enter</kbd>.
+
+### Suspending a Running App
+
+While an app that supports it is running, such as `picorabbit`,
+<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> suspends it and returns you to IRB.
+Type `fg` to pick up where you left off.
+
+```ruby
+irb> jobs
+[stopped] picorabbit
+
+irb> fg
+```
+
+### Typing Japanese
+
+Japanese can be typed at the IRB prompt.
+Press <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> to switch the input method on.
+See [Japanese Input](../japanese-input/) for details.
 
 ## Editing Files with the Text Editor
 
@@ -124,6 +158,14 @@ irb> edit hello.rb
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
 
 The editor displays the filename and position in the status bar. `[+]` is shown when there are unsaved changes.
+
+### Editor Features
+
+The editor helps with writing Ruby.
+
+- **Syntax highlighting** — strings, keywords, and comments are colored.
+- **Auto indent** — a newline after `def` or `if` is indented for you, and typing `end` pulls the indent back.
+- **Japanese input** — <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> switches to [Japanese input](../japanese-input/) for comments and strings.
 
 ## Your First Program
 
@@ -174,4 +216,8 @@ Open the editor again to check if the content is correct.
 
 * [Restart](../restart/)
 * [File I/O](../files/)
+* [Commands](../commands/)
+* [Japanese Input](../japanese-input/)
+* [Settings and Screen Zoom](../settings/)
+* [Demo Apps](../demos/)
 * [Programming Reference](../reference/)

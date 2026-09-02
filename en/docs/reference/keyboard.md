@@ -25,6 +25,7 @@ In normal Ruby scripts, use the pre-initialized Keyboard instance available as t
 - [Predefined Key Constants](#predefined-key-constants)
 - [Modifier Key Constants](#modifier-key-constants)
 - [Key Repeat](#key-repeat)
+- [Keyboard Layouts](#keyboard-layouts)
 
 ## Basic Usage
 
@@ -286,3 +287,51 @@ USB HID modifier key bitmasks.
 | `Keyboard::MOD_RIGHTSHIFT` | `0x20` | Right Shift |
 | `Keyboard::MOD_RIGHTALT` | `0x40` | Right Alt |
 | `Keyboard::MOD_RIGHTGUI` | `0x80` | Right Super |
+
+---
+
+## Keyboard Layouts
+
+Harucom supports the US and the JIS layout.
+Which one is used comes from `KEYBOARD_LAYOUT` in `/etc/env.yml`.
+See [Settings and Screen Zoom](../../settings/) for details.
+
+| Value | Layout |
+|-------|--------|
+| `us` | US ANSI |
+| `jis` | Japanese JIS |
+
+### Keyboard.use_layout(name)
+
+```ruby
+Keyboard.use_layout("jis")   #=> true
+Keyboard.use_layout("abc")   #=> false
+```
+
+Installs a layout. An unknown name returns `false` and leaves the layout unchanged.
+
+A layout only decides which characters the keys produce.
+Key identities such as `:a` to `:z`, and special keys such as Enter, Escape,
+and the arrows, are the same on every layout.
+
+### JIS-specific Keys
+
+The JIS layout has keys the US layout does not.
+They produce no character, but they are named, so programs can bind behavior to them.
+
+| Key | Name |
+|-----|------|
+| 半角/全角 | `:zenkaku` |
+| カタカナ/ひらがな | `:katakana_hiragana` |
+| 変換 | `:henkan` |
+| 無変換 | `:muhenkan` |
+
+```ruby
+key = $keyboard.read_char
+if key && key.match?(:henkan)
+  puts "henkan pressed"
+end
+```
+
+[Japanese input](../../japanese-input/) uses 半角/全角 to toggle the input method on and off,
+and カタカナ/ひらがな to cycle between hiragana, katakana, and full-width ASCII.
