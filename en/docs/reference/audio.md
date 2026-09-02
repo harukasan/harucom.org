@@ -96,20 +96,20 @@ Calling `play` again restarts it from the beginning.
 
 ## Playing Sound
 
-The methods on `audio` take a channel number. Reach for these to play a sound quickly.
+The methods on `Board::PWMAudio` take a channel number. Reach for these to play a sound quickly.
 
 | Method | Description |
 |--------|-------------|
-| `audio.tone(channel, frequency, waveform:, volume:)` | Play a continuous tone at the given frequency in Hz |
-| `audio.beep(channel, frequency, duration_ms, waveform:, volume:)` | Play for the given number of milliseconds and stop. This blocks until it finishes |
-| `audio.stop(channel)` | Stop the channel |
-| `audio.stop_all` | Stop every channel |
-| `audio.pan(channel, value)` | Stereo balance (0 left, 8 center, 15 right) |
-| `audio.mute(channel, flag)` | Mute the channel, leaving its other settings alone |
-| `audio.channel(index)` | Get the channel object |
-| `audio.load_sample(slot, data)` | Load a sample into the [bank](#the-sample-bank) |
-| `audio.sample_clock` | The current [playback position](#scheduling-sound) in samples |
-| `audio.deinit` | Stop the output and release the hardware |
+| `Board::PWMAudio#tone(channel, frequency, waveform:, volume:)` | Play a continuous tone at the given frequency in Hz |
+| `Board::PWMAudio#beep(channel, frequency, duration_ms, waveform:, volume:)` | Play for the given number of milliseconds and stop. This blocks until it finishes |
+| `Board::PWMAudio#stop(channel)` | Stop the channel |
+| `Board::PWMAudio#stop_all` | Stop every channel |
+| `Board::PWMAudio#pan(channel, value)` | Stereo balance (0 left, 8 center, 15 right) |
+| `Board::PWMAudio#mute(channel, flag)` | Mute the channel, leaving its other settings alone |
+| `Board::PWMAudio#channel(index)` | Get the channel object |
+| `Board::PWMAudio#load_sample(slot, data)` | Load a sample into the [bank](#the-sample-bank) |
+| `Board::PWMAudio#sample_clock` | The current [playback position](#scheduling-sound) in samples |
+| `Board::PWMAudio#deinit` | Stop the output and release the hardware |
 
 `waveform` picks the oscillator and `volume` runs from 0 to 15, 15 by default.
 The level fades over a few milliseconds, so a stop never clicks.
@@ -125,18 +125,17 @@ The same channel number always returns the same object.
 
 | Method | Description |
 |--------|-------------|
-| `ch.source = source` | Assign a source |
-| `ch.play` | Play the assigned source |
-| `ch.tone(frequency, waveform:, volume:)` | Assign a waveform and play it |
-| `ch.stop` | Stop the sound |
-| `ch.volume = 12` | Volume (0 to 15, 15 by default) |
-| `ch.pan = 8` | Stereo balance (0 left, 8 center, 15 right) |
-| `ch.mute = true` | Mute the channel |
-| `ch.index` | The channel number |
-| `ch.source` | The source it holds |
+| `PWMAudio::Channel#source=(source)` | Assign a source |
+| `PWMAudio::Channel#play(volume:, slot:)` | Play the assigned source |
+| `PWMAudio::Channel#tone(frequency, waveform:, volume:)` | Assign a waveform and play it |
+| `PWMAudio::Channel#stop` | Stop the sound |
+| `PWMAudio::Channel#volume=(value)` | Volume (0 to 15, 15 by default) |
+| `PWMAudio::Channel#pan=(value)` | Stereo balance (0 left, 8 center, 15 right) |
+| `PWMAudio::Channel#mute=(flag)` | Mute the channel |
+| `PWMAudio::Channel#index` | The channel number |
+| `PWMAudio::Channel#source` | The source it holds |
 
-`play` also takes `volume:` and `slot:`.
-A slot is a sound loaded into the [sample bank](#the-sample-bank).
+The `slot` passed to `play` is a sound loaded into the [sample bank](#the-sample-bank).
 
 The methods that schedule sound (`play_at`, `tone_at`, `stop_at`, `cancel_scheduled`)
 are covered in [Scheduling Sound](#scheduling-sound).
@@ -208,12 +207,12 @@ audio.tone_at(now + 25_000, 0, 440)   # start in 0.5 s
 audio.stop_at(now + 50_000, 0)        # stop in 1 s
 ```
 
-| Operation | By channel number | Channel object |
-|-----------|-------------------|----------------|
-| Play a waveform | `audio.tone_at(at, channel, frequency)` | `ch.tone_at(at, frequency)` |
-| Play the source | `audio.play_at(at, channel, volume, slot)` | `ch.play_at(at, volume:, slot:)` |
-| Stop | `audio.stop_at(at, channel)` | `ch.stop_at(at)` |
-| Drop pending events | `audio.cancel_scheduled(channel)` | `ch.cancel_scheduled` |
+| Operation | `Board::PWMAudio` | `PWMAudio::Channel` |
+|-----------|-------------------|---------------------|
+| Play a waveform | `#tone_at(at, channel, frequency, waveform:, volume:)` | `#tone_at(at, frequency, waveform:, volume:)` |
+| Play the source | `#play_at(at, channel, volume, slot)` | `#play_at(at, volume:, slot:)` |
+| Stop | `#stop_at(at, channel)` | `#stop_at(at)` |
+| Drop pending events | `#cancel_scheduled(channel)` | `#cancel_scheduled` |
 
 The queue holds 32 events, and a full queue returns `false`.
 Before retriggering a note, drop the pending events so a stale scheduled stop cannot cut it.

@@ -95,20 +95,20 @@ ch.play
 
 ## 音を鳴らす
 
-`audio` のメソッドは、チャンネル番号を渡して使います。手軽に音を鳴らしたいときはこちらです。
+`Board::PWMAudio` のメソッドは、チャンネル番号を渡して使います。手軽に音を鳴らしたいときはこちらです。
 
 | メソッド | 説明 |
 |----------|------|
-| `audio.tone(channel, frequency, waveform:, volume:)` | 指定した周波数（Hz）の音を鳴らし続ける |
-| `audio.beep(channel, frequency, duration_ms, waveform:, volume:)` | 指定した長さ（ミリ秒）だけ鳴らして止める。鳴り終わるまで待つ |
-| `audio.stop(channel)` | チャンネルの音を止める |
-| `audio.stop_all` | すべてのチャンネルを止める |
-| `audio.pan(channel, value)` | 左右のバランス（0=左、8=中央、15=右） |
-| `audio.mute(channel, flag)` | 消音する。周波数などの設定はそのまま残る |
-| `audio.channel(index)` | チャンネルオブジェクトを取り出す |
-| `audio.load_sample(slot, data)` | サンプルを[バンク](#サンプルバンク)に読み込む |
-| `audio.sample_clock` | 現在の[再生位置](#時間を指定して鳴らす)をサンプル数で返す |
-| `audio.deinit` | オーディオ出力を停止して後始末をする |
+| `Board::PWMAudio#tone(channel, frequency, waveform:, volume:)` | 指定した周波数（Hz）の音を鳴らし続ける |
+| `Board::PWMAudio#beep(channel, frequency, duration_ms, waveform:, volume:)` | 指定した長さ（ミリ秒）だけ鳴らして止める。鳴り終わるまで待つ |
+| `Board::PWMAudio#stop(channel)` | チャンネルの音を止める |
+| `Board::PWMAudio#stop_all` | すべてのチャンネルを止める |
+| `Board::PWMAudio#pan(channel, value)` | 左右のバランス（0=左、8=中央、15=右） |
+| `Board::PWMAudio#mute(channel, flag)` | 消音する。周波数などの設定はそのまま残る |
+| `Board::PWMAudio#channel(index)` | チャンネルオブジェクトを取り出す |
+| `Board::PWMAudio#load_sample(slot, data)` | サンプルを[バンク](#サンプルバンク)に読み込む |
+| `Board::PWMAudio#sample_clock` | 現在の[再生位置](#時間を指定して鳴らす)をサンプル数で返す |
+| `Board::PWMAudio#deinit` | オーディオ出力を停止して後始末をする |
 
 `waveform` は波形、`volume` は音量（0〜15、既定は15）です。
 音は数ミリ秒かけて消えるので、止めてもぷつっというノイズは出ません。
@@ -124,18 +124,17 @@ ch.play
 
 | メソッド | 説明 |
 |----------|------|
-| `ch.source = 音源` | 音源を割り当てる |
-| `ch.play` | 割り当てた音源を鳴らす |
-| `ch.tone(frequency, waveform:, volume:)` | 波形を割り当ててすぐ鳴らす |
-| `ch.stop` | 音を止める |
-| `ch.volume = 12` | 音量（0〜15、既定は15） |
-| `ch.pan = 8` | 左右のバランス（0=左、8=中央、15=右） |
-| `ch.mute = true` | 消音する |
-| `ch.index` | チャンネル番号 |
-| `ch.source` | 割り当てている音源 |
+| `PWMAudio::Channel#source=(source)` | 音源を割り当てる |
+| `PWMAudio::Channel#play(volume:, slot:)` | 割り当てた音源を鳴らす |
+| `PWMAudio::Channel#tone(frequency, waveform:, volume:)` | 波形を割り当ててすぐ鳴らす |
+| `PWMAudio::Channel#stop` | 音を止める |
+| `PWMAudio::Channel#volume=(value)` | 音量（0〜15、既定は15） |
+| `PWMAudio::Channel#pan=(value)` | 左右のバランス（0=左、8=中央、15=右） |
+| `PWMAudio::Channel#mute=(flag)` | 消音する |
+| `PWMAudio::Channel#index` | チャンネル番号 |
+| `PWMAudio::Channel#source` | 割り当てている音源 |
 
-`play` には `volume:` と `slot:` を渡せます。
-`slot` は[サンプルバンク](#サンプルバンク)に読み込んだ音の番号です。
+`play` に渡す `slot` は[サンプルバンク](#サンプルバンク)に読み込んだ音の番号です。
 
 予約して鳴らすメソッド（`play_at`、`tone_at`、`stop_at`、`cancel_scheduled`）は
 [時間を指定して鳴らす](#時間を指定して鳴らす)で説明します。
@@ -207,12 +206,12 @@ audio.tone_at(now + 25_000, 0, 440)   # 0.5秒後に鳴らす
 audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 ```
 
-| 操作 | チャンネル番号を渡す | チャンネルオブジェクト |
-|------|---------------------|------------------------|
-| 波形を鳴らす | `audio.tone_at(at, channel, frequency)` | `ch.tone_at(at, frequency)` |
-| 音源を鳴らす | `audio.play_at(at, channel, volume, slot)` | `ch.play_at(at, volume:, slot:)` |
-| 止める | `audio.stop_at(at, channel)` | `ch.stop_at(at)` |
-| 予約を取り消す | `audio.cancel_scheduled(channel)` | `ch.cancel_scheduled` |
+| 操作 | `Board::PWMAudio` | `PWMAudio::Channel` |
+|------|-------------------|---------------------|
+| 波形を鳴らす | `#tone_at(at, channel, frequency, waveform:, volume:)` | `#tone_at(at, frequency, waveform:, volume:)` |
+| 音源を鳴らす | `#play_at(at, channel, volume, slot)` | `#play_at(at, volume:, slot:)` |
+| 止める | `#stop_at(at, channel)` | `#stop_at(at)` |
+| 予約を取り消す | `#cancel_scheduled(channel)` | `#cancel_scheduled` |
 
 予約は32件までで、いっぱいのときは `false` を返します。
 同じ音を鳴らし直すときは、古い停止予約が残らないよう先に取り消します。
