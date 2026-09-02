@@ -166,4 +166,7 @@ IRB itself provides a few commands.
 | `fg` | Resume the suspended app |
 | `exit` | Quit IRB and start it again |
 
+An app that supports it, such as `picorabbit`, stops and hands you back to IRB when you press
+<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> while it runs. Typing `fg` picks it up where it left off.
+
 To try out the built-in demos, see [Demo Apps](../demos/).

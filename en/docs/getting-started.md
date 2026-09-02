@@ -118,19 +118,6 @@ so you can tell it will run as a command before pressing Enter.
 Pressing <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> asks for a file name and loads its contents
 into the input area. Edit it there and run it with <kbd>Enter</kbd>.
 
-### Suspending a Running App
-
-While an app that supports it is running, such as `picorabbit`,
-<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> suspends it and returns you to IRB.
-Type `fg` to pick up where you left off.
-
-```ruby
-irb> jobs
-[stopped] picorabbit
-
-irb> fg
-```
-
 ### Typing Japanese
 
 Japanese can be typed at the IRB prompt.
