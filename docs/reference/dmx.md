@@ -17,9 +17,24 @@ Ruby からは値を書き換えるだけで済みます。
 
 - [接続する](#接続する)
 - [基本的な使い方](#基本的な使い方)
-- [Board::DMX](#boarddmx)
+  - [送信を始める](#送信を始める)
+  - [チャンネルに値を書く](#チャンネルに値を書く)
+- [照明を制御する](#照明を制御する)
+  - [Board::DMX.new](#boarddmxnew)
+  - [Board::DMX#start](#boarddmxstart)
+  - [Board::DMX#stop](#boarddmxstop)
+  - [Board::DMX#set](#boarddmxsetchannel-value)
+  - [Board::DMX#set_range](#boarddmxset_rangechannel-values)
+  - [Board::DMX#get](#boarddmxgetchannel)
+  - [Board::DMX#blackout](#boarddmxblackout)
+  - [Board::DMX#keepalive](#boarddmxkeepalive)
+  - [Board::DMX#deadman_ms=](#boarddmxdeadman_msms)
+  - [Board::DMX#active_slots=](#boarddmxactive_slotscount)
+  - [Board::DMX#frame_count](#boarddmxframe_count)
 - [デッドマンスイッチ](#デッドマンスイッチ)
-- [DMX モジュール（低レベル API）](#dmx-モジュール低レベル-api)
+- [DMX モジュール](#dmx-モジュール)
+  - [DMX.init](#dmxinitunit-txd_pin)
+  - [DMX.stop と DMX.shutdown](#dmxstop-と-dmxshutdown)
 - [照明の定義ファイル](#照明の定義ファイル)
 
 ## 接続する
@@ -37,6 +52,8 @@ Harucom からは信号を送るだけなので、受信用のピンは使いま
 
 ## 基本的な使い方
 
+### 送信を始める
+
 ```ruby
 require "board/dmx"
 
@@ -47,42 +64,119 @@ dmx[6] = 255         # 6番のチャンネルを最大にする
 
 loop do
   dmx.keepalive      # 動いていることを知らせる
-  # ここで値を変える
   sleep_ms 10
 end
 
 dmx.stop             # 消灯してから送信を止める
 ```
 
+`Board::DMX.new` で初期化し、`start` で送信を始めます。
+あとはチャンネルに値を書き換えていくだけで、送信はバックグラウンドで続きます。
+
+主ループでは `keepalive` を呼びます。
+これを止めると照明が消える仕組みになっています。
+[デッドマンスイッチ](#デッドマンスイッチ)で説明します。
+
+### チャンネルに値を書く
+
 チャンネルの番号は 1 から 512、値は 0 から 255 です。
 どのチャンネルが何を意味するかは、つないだ照明によって決まります。
 
-## Board::DMX
+```ruby
+dmx[6] = 255                                  # 1チャンネルだけ書く
+dmx.set_range(1, [pan, tilt, 0, 0, 0, 128])   # 連続したチャンネルにまとめて書く
+```
+
+ムービングライトのように、まとまった数のチャンネルを1台で使う照明では
+`set_range` が使えます。
+
+書いた値は次のフレーム（最大 25 ミリ秒後）で照明に届きます。
+
+## 照明を制御する
 
 `require "board/dmx"` で読み込みます。
 
-| メソッド | 説明 |
-|----------|------|
-| `Board::DMX.new` | DMX を初期化する（まだ送信はしない） |
-| `#start` | すべてのチャンネルを0にしてから送信を始める |
-| `#stop` | 消灯してから送信を止める |
-| `#set(channel, value)` / `#[]=` | 1つのチャンネルに値を書く |
-| `#set_range(channel, values)` | 連続したチャンネルにまとめて値を書く |
-| `#get(channel)` / `#[]` | チャンネルの値を読む |
-| `#blackout` | すべてのチャンネルを0にする（消灯する） |
-| `#keepalive` | デッドマンスイッチに動作を知らせる |
-| `#deadman_ms=` | デッドマンスイッチが働くまでの時間（ミリ秒） |
-| `#active_slots=` | 送信するチャンネル数を減らす |
-| `#frame_count` | 送信を始めてからのフレーム数 |
+### Board::DMX.new
 
-`set_range` はムービングライトのように、まとまった数のチャンネルを使う照明に便利です。
+```ruby
+dmx = Board::DMX.new
+```
+
+基板の既定の配線（Grove コネクタ）で DMX を初期化します。
+この時点ではまだ何も送りません。
+配線を変えたい場合は [DMX モジュール](#dmx-モジュール)を使います。
+
+### Board::DMX#start
+
+すべてのチャンネルを0にしてから、送信を始めます。
+
+> `start` はチャンネルを0に戻します。値を設定するのは `start` のあとにしてください。
+{: .tip}
+
+### Board::DMX#stop
+
+すべてのチャンネルを0にし、それが照明に届くのを待ってから送信を止めます。
+
+照明は信号が届かなくなっても最後の値を保つので、送信を止めるだけでは点いたままになります。
+`stop` はそれを避けるために、消灯を確かめてから止めます。
+
+### Board::DMX#set(channel, value)
+
+```ruby
+dmx.set(6, 255)
+dmx[6] = 255      # 同じ意味
+```
+
+1つのチャンネルに値を書きます。`channel` は 1 から 512、`value` は 0 から 255 です。
+範囲の外を指定した場合は何も起きません。
+
+### Board::DMX#set_range(channel, values)
 
 ```ruby
 dmx.set_range(1, [pan, tilt, 0, 0, 0, dimmer])
 ```
 
-> `start` を呼ぶとすべてのチャンネルが0に戻ります。値を設定するのは `start` のあとにしてください。
-{: .tip}
+`channel` から順に、配列の値を書きます。
+1台で複数のチャンネルを使う照明に便利です。
+
+### Board::DMX#get(channel)
+
+```ruby
+dmx.get(6)   #=> 255
+dmx[6]       # 同じ意味
+```
+
+チャンネルにいま書かれている値を返します。
+
+### Board::DMX#blackout
+
+すべてのチャンネルを0にします。次のフレームで照明が消えます。
+送信は続くので、値を書けばまた点きます。
+
+### Board::DMX#keepalive
+
+デッドマンスイッチに、プログラムが動いていることを知らせます。
+主ループから毎回呼んでください。くわしくは[デッドマンスイッチ](#デッドマンスイッチ)をご覧ください。
+
+### Board::DMX#deadman_ms=(ms)
+
+```ruby
+dmx.deadman_ms = 1000
+dmx.deadman_ms = 0      # 無効にする
+```
+
+`keepalive` が途切れてから照明を消すまでの時間をミリ秒で指定します。
+既定は 500 ミリ秒で、`0` にすると無効になります。
+
+### Board::DMX#active_slots=(count)
+
+送信するチャンネル数を 1 から 512 で指定します。
+使っているチャンネルの数まで減らすと、フレームとフレームの間隔が空きます。
+
+### Board::DMX#frame_count
+
+`start` してから送信したフレームの数を返します。
+1秒あたり約40増えるので、実際の送信レートを確かめられます。
 
 ## デッドマンスイッチ
 
@@ -95,23 +189,21 @@ dmx.set_range(1, [pan, tilt, 0, 0, 0, dimmer])
 ```ruby
 loop do
   dmx.keepalive
-  # ...
+  # ここで値を変える
+  sleep_ms 10
 end
 ```
 
-待ち時間は `deadman_ms=` で変えられます。既定は 500 ミリ秒で、`0` にすると無効になります。
-
-```ruby
-dmx.deadman_ms = 1000
-dmx.deadman_ms = 0      # 無効にする
-```
-
+待ち時間は `deadman_ms=` で変えられます。既定は 500 ミリ秒です。
 `keepalive` を再び呼ぶと、Ruby で設定した値がまた反映されるようになります。
 
-## DMX モジュール（低レベル API）
+この仕組みはエンジンの側だけで動くので、Ruby が止まっていても働きます。
+
+## DMX モジュール
 
 `Board::DMX` は `DMX` モジュールを使いやすくしたものです。
-配線を変えたい場合などは `DMX` を直接使います。
+`set` や `keepalive` などは `DMX` にも同じ名前と引数であります（`DMX.set(6, 255)` のように書きます）。
+`DMX` を直接使うのは、配線を変えたいときです。
 
 ### DMX.init(unit:, txd_pin:)
 
@@ -121,23 +213,18 @@ DMX.init(unit: :RP2040_UART1, txd_pin: 20)
 ```
 
 UART を DMX512 用に初期化します。引数を省略すると基板の既定の配線になります。
+`txd_pin` には、その UART で TX に使えるピンを指定してください。
 確保した DMA チャンネルの番号を返します。
 
-### そのほかのメソッド
+通信速度（250000 baud、8ビット、パリティなし、ストップビット2）は規格で決まっているので変えられません。
 
-| メソッド | 説明 |
-|----------|------|
-| `DMX.start` | 送信を始める |
-| `DMX.stop` | 送信を止める（照明は消えません） |
-| `DMX.shutdown` | 消灯してから送信を止める |
-| `DMX.set(channel, value)` | チャンネルに値を書く |
-| `DMX.set_range(channel, values)` | 連続したチャンネルに書く |
-| `DMX.get(channel)` | チャンネルの値を読む |
-| `DMX.blackout` | すべて0にする |
-| `DMX.active_slots = count` | 送信するチャンネル数を変える |
-| `DMX.frame_count` | 送信したフレーム数 |
-| `DMX.keepalive` | デッドマンスイッチに知らせる |
-| `DMX.deadman_ms = ms` | デッドマンスイッチの待ち時間 |
+`Board::DMX.new` は、このメソッドを引数なしで呼んでいます。
+
+### DMX.stop と DMX.shutdown
+
+`DMX.stop` は送信を止めるだけです。照明は最後の値を保ったままなので、点いていれば点いたままになります。
+
+`DMX.shutdown` は消灯してから送信を止めます。`Board::DMX#stop` が呼んでいるのはこちらです。
 
 ## 照明の定義ファイル
 
