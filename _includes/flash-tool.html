@@ -1,0 +1,80 @@
+{%- assign ui = site.data.flash_ui[page.lang] -%}
+{%- assign fw = site.data.firmware -%}
+{%- comment -%}
+  The widget starts in the "unsupported" state so that a browser without WebUSB,
+  or one where the module fails to load, still shows the notice pointing at the
+  picotool steps. assets/js/flash.js moves it to "idle" once it knows WebUSB is
+  usable.
+{%- endcomment -%}
+<div class="flash" id="flash-app" data-state="unsupported">
+
+  <div class="flash-notice" data-when="unsupported insecure" role="alert">
+    <p class="flash-notice-title" id="flash-notice-title">{{ ui.unsupported_title }}</p>
+    <p id="flash-notice-body">{{ ui.unsupported_body }}</p>
+  </div>
+
+  <ol class="flash-steps" data-when="idle selecting downloading flashing done">
+    <li class="flash-step" data-step="download" data-step-state="pending">{{ ui.step_download }}</li>
+    <li class="flash-step" data-step="erase" data-step-state="pending">{{ ui.step_erase }}</li>
+    <li class="flash-step" data-step="write" data-step-state="pending">{{ ui.step_write }}</li>
+    <li class="flash-step" data-step="verify" data-step-state="pending">{{ ui.step_verify }}</li>
+  </ol>
+
+  <div class="flash-action" data-when="idle">
+    {%- if fw %}
+    <button type="button" id="flash-start" class="flash-button">{{ ui.start_button }}</button>
+    <p class="flash-meta">
+      {{ ui.version_label }}: <strong>{{ fw.version }}</strong>
+      <span aria-hidden="true">/</span>
+      {{ fw.size | divided_by: 1048576 }} MB
+    </p>
+    {%- else %}
+    <p class="flash-meta">{{ ui.local_missing }}</p>
+    {%- endif %}
+    <p class="flash-hint">{{ ui.picker_hint }}</p>
+  </div>
+
+  <div class="flash-progress" data-when="selecting downloading flashing">
+    <p class="flash-progress-phase" id="flash-phase" role="status" aria-live="polite"></p>
+    <div class="flash-bar" id="flash-bar" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="flash-phase">
+      <div class="flash-bar-fill" id="flash-bar-fill"></div>
+    </div>
+    <p class="flash-progress-detail" id="flash-detail"></p>
+    <p class="flash-warning">{{ ui.do_not_unplug }}</p>
+  </div>
+
+  <div class="flash-result flash-result-done" data-when="done" role="status">
+    <p class="flash-result-title">{{ ui.done_title }}</p>
+    <p>{{ ui.done_body }}</p>
+    <button type="button" class="flash-button flash-button-secondary" data-action="restart">{{ ui.again }}</button>
+  </div>
+
+  <div class="flash-result flash-result-error" data-when="error cancelled" role="alert">
+    <p class="flash-result-title" id="flash-error-title"></p>
+    <p class="flash-result-body" id="flash-error-body"></p>
+    <p class="flash-result-note">{{ ui.safe_note }}</p>
+    <button type="button" class="flash-button" data-action="restart">{{ ui.retry }}</button>
+    <details class="flash-tech">
+      <summary>{{ ui.tech_details }}</summary>
+      <pre id="flash-error-tech"></pre>
+    </details>
+  </div>
+
+  <details class="flash-local" data-when="unsupported insecure idle done error cancelled"
+           {% unless fw %}open{% endunless %}>
+    <summary>{{ ui.local_summary }}</summary>
+    <p class="flash-local-note">{{ ui.local_note }}</p>
+    <input type="file" id="flash-file" accept=".uf2,application/octet-stream">
+  </details>
+
+  <script type="application/json" id="flash-config">
+    {
+      "uf2Url": {{ fw.file | default: "" | jsonify }},
+      "version": {{ fw.version | default: "" | jsonify }},
+      "size": {{ fw.size | default: 0 }},
+      "strings": {{ ui | jsonify }}
+    }
+  </script>
+</div>
+<script type="module" src="{{ '/assets/js/flash.js' | relative_url }}"></script>

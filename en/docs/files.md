@@ -58,7 +58,7 @@ You can place files in any directory on Harucom.
 Feel free to save your own scripts and data files in the root directory `/`.
 
 Changes to the system scripts persist across a power cycle.
-A firmware update writes the system files back to their defaults.
+A [firmware update](/en/flash/) writes the system files back to their defaults.
 To return everything to the factory state, see
 [formatting the filesystem](../settings/#formatting-the-filesystem).
 

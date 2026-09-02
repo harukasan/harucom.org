@@ -22,6 +22,7 @@ Harucom はプログラミングを直感的に学べるアクセシブルなコ
 * [基本的な使い方](/docs/getting-started/)
 * [プログラミングリファレンス](/docs/reference/)
 * [PicoRabbit](/docs/picorabbit/)
+* [Harucom OS をアップグレードする](/flash/)
 
 ## Harucom board を手に入れる
 

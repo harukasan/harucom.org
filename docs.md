@@ -8,6 +8,7 @@ ref: docs
 
 <span class="badge-v2">2.0 から</span> の印が付いている項目は、Harucom OS 2.0 で増えた機能です。
 いま動いているバージョンは起動したときに画面に表示されます。IRB では `HARUCOM_VERSION` で確認できます。
+古いバージョンをお使いの場合は、[Harucom OS をアップグレード](/flash/)すると最新の機能が使えるようになります。
 
 ## 基本
 
@@ -15,6 +16,7 @@ ref: docs
 - [Harucom Board](/docs/harucom-board/)
 - [Harucom Bundle with acrylic panels](/docs/harucom-bundle/)
 - [再起動する](/docs/restart/)
+- [Harucom OS をアップグレードする](/flash/)
 - [ファイルの入出力](/docs/files/)
 - [コマンド](/docs/commands/)
 - [日本語を入力する](/docs/japanese-input/)
