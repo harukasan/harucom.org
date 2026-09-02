@@ -16,15 +16,13 @@ The rendering runs on its own in C, so Ruby only changes parameters.
 ## Contents
 
 - [Getting Started](#getting-started)
-- [Board::PWMAudio](#boardpwmaudio)
-  - [Playing Sound](#playing-sound)
-  - [Channel Settings](#channel-settings)
-  - [Scheduling Sound](#scheduling-sound)
-- [Channels and Sources](#channels-and-sources)
+- [Working with Channels](#working-with-channels)
+- [Sources](#sources)
   - [PWMAudio::Tone](#pwmaudiotone)
   - [PWMAudio::Sample](#pwmaudiosample)
   - [PWMAudio::Stream](#pwmaudiostream)
   - [The Sample Bank](#the-sample-bank)
+- [Scheduling Sound](#scheduling-sound)
 - [Constants](#constants)
 - [Synth](#synth)
 
@@ -66,106 +64,44 @@ ch.source = kick
 ch.play
 ```
 
-## Board::PWMAudio
+## Working with Channels
 
-Load it with `require "board/pwm_audio"`.
 `Board::PWMAudio.new` initializes the audio output on the board's audio pins (GPIO 24 and 25).
+There are eight channels, numbered 0 to 7.
 
-### Playing Sound
-
-#### Board::PWMAudio#tone(channel, frequency, waveform:, volume:)
-
-```ruby
-audio.tone(0, 440)
-audio.tone(1, 880, waveform: Board::PWMAudio::SINE, volume: 10)
-```
-
-Plays a continuous tone at the given frequency in Hz on a channel (0 to 7).
-`waveform` picks the oscillator and `volume` is 0 to 15 (15 by default).
-
-#### Board::PWMAudio#beep(channel, frequency, duration_ms, waveform:, volume:)
+There are two ways to drive a channel: pass its number, or work with the channel object
+returned by `audio.channel(0)`.
 
 ```ruby
-audio.beep(0, 440, 200)
+audio.tone(0, 440)           # by number
+audio.channel(0).tone(440)   # channel object
 ```
 
-Plays a tone for the given number of milliseconds and stops it. This blocks until it finishes.
+| Operation | By number | Channel object |
+|-----------|-----------|----------------|
+| Play a waveform | `audio.tone(0, 440, waveform:, volume:)` | `ch.tone(440, waveform:, volume:)` |
+| Stop | `audio.stop(0)` | `ch.stop` |
+| Stereo balance (0 left, 8 center, 15 right) | `audio.pan(0, 8)` | `ch.pan = 8` |
+| Mute | `audio.mute(0, true)` | `ch.mute = true` |
+| Volume (0 to 15, 15 by default) | — | `ch.volume = 12` |
+| Assign a source | — | `ch.source = kick` |
+| Play the source | — | `ch.play` |
 
-#### Board::PWMAudio#stop(channel) / #stop_all
+Samples are played through the channel object.
 
-```ruby
-audio.stop(0)
-audio.stop_all
-```
+Some methods belong to `audio` rather than to one channel.
 
-Stops a channel. The level fades over a few milliseconds, so a stop never clicks.
+| Method | Description |
+|--------|-------------|
+| `audio.beep(0, 440, 200)` | Play for the given number of milliseconds and stop. This blocks until it finishes |
+| `audio.stop_all` | Stop every channel |
+| `audio.deinit` | Stop the output and release the hardware |
 
-#### Board::PWMAudio#channel(index)
+A waveform plays until it is stopped. A sample plays once and stops at its end.
+The level fades over a few milliseconds, so a stop never clicks.
+Muting leaves the channel's other settings alone.
 
-```ruby
-ch = audio.channel(3)
-```
-
-Returns the `PWMAudio::Channel` object for a channel. Samples are played through it.
-
-#### Board::PWMAudio#deinit
-
-Stops the output and releases the hardware.
-
-### Channel Settings
-
-#### Board::PWMAudio#pan(channel, value)
-
-```ruby
-audio.pan(0, 0)    # left only
-audio.pan(0, 8)    # center
-audio.pan(0, 15)   # right only
-```
-
-Sets the stereo balance from 0 to 15.
-
-#### Board::PWMAudio#mute(channel, flag)
-
-```ruby
-audio.mute(0, true)
-```
-
-Mutes a channel without changing its other settings.
-
-### Scheduling Sound
-
-For accurate timing, schedule events against the playback position.
-
-#### Board::PWMAudio#sample_clock
-
-```ruby
-now = audio.sample_clock
-```
-
-Returns the current playback position in samples. It advances by 50,000 per second
-and is the time base for the scheduling methods.
-
-#### Board::PWMAudio#tone_at(sample, channel, frequency, waveform:, volume:) / #stop_at(sample, channel)
-
-```ruby
-now = audio.sample_clock
-audio.tone_at(now + 25_000, 0, 440)          # start in 0.5 s
-audio.stop_at(now + 50_000, 0)               # stop in 1 s
-```
-
-Schedules a start or a stop at an exact playback position.
-The queue holds 32 events, and a full queue returns `false`.
-
-> An event lands sample accurate when it is scheduled at least 2048 samples
-> (about 41 ms) ahead. Anything closer is applied as soon as possible, which means slightly late.
-{: .tip}
-
-#### Board::PWMAudio#cancel_scheduled(channel)
-
-Drops the events pending on a channel.
-Call it before retriggering a note so that a stale scheduled stop cannot cut it.
-
-## Channels and Sources
+## Sources
 
 A channel plays one source at a time. There are three kinds.
 
@@ -175,21 +111,6 @@ ch.source = PWMAudio::Tone.new(440)
 ch.volume = 12
 ch.play
 ```
-
-`PWMAudio::Channel` has these methods.
-
-| Method | Description |
-|--------|-------------|
-| `source=` | Assign the source |
-| `play` / `play_at(at)` | Play now / schedule at a playback position |
-| `tone(frequency, waveform:, volume:)` | Assign a waveform and play it |
-| `stop` / `stop_at(at)` | Stop now / schedule a stop |
-| `volume=` | Volume (0 to 15) |
-| `pan=` | Stereo balance (0 to 15) |
-| `mute=` | Mute the channel |
-| `cancel_scheduled` | Drop pending events |
-
-A waveform plays until it is stopped. A sample plays once and stops at its end.
 
 ### PWMAudio::Tone
 
@@ -240,6 +161,32 @@ audio.play_at(now + 5000, 5, 14, 0)   # play slot 0 on channel 5
 
 Sounds sharing a channel cut each other off, which is what you want for
 an open and a closed hihat.
+
+## Scheduling Sound
+
+For accurate timing, schedule events against the playback position.
+`audio.sample_clock` returns the current position in samples.
+It advances by 50,000 per second, which makes it the time base for future events.
+
+```ruby
+now = audio.sample_clock
+audio.tone_at(now + 25_000, 0, 440)   # start in 0.5 s
+audio.stop_at(now + 50_000, 0)        # stop in 1 s
+```
+
+| Operation | By number | Channel object |
+|-----------|-----------|----------------|
+| Play a waveform | `audio.tone_at(at, 0, 440)` | `ch.tone_at(at, 440)` |
+| Play the source | `audio.play_at(at, 0, volume, slot)` | `ch.play_at(at)` |
+| Stop | `audio.stop_at(at, 0)` | `ch.stop_at(at)` |
+| Drop pending events | `audio.cancel_scheduled(0)` | `ch.cancel_scheduled` |
+
+The queue holds 32 events, and a full queue returns `false`.
+Before retriggering a note, drop the pending events so a stale scheduled stop cannot cut it.
+
+> An event lands sample accurate when it is scheduled at least 2048 samples
+> (about 41 ms) ahead. Anything closer is applied as soon as possible, which means slightly late.
+{: .tip}
 
 ## Constants
 

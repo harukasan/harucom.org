@@ -15,15 +15,13 @@ Harucom Board はステレオの PWM オーディオ出力を備えていて、3
 ## 目次
 
 - [基本的な使い方](#基本的な使い方)
-- [Board::PWMAudio](#boardpwmaudio)
-  - [音を鳴らす](#音を鳴らす)
-  - [チャンネルの設定](#チャンネルの設定)
-  - [時間を指定して鳴らす](#時間を指定して鳴らす)
-- [チャンネルと音源](#チャンネルと音源)
+- [チャンネルを操作する](#チャンネルを操作する)
+- [音源](#音源)
   - [PWMAudio::Tone](#pwmaudiotone)
   - [PWMAudio::Sample](#pwmaudiosample)
   - [PWMAudio::Stream](#pwmaudiostream)
   - [サンプルバンク](#サンプルバンク)
+- [時間を指定して鳴らす](#時間を指定して鳴らす)
 - [定数](#定数)
 - [Synth（音を作る）](#synth音を作る)
 
@@ -65,107 +63,44 @@ ch.source = kick
 ch.play
 ```
 
-## Board::PWMAudio
+## チャンネルを操作する
 
-`require "board/pwm_audio"` で読み込みます。
 `Board::PWMAudio.new` は基板のオーディオピン（GPIO 24 / 25）を使ってオーディオを初期化します。
+チャンネルは 0 から 7 までの8つです。
 
-### 音を鳴らす
-
-#### Board::PWMAudio#tone(channel, frequency, waveform:, volume:)
-
-```ruby
-audio.tone(0, 440)
-audio.tone(1, 880, waveform: Board::PWMAudio::SINE, volume: 10)
-```
-
-チャンネル（0〜7）で指定した周波数（Hz）の音を鳴らし続けます。
-`waveform` は波形、`volume` は音量（0〜15、既定は15）です。
-
-#### Board::PWMAudio#beep(channel, frequency, duration_ms, waveform:, volume:)
+操作のしかたは2通りあります。チャンネル番号を渡す方法と、
+`audio.channel(0)` で取り出したチャンネルオブジェクトを使う方法です。
 
 ```ruby
-audio.beep(0, 440, 200)
+audio.tone(0, 440)           # 番号を渡す
+audio.channel(0).tone(440)   # チャンネルオブジェクト
 ```
 
-指定した長さ（ミリ秒）だけ音を鳴らして止めます。鳴り終わるまで待ちます。
+| 操作 | 番号を渡す | チャンネルオブジェクト |
+|------|-----------|------------------------|
+| 波形を鳴らす | `audio.tone(0, 440, waveform:, volume:)` | `ch.tone(440, waveform:, volume:)` |
+| 止める | `audio.stop(0)` | `ch.stop` |
+| 左右のバランス（0=左、8=中央、15=右） | `audio.pan(0, 8)` | `ch.pan = 8` |
+| 消音する | `audio.mute(0, true)` | `ch.mute = true` |
+| 音量（0〜15、既定は15） | — | `ch.volume = 12` |
+| 音源を割り当てる | — | `ch.source = kick` |
+| 音源を鳴らす | — | `ch.play` |
 
-#### Board::PWMAudio#stop(channel) / #stop_all
+サンプルを鳴らすときはチャンネルオブジェクトを使います。
 
-```ruby
-audio.stop(0)
-audio.stop_all
-```
+`audio` にはチャンネルによらないメソッドもあります。
 
-チャンネルの音を止めます。音は数ミリ秒かけて消えるので、ぷつっというノイズは出ません。
+| メソッド | 説明 |
+|----------|------|
+| `audio.beep(0, 440, 200)` | 指定した長さ（ミリ秒）だけ鳴らして止める。鳴り終わるまで待つ |
+| `audio.stop_all` | すべてのチャンネルを止める |
+| `audio.deinit` | オーディオ出力を停止して後始末をする |
 
-#### Board::PWMAudio#channel(index)
+波形は止めるまで鳴り続け、サンプルは最後まで鳴ると止まります。
+音は数ミリ秒かけて消えるので、ぷつっというノイズは出ません。
+消音してもチャンネルの設定はそのまま残ります。
 
-```ruby
-ch = audio.channel(3)
-```
-
-チャンネルを表すオブジェクト（`PWMAudio::Channel`）を返します。
-サンプルを鳴らすときはこちらを使います。
-
-#### Board::PWMAudio#deinit
-
-オーディオ出力を停止して後始末をします。
-
-### チャンネルの設定
-
-#### Board::PWMAudio#pan(channel, value)
-
-```ruby
-audio.pan(0, 0)    # 左だけ
-audio.pan(0, 8)    # 中央
-audio.pan(0, 15)   # 右だけ
-```
-
-左右の音量のバランスを 0〜15 で指定します。
-
-#### Board::PWMAudio#mute(channel, flag)
-
-```ruby
-audio.mute(0, true)
-```
-
-チャンネルの音を一時的に消します。周波数などの設定はそのまま残ります。
-
-### 時間を指定して鳴らす
-
-音を正確なタイミングで鳴らしたいときは、再生位置を指定して予約します。
-
-#### Board::PWMAudio#sample_clock
-
-```ruby
-now = audio.sample_clock
-```
-
-現在の再生位置をサンプル数で返します。1秒あたり 50,000 増えます。
-これを基準に、未来の時刻を計算します。
-
-#### Board::PWMAudio#tone_at(sample, channel, frequency, waveform:, volume:) / #stop_at(sample, channel)
-
-```ruby
-now = audio.sample_clock
-audio.tone_at(now + 25_000, 0, 440)          # 0.5秒後に鳴らす
-audio.stop_at(now + 50_000, 0)               # 1秒後に止める
-```
-
-指定した再生位置ちょうどに、音を鳴らす・止めるを予約します。
-予約は32件までで、いっぱいのときは `false` を返します。
-
-> 予約は、少なくとも 2048 サンプル（約41ミリ秒）先を指定したときに正確なタイミングになります。
-> それより近い時刻を指定すると、できるだけ早く（ただし少し遅れて）鳴ります。
-{: .tip}
-
-#### Board::PWMAudio#cancel_scheduled(channel)
-
-そのチャンネルに予約されている操作を取り消します。
-同じ音を鳴らし直すときは、古い停止予約が残らないよう先に呼びます。
-
-## チャンネルと音源
+## 音源
 
 チャンネルには音源を1つ割り当てて鳴らします。音源は3種類あります。
 
@@ -175,21 +110,6 @@ ch.source = PWMAudio::Tone.new(440)
 ch.volume = 12
 ch.play
 ```
-
-`PWMAudio::Channel` には次のメソッドがあります。
-
-| メソッド | 説明 |
-|----------|------|
-| `source=` | 音源を割り当てる |
-| `play` / `play_at(at)` | 鳴らす / 再生位置を指定して予約する |
-| `tone(frequency, waveform:, volume:)` | 波形を割り当ててすぐ鳴らす |
-| `stop` / `stop_at(at)` | 止める / 予約する |
-| `volume=` | 音量（0〜15） |
-| `pan=` | 左右のバランス（0〜15） |
-| `mute=` | 消音する |
-| `cancel_scheduled` | 予約を取り消す |
-
-波形は止めるまで鳴り続け、サンプルは最後まで鳴ると止まります。
 
 ### PWMAudio::Tone
 
@@ -241,6 +161,32 @@ audio.play_at(now + 5000, 5, 14, 0)   # チャンネル5でスロット0を鳴�
 
 同じチャンネルに割り当てた音どうしは、あとから鳴らした音が前の音を止めます。
 ハイハットのオープンとクローズのように、同時に鳴ってほしくない音に使います。
+
+## 時間を指定して鳴らす
+
+音を正確なタイミングで鳴らしたいときは、再生位置を指定して予約します。
+`audio.sample_clock` は現在の再生位置をサンプル数で返します。
+1秒あたり 50,000 増えるので、これを基準に未来の時刻を計算します。
+
+```ruby
+now = audio.sample_clock
+audio.tone_at(now + 25_000, 0, 440)   # 0.5秒後に鳴らす
+audio.stop_at(now + 50_000, 0)        # 1秒後に止める
+```
+
+| 操作 | 番号を渡す | チャンネルオブジェクト |
+|------|-----------|------------------------|
+| 波形を鳴らす | `audio.tone_at(at, 0, 440)` | `ch.tone_at(at, 440)` |
+| 音源を鳴らす | `audio.play_at(at, 0, volume, slot)` | `ch.play_at(at)` |
+| 止める | `audio.stop_at(at, 0)` | `ch.stop_at(at)` |
+| 予約を取り消す | `audio.cancel_scheduled(0)` | `ch.cancel_scheduled` |
+
+予約は32件までで、いっぱいのときは `false` を返します。
+同じ音を鳴らし直すときは、古い停止予約が残らないよう先に取り消します。
+
+> 予約は、少なくとも 2048 サンプル（約41ミリ秒）先を指定したときに正確なタイミングになります。
+> それより近い時刻を指定すると、できるだけ早く（ただし少し遅れて）鳴ります。
+{: .tip}
 
 ## 定数
 
