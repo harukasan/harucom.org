@@ -24,6 +24,7 @@ Harucom は日本語入力に対応しています。IRB のプロンプトで�
   - [辞書にない言葉を登録する](#辞書にない言葉を登録する)
 - [T-Code で漢字を入力する](#t-code-で漢字を入力する)
 - [辞書について](#辞書について)
+- [自分のプログラムで日本語を使う](#自分のプログラムで日本語を使う)
 
 ## 入力方式を切り替える
 
@@ -145,5 +146,24 @@ irb> InputMethod.dict_available?
 
 `false` になる場合は、辞書を含むファームウェア（`harucom_os_full.uf2`）を書き込んでください。
 
-日本語入力そのものは `$ime` というグローバル変数で扱われています。
-自分のプログラムから使うこともできます。
+## 自分のプログラムで日本語を使う
+
+日本語入力はグローバル変数 `$ime` として用意されています。
+自分で画面を描くプログラムでも、キー入力をこれに通せば日本語を入力できます。
+
+```ruby
+key = $keyboard.read_char
+if key
+  case $ime.process(key)
+  when :commit
+    buffer << $ime.take_committed   # 確定した文字列を受け取る
+  when :consumed
+    # 変換中。$ime.preedit と $ime.candidates を描き直す
+  when :passthrough
+    # 日本語入力が受け取らなかったので、ふつうのキーとして処理する
+  end
+end
+```
+
+`$ime.preedit` は入力中の文字列、`$ime.candidates` は変換の候補、
+`$ime.mode_label` は `[あ]` などのモード表示です。画面のどこに出すかはプログラム側で決めます。

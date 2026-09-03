@@ -203,7 +203,8 @@ audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
 ```
 
 サンプルを[バンク](#サンプルバンク)のスロットに読み込みます。
-`slot` はスロットの番号、`data` は WAV か QOA のデータです。
+`slot` は 0 から 15 までのスロットの番号、`data` は WAV か QOA のデータです。
+範囲の外の番号や、WAV でも QOA でもないデータを渡すと `ArgumentError` になります。
 その音を鳴らしている最中のスロットには読み込み直さないでください。
 
 ### Board::PWMAudio#sample_clock
@@ -427,6 +428,7 @@ audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 |------|-----|
 | `Board::PWMAudio::SAMPLE_RATE` | 50000（1秒あたりのサンプル数） |
 | `Board::PWMAudio::CHANNELS` | 8（チャンネル数） |
+| `Board::PWMAudio::NUM_BANKS` | 16（サンプルバンクのスロット数） |
 | `Board::PWMAudio::SINE` | サイン波 |
 | `Board::PWMAudio::SQUARE` | 矩形波（既定） |
 | `Board::PWMAudio::TRIANGLE` | 三角波 |

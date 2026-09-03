@@ -13,7 +13,7 @@ ref: docs
 - [Harucom Bundle with acrylic panels](/docs/harucom-bundle/)
 - [再起動する](/docs/restart/)
 - [ファイルの入出力](/docs/files/)
-- [コマンド一覧](/docs/commands/)
+- [コマンド](/docs/commands/)
 - [日本語を入力する](/docs/japanese-input/)
 - [設定と画面のズーム](/docs/settings/)
 

@@ -14,6 +14,7 @@ In normal Ruby scripts, use the pre-initialized Keyboard instance available as t
 ## Table of Contents
 
 - [Basic Usage](#basic-usage)
+  - [Matching Keys with case](#matching-keys-with-case)
 - [Keyboard Methods](#keyboard-methods)
   - [Reading Keys](#reading-keys)
   - [Key Lookup](#key-lookup)
@@ -23,9 +24,12 @@ In normal Ruby scripts, use the pre-initialized Keyboard instance available as t
   - [Key Conversion](#key-conversion)
   - [Key Comparison](#key-comparison)
 - [Predefined Key Constants](#predefined-key-constants)
-- [Modifier Key Constants](#modifier-key-constants)
-- [Key Repeat](#key-repeat)
+  - [Ctrl Key Combinations](#ctrl-key-combinations)
+  - [Special Keys](#special-keys)
+  - [Modifier Key Bitmasks](#modifier-key-bitmasks)
 - [Keyboard Layouts](#keyboard-layouts)
+  - [Keyboard.use_layout](#keyboarduse_layoutname)
+  - [JIS-specific Keys](#jis-specific-keys)
 
 ## Basic Usage
 

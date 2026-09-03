@@ -24,6 +24,7 @@ Two input methods are available.
   - [Registering Unknown Words](#registering-unknown-words)
 - [Typing Kanji with T-Code](#typing-kanji-with-t-code)
 - [About the Dictionary](#about-the-dictionary)
+- [Japanese Input in Your Own Program](#japanese-input-in-your-own-program)
 
 ## Switching Input Methods
 
@@ -146,4 +147,25 @@ irb> InputMethod.dict_available?
 
 If this returns `false`, flash the firmware that includes the dictionary (`harucom_os_full.uf2`).
 
-The input method itself is available as the global variable `$ime`, so your own programs can use it.
+## Japanese Input in Your Own Program
+
+The input method is available as the global variable `$ime`.
+A program that draws its own screen can accept Japanese by passing key input through it.
+
+```ruby
+key = $keyboard.read_char
+if key
+  case $ime.process(key)
+  when :commit
+    buffer << $ime.take_committed   # take the committed text
+  when :consumed
+    # composing. redraw $ime.preedit and $ime.candidates
+  when :passthrough
+    # the input method did not take it, so handle the key as usual
+  end
+end
+```
+
+`$ime.preedit` is the text being composed, `$ime.candidates` holds the conversion candidates,
+and `$ime.mode_label` is the mode indicator such as `[あ]`.
+Where they appear on screen is up to your program.

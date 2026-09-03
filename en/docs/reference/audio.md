@@ -204,7 +204,8 @@ audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
 ```
 
 Loads a sample into a slot of the [bank](#the-sample-bank).
-`slot` is the slot number and `data` is WAV or QOA data.
+`slot` runs from 0 to 15 and `data` is WAV or QOA data.
+A slot outside that range, or data that is neither format, raises `ArgumentError`.
 Do not reload a slot while the sound in it is still playing.
 
 ### Board::PWMAudio#sample_clock
@@ -431,6 +432,7 @@ The queue holds 32 events, and a full queue returns `false`.
 |----------|-------|
 | `Board::PWMAudio::SAMPLE_RATE` | 50000 (samples per second) |
 | `Board::PWMAudio::CHANNELS` | 8 (mixer channels) |
+| `Board::PWMAudio::NUM_BANKS` | 16 (sample bank slots) |
 | `Board::PWMAudio::SINE` | Sine wave |
 | `Board::PWMAudio::SQUARE` | Square wave (default) |
 | `Board::PWMAudio::TRIANGLE` | Triangle wave |

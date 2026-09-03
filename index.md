@@ -34,7 +34,7 @@ Harucom は現在開発中のデバイスです。
 
 Harucom boardの詳しい仕様については次のページをご覧ください。
 
-- [Harucom board](/docs/harucom-board/)
+- [Harucom Board](/docs/harucom-board/)
 
 RubyKaigi 2026で頒布しているキットについてはこちらをご覧ください。
 
