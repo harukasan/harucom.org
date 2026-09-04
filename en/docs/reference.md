@@ -116,9 +116,9 @@ the details.
 
 | Class | Description |
 |-------|-------------|
-| [File](https://picoruby.org/File.html) | File reading and writing |
+| [File](https://mruby.org/docs/api/File.html) ([PicoRuby](https://picoruby.org/File.html)) | File reading and writing |
 | [File::Stat](https://picoruby.org/File_Stat.html) | File size and timestamps |
-| [Dir](https://picoruby.org/Dir.html) | Directory operations |
+| [Dir](https://mruby.org/docs/api/Dir.html) ([PicoRuby](https://picoruby.org/Dir.html)) | Directory operations |
 | [VFS](https://picoruby.org/VFS.html) | Mounting filesystems |
 | [Littlefs](https://picoruby.org/Littlefs.html) | The flash filesystem |
 
@@ -170,22 +170,25 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 
 | Class | Description |
 |-------|-------------|
-| [String](https://picoruby.org/String.html) | Strings |
-| [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
-| [Kernel](https://picoruby.org/Kernel.html) | Basic methods like `puts`, `sleep` |
-| [Proc](https://picoruby.org/Proc.html) | Blocks and lambdas |
-| [Data](https://picoruby.org/Data.html) | Building classes that hold values |
+| [String](https://mruby.org/docs/api/String.html) ([PicoRuby](https://picoruby.org/String.html)) | Strings |
 | [Array](https://mruby.org/docs/api/Array.html) | Arrays |
 | [Hash](https://mruby.org/docs/api/Hash.html) | Hashes |
 | [Integer](https://mruby.org/docs/api/Integer.html) | Integers |
 | [Float](https://mruby.org/docs/api/Float.html) | Floating-point numbers |
+| [Rational](https://mruby.org/docs/api/Rational.html) | Exact fractions <span class="badge-v2">New in 2.0</span> |
+| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | Trigonometry, square roots, logarithms |
 | [Range](https://mruby.org/docs/api/Range.html) | Ranges |
 | [Symbol](https://mruby.org/docs/api/Symbol.html) | Symbols |
 | [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map`, `select`, and the rest of the iteration methods |
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | Ordering |
+| [Kernel](https://mruby.org/docs/api/Kernel.html) ([PicoRuby](https://picoruby.org/Kernel.html)) | Basic methods like `puts`, `sleep` |
+| [Proc](https://mruby.org/docs/api/Proc.html) ([PicoRuby](https://picoruby.org/Proc.html)) | Blocks and lambdas |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | Walking the live objects |
-| [Rational](https://mruby.org/docs/api/Rational.html) | Exact fractions <span class="badge-v2">New in 2.0</span> |
-| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | Trigonometry, square roots, logarithms |
+| [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
+| [Data](https://picoruby.org/Data.html) | Building classes that hold values |
+
+A trailing (PicoRuby) link is where the methods PicoRuby adds are documented — bit
+operations like `String#bit_count`, for instance.
 
 ### require
 

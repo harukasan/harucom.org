@@ -115,9 +115,9 @@ Harucom は [PicoRuby](https://picoruby.org/) で動いています。
 
 | クラス | 説明 |
 |--------|------|
-| [File](https://picoruby.org/File.html) | ファイルの読み書き |
+| [File](https://mruby.org/docs/api/File.html)（[PicoRuby](https://picoruby.org/File.html)） | ファイルの読み書き |
 | [File::Stat](https://picoruby.org/File_Stat.html) | ファイルの大きさや更新日時 |
-| [Dir](https://picoruby.org/Dir.html) | ディレクトリの操作 |
+| [Dir](https://mruby.org/docs/api/Dir.html)（[PicoRuby](https://picoruby.org/Dir.html)） | ディレクトリの操作 |
 | [VFS](https://picoruby.org/VFS.html) | ファイルシステムのマウント |
 | [Littlefs](https://picoruby.org/Littlefs.html) | フラッシュメモリのファイルシステム |
 
@@ -169,22 +169,25 @@ Dir.mkdir("/mydir")
 
 | クラス | 説明 |
 |--------|------|
-| [String](https://picoruby.org/String.html) | 文字列 |
-| [Regexp](https://picoruby.org/Regexp.html) | 正規表現 |
-| [Kernel](https://picoruby.org/Kernel.html) | `puts`、`sleep` などの基本メソッド |
-| [Proc](https://picoruby.org/Proc.html) | ブロックと lambda |
-| [Data](https://picoruby.org/Data.html) | 値だけを持つクラスを作る |
+| [String](https://mruby.org/docs/api/String.html)（[PicoRuby](https://picoruby.org/String.html)） | 文字列 |
 | [Array](https://mruby.org/docs/api/Array.html) | 配列 |
 | [Hash](https://mruby.org/docs/api/Hash.html) | ハッシュ |
 | [Integer](https://mruby.org/docs/api/Integer.html) | 整数 |
 | [Float](https://mruby.org/docs/api/Float.html) | 浮動小数点数 |
+| [Rational](https://mruby.org/docs/api/Rational.html) | 有理数 <span class="badge-v2">2.0 から</span> |
+| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | 三角関数、平方根、対数などの数学関数 |
 | [Range](https://mruby.org/docs/api/Range.html) | 範囲 |
 | [Symbol](https://mruby.org/docs/api/Symbol.html) | シンボル |
 | [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map` や `select` などの繰り返しの操作 |
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | 大小の比較 |
+| [Kernel](https://mruby.org/docs/api/Kernel.html)（[PicoRuby](https://picoruby.org/Kernel.html)） | `puts`、`sleep` などの基本メソッド |
+| [Proc](https://mruby.org/docs/api/Proc.html)（[PicoRuby](https://picoruby.org/Proc.html)） | ブロックと lambda |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | 生きているオブジェクトをたどる |
-| [Rational](https://mruby.org/docs/api/Rational.html) | 有理数 <span class="badge-v2">2.0 から</span> |
-| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | 三角関数、平方根、対数などの数学関数 |
+| [Regexp](https://picoruby.org/Regexp.html) | 正規表現 |
+| [Data](https://picoruby.org/Data.html) | 値だけを持つクラスを作る |
+
+（PicoRuby）が付いているものは、PicoRuby が足したメソッドがそちらに載っています。
+`String#bit_count` のようなビット操作がこれにあたります。
 
 ### require
 
