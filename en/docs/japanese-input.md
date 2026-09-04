@@ -11,7 +11,7 @@ opened with `edit`.
 
 Two input methods are available.
 
-- **SKK** — type romaji to get kana, then convert to kanji. This is the one you will normally use.
+- **SKK** — type romaji to get kana and convert them to kanji.
 - **T-Code** — type kanji directly with two-keystroke combinations.
 
 ## Contents

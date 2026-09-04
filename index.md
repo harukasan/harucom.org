@@ -23,22 +23,17 @@ Harucom はプログラミングを直感的に学べるアクセシブルなコ
 * [プログラミングリファレンス](/docs/reference/)
 * [PicoRabbit](/docs/picorabbit/)
 
-
 ## Harucom board を手に入れる
 
-Harucom は現在開発中のデバイスです。
-完成品のHarucom boardはBOOTHにて頒布する予定です。
-公開されている基板データから自分で製造することもできます。
+Harucom boardはBOOTHにて頒布しています。
+また、公開されている基板データから自分で製造することもできます。
 
 * [Harucom board - はるかさんのBOOTH](https://harukasan.booth.pm/items/8127045)
 
-Harucom boardの詳しい仕様については次のページをご覧ください。
-
-- [Harucom Board](/docs/harucom-board/)
-
-RubyKaigi 2026で頒布しているキットについてはこちらをご覧ください。
+Harucom boardの詳しい説明は次のページをご覧ください。
 
 - [Harucom Bundle with acrylic panels](/docs/harucom-bundle/)
+- [Harucom Board](/docs/harucom-board/)
 
 ## Harucom を知る
 

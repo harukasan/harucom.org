@@ -133,11 +133,7 @@ Use the `edit` command to launch the text editor, where you can save and edit Ru
 irb> edit hello.rb
 ```
 
-<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> saves and <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> quits.
-A `.rb` file gets syntax highlighting and auto indent, and <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd>
-switches to Japanese input.
-
-For the key bindings and the screen layout, see [Text Editor](../app/edit/).
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> saves and <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> quits. For how to drive it, see [Text Editor](../app/edit/).
 
 ## Your First Program
 

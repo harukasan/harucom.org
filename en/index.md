@@ -25,14 +25,14 @@ By removing the complexities of modern computing, the goal is to let you touch t
 
 ## Get a Harucom Board
 
-Harucom is a device currently under development.
-Pre-assembled Harucom Boards will be available on BOOTH.
+The Harucom Board is available on BOOTH.
 You can also manufacture one yourself from the published board data.
 
 * [Harucom board - harukasan's BOOTH](https://harukasan.booth.pm/items/8127045)
 
-For detailed specifications of the Harucom Board, see the following page.
+For a fuller description of the Harucom Board, see the following pages.
 
+- [Harucom Bundle with acrylic panels](/en/docs/harucom-bundle/)
 - [Harucom Board](/en/docs/harucom-board/)
 
 ## Learn about Harucom

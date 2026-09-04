@@ -134,10 +134,7 @@ IRB のプロンプトでは日本語も入力できます。
 irb> edit hello.rb
 ```
 
-<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> で保存、<kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> で終了します。
-`.rb` のファイルを開くと色分けと自動インデントが働き、<kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> で日本語も入力できます。
-
-キー操作や画面の見かたは[テキストエディタ](../app/edit/)をご覧ください。
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> で保存、<kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> で終了します。詳しい操作方法は[テキストエディタ](../app/edit/)を確認してください。
 
 ## はじめてのプログラム
 
