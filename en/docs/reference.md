@@ -218,7 +218,9 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 
 ### Kernel
 
-Methods you can call without naming a class.
+The Kernel module holds the common methods, and they can be called without naming a class.
+The ones inherited from mruby — `tap`, `then` and the like — are in the
+[mruby reference](https://mruby.org/docs/api/Kernel.html).
 
 #### puts(*args)
 
@@ -230,7 +232,7 @@ Writes to `$stdout` and ends with a newline. On Harucom that is the screen.
 
 #### print(*args)
 
-Writes to `$stdout` without the newline.
+Writes to `$stdout`. It does not add a newline.
 
 #### p(*args)
 
@@ -288,11 +290,3 @@ edits to a library.
 #### exit(status = 0)
 
 Ends the program. It raises `SystemExit`, so calling it inside an app returns to IRB.
-
----
-
-There is no `rand`. Use `RNG.random_int` from [RNG](https://picoruby.org/RNG.html) instead.
-
-None of the methods above appear in either reference. The ones inherited from mruby —
-`tap`, `then` and the like — are in the
-[mruby reference](https://mruby.org/docs/api/Kernel.html).

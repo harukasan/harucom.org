@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: Johakyu (Live Coding)
+title: Johakyu
 permalink: /en/docs/johakyu/
 lang: en
 ref: docs-johakyu
@@ -10,14 +10,13 @@ ref: docs-johakyu
 {: .note}
 
 Johakyu is a live coding environment that drives sound and light from patterns.
-It follows the same ideas as [TidalCycles](https://tidalcycles.org/) and
-[Strudel](https://strudel.cc/): you perform by editing short pieces of code.
+You perform by writing a DSL, in the manner of [TidalCycles](https://tidalcycles.org/) and
+[Strudel](https://strudel.cc/).
 
-The top half of the screen shows the clock and the DMX state, and the bottom half is an editor.
-Edit the code and press <kbd><kbd>Ctrl</kbd>-<kbd>Enter</kbd></kbd>: the new pattern takes over
-at the start of the next cycle, without the sound stopping.
+Edit the script and press <kbd><kbd>Ctrl</kbd>-<kbd>Enter</kbd></kbd>: the new pattern takes
+over at the start of the next cycle, without the sound stopping.
 
-With no lighting connected, it works as a drum machine on its own.
+It is not only a drum machine — connect the DMX module and it drives lighting as well.
 
 ## Contents
 
@@ -257,5 +256,5 @@ loop do
 end
 ```
 
-Call `session.update` on every iteration. That is where sounds are reserved and
+Call `session.update` on every iteration, without fail. That is where sounds are reserved and
 light values are written. When lights are involved, call `DMX.keepalive` as well.

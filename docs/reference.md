@@ -217,7 +217,8 @@ Dir.mkdir("/mydir")
 
 ### Kernel
 
-クラスを書かずにそのまま呼べるメソッドです。
+Kernelモジュールは共通メソッドを定義していて、メソッドはクラスを書かずにそのまま呼べます。
+mruby から受け継いだ `tap` や `then` は[mruby のリファレンス](https://mruby.org/docs/api/Kernel.html)にあります。
 
 #### puts(*args)
 
@@ -229,7 +230,7 @@ puts "hello"
 
 #### print(*args)
 
-改行を付けずに `$stdout` に書き出します。
+`$stdout` に書き出します。改行はつけません。
 
 #### p(*args)
 
@@ -251,8 +252,8 @@ sleep 1      # 1秒待つ
 sleep 0.5    # 0.5秒待つ
 ```
 
-指定した秒数だけ待ちます。小数も渡せます。
-待っているあいだはほかのタスクが動くので、音の再生などは止まりません。
+指定した秒数だけ待ちます。小数も指定できます。
+待っているあいだもほかのタスクは動くので、音の再生などは止まりません。
 
 引数を省略すると、そのタスクは起こされるまで止まったままになります。
 負の数を渡すと `ArgumentError` になります。
@@ -287,12 +288,3 @@ require "p5"
 #### exit(status = 0)
 
 プログラムを終了します。`SystemExit` を投げるので、アプリの中で呼ぶと IRB に戻ります。
-
----
-
-乱数の `rand` はありません。かわりに
-[RNG](https://picoruby.org/RNG.html) の `RNG.random_int` を使ってください。
-
-ここに挙げたメソッドは PicoRuby と mruby のどちらのリファレンスにも載っていません。
-mruby から受け継いだ `tap` や `then` は
-[mruby のリファレンス](https://mruby.org/docs/api/Kernel.html)にあります。

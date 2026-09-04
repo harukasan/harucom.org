@@ -35,5 +35,5 @@ ref: docs
 
 - [テキストエディタ](/docs/app/edit/)
 - [PicoRabbit](/docs/picorabbit/)
-- [Johakyu（ライブコーディング）](/docs/johakyu/)
+- [Johakyu](/docs/johakyu/)
 - [デモアプリ](/docs/demos/)

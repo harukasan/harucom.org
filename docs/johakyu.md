@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: Johakyu（ライブコーディング）
+title: Johakyu
 permalink: /docs/johakyu/
 lang: ja
 ref: docs-johakyu
@@ -9,15 +9,13 @@ ref: docs-johakyu
 > このページの機能は Harucom OS 2.0 から使えます。
 {: .note}
 
-Johakyu（序破急）は、音と照明をパターンで動かすライブコーディングの環境です。
-[TidalCycles](https://tidalcycles.org/) や [Strudel](https://strudel.cc/) と同じ考え方で、
-短いコードを書き換えながら演奏します。
+Johakyu（序破急）は、音と照明をパターンで動かすライブコーディング環境です。
+[TidalCycles](https://tidalcycles.org/) や [Strudel](https://strudel.cc/) と同じようにDSLを書いて演奏します。
 
-画面の上半分には時計と DMX の状態が、下半分にはエディタが表示されます。
-コードを書き換えて <kbd><kbd>Ctrl</kbd>-<kbd>Enter</kbd></kbd> を押すと、
+スクリプトを書き換えて <kbd><kbd>Ctrl</kbd>-<kbd>Enter</kbd></kbd> を押すと、
 音を止めずに、次のサイクル（1周の区切り）の頭から新しいパターンに切り替わります。
 
-照明をつながずに、ドラムマシンとして音だけで使うこともできます。
+ドラムマシンだけではなく、DMXモジュールを接続することで照明を制御することもできます。
 
 ## 目次
 
@@ -257,5 +255,5 @@ loop do
 end
 ```
 
-`session.update` は毎回のループで呼んでください。ここで音の予約と照明の書き込みが行われます。
+`session.update` はかならず毎回のループで呼んでください。ここで音の予約と照明の書き込みが行われます。
 照明も使う場合は `DMX.keepalive` もあわせて呼びます。

@@ -35,5 +35,5 @@ The version you are running is shown on screen at boot, and `HARUCOM_VERSION` re
 
 - [Text Editor](/en/docs/app/edit/)
 - [PicoRabbit](/en/docs/picorabbit/)
-- [Johakyu (Live Coding)](/en/docs/johakyu/)
+- [Johakyu](/en/docs/johakyu/)
 - [Demo Apps](/en/docs/demos/)
