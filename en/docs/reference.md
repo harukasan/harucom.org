@@ -8,6 +8,25 @@ ref: docs-reference
 
 Reference for the Ruby API available on Harucom.
 
+## Contents
+
+- [Harucom API](#harucom-api)
+  - [DVI Module](#dvi-module)
+  - [P5 Drawing Library](#p5-drawing-library)
+  - [Keyboard](#keyboard)
+  - [InputMethod (Japanese Input)](#inputmethod-japanese-input)
+  - [Board (Board Peripherals)](#board-board-peripherals)
+    - [Board::PWMAudio (Audio)](#boardpwmaudio-audio)
+    - [Board::Pad (Button Input)](#boardpad-button-input)
+    - [Board::DMX (DMX Module Control)](#boarddmx-dmx-module-control)
+- [PicoRuby Libraries](#picoruby-libraries)
+  - [Filesystem](#filesystem)
+  - [Data Formats](#data-formats)
+  - [Hardware](#hardware)
+  - [System](#system)
+  - [Built-in Classes](#built-in-classes)
+  - [Kernel](#kernel)
+
 ## Harucom API
 
 Harucom comes with libraries for screen drawing, keyboard input, Japanese input, and the
@@ -81,6 +100,17 @@ audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
 
+#### [Board::Pad (Button Input)](pad/)
+
+Reading the eight buttons on the board.
+
+```ruby
+require "board/pad"
+pad = Board::Pad.new(Board::PAD0_PIN)
+puts "up" if pad.read.up?
+```
+
+
 #### [Board::DMX (DMX Module Control)](dmx/)
 
 Sending DMX512 to control stage lighting.
@@ -90,17 +120,6 @@ require "board/dmx"
 dmx = Board::DMX.new
 dmx.start
 dmx[6] = 255
-```
-
-
-#### [Board::Pad (Button Input)](pad/)
-
-Reading the eight buttons on the board.
-
-```ruby
-require "board/pad"
-pad = Board::Pad.new(Board::PAD0_PIN)
-puts "up" if pad.read.up?
 ```
 
 
@@ -181,7 +200,6 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 | [Symbol](https://mruby.org/docs/api/Symbol.html) | Symbols |
 | [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map`, `select`, and the rest of the iteration methods |
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | Ordering |
-| [Kernel](https://mruby.org/docs/api/Kernel.html) | `tap`, `then`, and the other object methods |
 | [Proc](https://mruby.org/docs/api/Proc.html) | Blocks and lambdas |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | Walking the live objects |
 | [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
@@ -189,10 +207,9 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 
 A trailing (PicoRuby) link is where the methods PicoRuby adds to that class are documented.
 
-### Methods Available Everywhere
+### Kernel
 
-Methods you can call without naming a class. Neither the PicoRuby nor the mruby reference
-covers them, so they are collected here.
+Methods you can call without naming a class.
 
 | Method | Description |
 |--------|-------------|
@@ -210,3 +227,7 @@ sleep_ms 100
 The `sleep` family is task-aware: other tasks keep running while one waits.
 
 There is no `rand`. Use `RNG.random_int` from [RNG](https://picoruby.org/RNG.html) instead.
+
+None of the methods in this table appear in either reference. The ones inherited from
+mruby — `tap`, `then` and the like — are in the
+[mruby reference](https://mruby.org/docs/api/Kernel.html).

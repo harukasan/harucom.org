@@ -8,6 +8,25 @@ ref: docs-reference
 
 Harucom で使える Ruby API のリファレンスです。
 
+## 目次
+
+- [Harucom API](#harucom-api)
+  - [DVI モジュール](#dvi-モジュール)
+  - [P5 描画ライブラリ](#p5-描画ライブラリ)
+  - [Keyboard](#keyboard)
+  - [InputMethod（日本語入力）](#inputmethod日本語入力)
+  - [Boardモジュール（周辺機能）](#boardモジュール周辺機能)
+    - [Board::PWMAudio（オーディオ）](#boardpwmaudioオーディオ)
+    - [Board::Pad（ボタン入力）](#boardpadボタン入力)
+    - [Board::DMX（DMX モジュールの制御）](#boarddmxdmx-モジュールの制御)
+- [PicoRuby ライブラリ](#picoruby-ライブラリ)
+  - [ファイルシステム](#ファイルシステム)
+  - [データ形式](#データ形式)
+  - [ハードウェア](#ハードウェア)
+  - [システム](#システム)
+  - [組み込みクラス](#組み込みクラス)
+  - [Kernel](#kernel)
+
 ## Harucom API
 
 Harucom は画面の描画やキーボード入力、日本語入力、基板の周辺機能を扱うためのライブラリを備えています。
@@ -180,7 +199,6 @@ Dir.mkdir("/mydir")
 | [Symbol](https://mruby.org/docs/api/Symbol.html) | シンボル |
 | [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map` や `select` などの繰り返しの操作 |
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | 大小の比較 |
-| [Kernel](https://mruby.org/docs/api/Kernel.html) | `tap` や `then` などのメソッド |
 | [Proc](https://mruby.org/docs/api/Proc.html) | ブロックと lambda |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | 生きているオブジェクトをたどる |
 | [Regexp](https://picoruby.org/Regexp.html) | 正規表現 |
@@ -188,10 +206,9 @@ Dir.mkdir("/mydir")
 
 (PicoRuby) が付いているものは、PicoRuby が足したメソッドがそちらに載っています。
 
-### どこでも使えるメソッド
+### Kernel
 
 クラスを書かずにそのまま呼べるメソッドです。
-PicoRuby と mruby のどちらのリファレンスにも載っていないので、ここにまとめます。
 
 | メソッド | 説明 |
 |----------|------|
@@ -210,3 +227,7 @@ sleep_ms 100
 
 乱数の `rand` はありません。かわりに
 [RNG](https://picoruby.org/RNG.html) の `RNG.random_int` を使ってください。
+
+この表のメソッドは PicoRuby と mruby のどちらのリファレンスにも載っていません。
+mruby から受け継いだ `tap` や `then` は
+[mruby のリファレンス](https://mruby.org/docs/api/Kernel.html)にあります。
