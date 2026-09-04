@@ -184,8 +184,7 @@ Dir.mkdir("/mydir")
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | 大小の比較 |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | 生きているオブジェクトをたどる |
 | [Rational](https://mruby.org/docs/api/Rational.html) | 有理数 <span class="badge-v2">2.0 から</span> |
-
-数学関数の `Math` も使えますが、リファレンスのページはありません。
+| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | 三角関数、平方根、対数などの数学関数 |
 
 ### require
 

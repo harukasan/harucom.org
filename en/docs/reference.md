@@ -185,8 +185,7 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | Ordering |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | Walking the live objects |
 | [Rational](https://mruby.org/docs/api/Rational.html) | Exact fractions <span class="badge-v2">New in 2.0</span> |
-
-`Math` is available too, but has no reference page.
+| [Math](https://github.com/mruby/mruby/blob/master/mrbgems/mruby-math/README.md) | Trigonometry, square roots, logarithms |
 
 ### require
 
