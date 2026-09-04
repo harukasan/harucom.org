@@ -27,8 +27,8 @@ The version you are running is shown on screen at boot, and `HARUCOM_VERSION` re
   - [InputMethod (Japanese Input)](/en/docs/reference/input-method/)
   - [DVI Module](/en/docs/reference/dvi/)
   - [P5 Drawing Library](/en/docs/reference/p5/)
-  - [Audio](/en/docs/reference/audio/)
-  - [DMX Module](/en/docs/reference/dmx/)
+  - [Board::PWMAudio (Audio)](/en/docs/reference/audio/)
+  - [Board::DMX (DMX Module Control)](/en/docs/reference/dmx/)
   - [Board::Pad (Button Input)](/en/docs/reference/pad/)
 
 ## Commands

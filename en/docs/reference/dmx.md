@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: DMX Module
+title: Board::DMX (DMX Module Control)
 permalink: /en/docs/reference/dmx/
 lang: en
 ref: docs-reference-dmx

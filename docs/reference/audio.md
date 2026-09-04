@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: オーディオ
+title: Board::PWMAudio（オーディオ）
 permalink: /docs/reference/audio/
 lang: ja
 ref: docs-reference-audio

@@ -63,7 +63,7 @@ text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
 
-### [Audio](audio/)
+### [Board::PWMAudio (Audio)](audio/)
 
 Playing sound through PWM audio, and building sounds with Synth.
 An 8-channel mixer plays waveforms and WAV or QOA samples.
@@ -75,7 +75,7 @@ audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
 
-### [DMX Module](dmx/)
+### [Board::DMX (DMX Module Control)](dmx/)
 
 Sending DMX512 to control stage lighting.
 

@@ -27,8 +27,8 @@ ref: docs
   - [InputMethod（日本語入力）](/docs/reference/input-method/)
   - [DVI モジュール](/docs/reference/dvi/)
   - [P5 描画ライブラリ](/docs/reference/p5/)
-  - [オーディオ](/docs/reference/audio/)
-  - [DMX モジュール](/docs/reference/dmx/)
+  - [Board::PWMAudio（オーディオ）](/docs/reference/audio/)
+  - [Board::DMX（DMX モジュールの制御）](/docs/reference/dmx/)
   - [Board::Pad（ボタン入力）](/docs/reference/pad/)
 
 ## コマンド

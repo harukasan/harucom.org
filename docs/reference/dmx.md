@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: DMX モジュール
+title: Board::DMX（DMX モジュールの制御）
 permalink: /docs/reference/dmx/
 lang: ja
 ref: docs-reference-dmx

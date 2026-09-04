@@ -65,7 +65,7 @@ text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
 
-### [オーディオ](audio/)
+### [Board::PWMAudio（オーディオ）](audio/)
 
 PWM オーディオでの音の再生と、音そのものを作る Synth の API です。
 8チャンネルのミキサーで、波形や WAV / QOA のサンプルを鳴らせます。
@@ -77,7 +77,7 @@ audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
 
-### [DMX モジュール](dmx/)
+### [Board::DMX（DMX モジュールの制御）](dmx/)
 
 DMX512 の信号を出力して、舞台照明を制御する API です。
 
