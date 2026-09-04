@@ -36,6 +36,22 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# Render Markdown the way GitHub Pages does.
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Minima 2.5 predates the Sass module system, so the theme and the stylesheet
+# that pulls it in still use @import and darken(). Dart Sass 3.0 will remove
+# both, which needs a theme that supports @use. Until then, keep the warnings
+# out of every build.
+sass:
+  quiet_deps: true
+  silence_deprecations:
+    - import
+
 # Navigation: only show root-level pages (not /ja/ duplicates)
 header_pages:
   - docs/getting-started.md

@@ -101,30 +101,40 @@ irb> loop do
 | <kbd>Backspace</kbd> | 文字を削除する |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | カーソルを移動する |
 | <kbd>Home</kbd> / <kbd>End</kbd> | 行頭に移動する / 行末に移動する |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | 行頭に移動する / 行末に移動する <span class="badge-v2">2.0 から</span> |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
-| <kbd>Backspace</kbd> | 文字を削除する |
+| <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | 画面をクリアする |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | ファイルを読み込んで入力欄に貼り付ける <span class="badge-v2">2.0 から</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | 画面の文字の大きさを切り替える <span class="badge-v2">2.0 から</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | IRB を終了する（すぐに起動し直します） |
 
-## テキストエディターでファイルを編集する
+画面の幅より長い行を入力すると、カーソルに合わせて横にスクロールします。 <span class="badge-v2">2.0 から</span>
 
-`edit` コマンドでテキストエディターを起動して、Ruby スクリプトをファイルに保存・編集できます。
+`/app` にあるコマンドの名前を入力すると、その部分の色が変わります。
+入力したものがコマンドとして実行されるかどうかが、実行する前にわかります。
+
+### ファイルを読み込んで実行する
+{: .since-v2}
+
+<kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> を押すとファイル名を聞かれます。
+入力すると、そのファイルの中身が入力欄に読み込まれます。
+そのまま手直しして <kbd>Enter</kbd> で実行できます。
+
+### 日本語を入力する
+
+IRB のプロンプトでは日本語も入力できます。
+<kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> を押すと日本語入力に切り替わります。
+くわしくは[日本語を入力する](../japanese-input/)をご覧ください。
+
+## テキストエディタでファイルを編集する
+
+`edit` コマンドでテキストエディタを起動して、Ruby スクリプトをファイルに保存・編集できます。
 
 ```ruby
 irb> edit hello.rb
 ```
 
-### ショートカットキー
-
-| キー | 動作 |
-|------|------|
-| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | 保存 |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | 終了 |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | 元に戻す |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | やり直し |
-| <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | カーソルを移動する |
-| <kbd>Home</kbd> / <kbd>End</kbd> | 行頭に移動する / 行末に移動する |
-| <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
-
-エディタはステータスバーにファイル名と位置を表示し、未保存の変更がある場合は `[+]` が表示されます。
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> で保存、<kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> で終了します。詳しい操作方法は[テキストエディタ](../app/edit/)を確認してください。
 
 ## はじめてのプログラム
 
@@ -175,5 +185,10 @@ irb> run hello.rb
 
 * [再起動する](../restart/)
 * [ファイルを読み書きする](../files/)
+* [コマンドを使う](../commands/)
+* [テキストエディタを使いこなす](../app/edit/)
+* [日本語を入力する](../japanese-input/)
+* [設定を変える](../settings/)
+* [デモアプリを試す](../demos/)
 * [プログラミングリファレンスを読む](../reference/)
 

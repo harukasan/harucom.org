@@ -15,7 +15,8 @@ Keyboard クラスは、USB キーボードからの入力を扱うための API
 ## 目次
 
 - [基本的な使い方](#基本的な使い方)
-- [Keyboard のメソッド](#keyboard-のメソッド)
+  - [case 文でキーを判定する](#case-文でキーを判定する)
+- [メソッド一覧](#メソッド一覧)
   - [キーの読み取り](#キーの読み取り)
   - [キーの検索](#キーの検索)
 - [Keyboard::Key](#keyboardkey)
@@ -24,8 +25,12 @@ Keyboard クラスは、USB キーボードからの入力を扱うための API
   - [キーの変換](#キーの変換)
   - [キーの比較](#キーの比較)
 - [定義済みキー定数](#定義済みキー定数)
-- [修飾キーの定数](#修飾キーの定数)
-- [キーリピート](#キーリピート)
+  - [Ctrl キーの組み合わせ](#ctrl-キーの組み合わせ)
+  - [特殊キー](#特殊キー)
+  - [修飾キービットマスク](#修飾キービットマスク)
+- [キーボードの配列](#キーボードの配列)
+  - [Keyboard.use_layout](#keyboarduse_layoutname)
+  - [JIS 配列のキー](#jis-配列のキー)
 
 ## 基本的な使い方
 
@@ -288,3 +293,49 @@ USB HID の修飾キービットマスクです。
 | `Keyboard::MOD_RIGHTALT` | `0x40` | 右 Alt |
 | `Keyboard::MOD_RIGHTGUI` | `0x80` | 右 Super |
 
+---
+
+## キーボードの配列
+
+Harucom は US 配列と JIS 配列に対応しています。
+どちらを使うかは `/etc/env.yml` の `KEYBOARD_LAYOUT` で決まります。
+くわしくは[設定](../../settings/)をご覧ください。
+
+| 値 | 配列 |
+|----|------|
+| `us` | US ANSI 配列 |
+| `jis` | 日本語 JIS 配列 |
+
+### Keyboard.use_layout(name)
+
+```ruby
+Keyboard.use_layout("jis")   #=> true
+Keyboard.use_layout("abc")   #=> false
+```
+
+配列を切り替えます。知らない名前を渡すと `false` を返し、配列は変わりません。
+
+配列が決めるのは、キーを押したときに出てくる文字だけです。
+`:a` から `:z` のキーの名前や、Enter・Escape・矢印などの特殊キーは配列によらず同じです。
+
+### JIS 配列のキー
+
+JIS 配列には、US 配列にないキーがあります。
+これらは文字を生成しませんが、名前が付いているのでプログラムから判定できます。
+
+| キー | 名前 |
+|------|------|
+| 半角/全角 | `:zenkaku` |
+| カタカナ/ひらがな | `:katakana_hiragana` |
+| 変換 | `:henkan` |
+| 無変換 | `:muhenkan` |
+
+```ruby
+key = $keyboard.read_char
+if key && key.match?(:henkan)
+  puts "変換キーが押されました"
+end
+```
+
+[日本語入力](../../japanese-input/)では、半角/全角キーで入力方式のオンとオフを、
+カタカナ/ひらがなキーでひらがな・カタカナ・全角英字の切り替えを行います。

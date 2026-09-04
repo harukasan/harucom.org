@@ -101,7 +101,29 @@ irb> loop do
 | <kbd>Backspace</kbd> | Delete a character |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
 | <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | Jump to beginning / end of line <span class="badge-v2">New in 2.0</span> |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
+| <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | Clear the screen |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | Load a file into the input <span class="badge-v2">New in 2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | Switch the text size on screen <span class="badge-v2">New in 2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | Quit IRB (it starts again right away) |
+
+A line longer than the screen scrolls sideways as the cursor moves. <span class="badge-v2">New in 2.0</span>
+
+Typing the name of a command in `/app` colors that part of the line,
+so you can tell it will run as a command before pressing Enter.
+
+### Loading a File into the Input
+{: .since-v2}
+
+Pressing <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> asks for a file name and loads its contents
+into the input area. Edit it there and run it with <kbd>Enter</kbd>.
+
+### Typing Japanese
+
+Japanese can be typed at the IRB prompt.
+Press <kbd><kbd>Ctrl</kbd>-<kbd>J</kbd></kbd> to switch the input method on.
+See [Japanese Input](../japanese-input/) for details.
 
 ## Editing Files with the Text Editor
 
@@ -111,19 +133,7 @@ Use the `edit` command to launch the text editor, where you can save and edit Ru
 irb> edit hello.rb
 ```
 
-### Editor Shortcuts
-
-| Key | Action |
-|-----|--------|
-| <kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> | Save |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> | Quit |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> | Undo |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Y</kbd></kbd> | Redo |
-| <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
-| <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
-| <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
-
-The editor displays the filename and position in the status bar. `[+]` is shown when there are unsaved changes.
+<kbd><kbd>Ctrl</kbd>-<kbd>S</kbd></kbd> saves and <kbd><kbd>Ctrl</kbd>-<kbd>Q</kbd></kbd> quits. For how to drive it, see [Text Editor](../app/edit/).
 
 ## Your First Program
 
@@ -174,4 +184,9 @@ Open the editor again to check if the content is correct.
 
 * [Restart](../restart/)
 * [File I/O](../files/)
+* [Commands](../commands/)
+* [Text Editor](../app/edit/)
+* [Japanese Input](../japanese-input/)
+* [Settings](../settings/)
+* [Demo Apps](../demos/)
 * [Programming Reference](../reference/)

@@ -14,6 +14,7 @@ It displays slides written in Markdown on screen and lets you navigate them with
 ## Table of Contents
 
 - [Basic Usage](#basic-usage)
+  - [Example Slide File](#example-slide-file)
 - [Writing Slides](#writing-slides)
   - [Frontmatter](#frontmatter)
   - [Slide Separators](#slide-separators)
