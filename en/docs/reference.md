@@ -10,7 +10,8 @@ Reference for the Ruby API available on Harucom.
 
 ## Harucom API
 
-Harucom comes with libraries for screen drawing, keyboard input, and Japanese input.
+Harucom comes with libraries for screen drawing, keyboard input, Japanese input, and the
+peripherals on the board.
 
 ### [DVI Module](dvi/)
 
@@ -63,12 +64,12 @@ text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
 
-## Board (Board Peripherals)
+### Board (Board Peripherals)
 
 The peripherals on the Harucom Board live under the `Board` module.
 Load the one you need with `require`.
 
-### [Board::PWMAudio (Audio)](audio/)
+#### [Board::PWMAudio (Audio)](audio/)
 
 Playing sound through PWM audio, and building sounds with Synth.
 An 8-channel mixer plays waveforms and WAV or QOA samples.
@@ -80,7 +81,7 @@ audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
 
-### [Board::DMX (DMX Module Control)](dmx/)
+#### [Board::DMX (DMX Module Control)](dmx/)
 
 Sending DMX512 to control stage lighting.
 
@@ -92,7 +93,7 @@ dmx[6] = 255
 ```
 
 
-### [Board::Pad (Button Input)](pad/)
+#### [Board::Pad (Button Input)](pad/)
 
 Reading the eight buttons on the board.
 

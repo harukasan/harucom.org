@@ -10,7 +10,7 @@ Harucom で使える Ruby API のリファレンスです。
 
 ## Harucom API
 
-Harucom は画面の描画やキーボード入力、日本語入力を扱うためのライブラリを備えています。
+Harucom は画面の描画やキーボード入力、日本語入力、それに基板の周辺機能を扱うためのライブラリを備えています。
 
 ### [DVI モジュール](dvi/)
 
@@ -65,12 +65,12 @@ text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
 
-## Board（基板の周辺機能）
+### Board（基板の周辺機能）
 
 Harucom Board に載っている周辺機能は `Board` モジュールにまとまっています。
 使うときは `require` で読み込みます。
 
-### [Board::PWMAudio（オーディオ）](audio/)
+#### [Board::PWMAudio（オーディオ）](audio/)
 
 PWM オーディオでの音の再生と、音そのものを作る Synth の API です。
 8チャンネルのミキサーで、波形や WAV / QOA のサンプルを鳴らせます。
@@ -82,7 +82,7 @@ audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
 
-### [Board::DMX（DMX モジュールの制御）](dmx/)
+#### [Board::DMX（DMX モジュールの制御）](dmx/)
 
 DMX512 の信号を出力して、舞台照明を制御する API です。
 
@@ -94,7 +94,7 @@ dmx[6] = 255
 ```
 
 
-### [Board::Pad（ボタン入力）](pad/)
+#### [Board::Pad（ボタン入力）](pad/)
 
 基板に載っている8つのボタンを読み取る API です。
 
