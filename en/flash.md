@@ -59,7 +59,7 @@ Put the Harucom board into BOOTSEL mode, wait for your computer to show a USB st
 Put the Harucom board into BOOTSEL mode and point picotool at the file you unpacked.
 
 ```
-picotool load -x harucom_os_full-1.0.0.uf2
+picotool load -x harucom_os_full-2.0.0.uf2
 ```
 
 `-x` makes Harucom restart on its own once writing has finished.

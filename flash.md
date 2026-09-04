@@ -59,7 +59,7 @@ Harucom board を BOOTSEL モードにして、パソコンから USB ストレ�
 Harucom board を BOOTSEL モードにして、展開したファイルを指定して実行します。
 
 ```
-picotool load -x harucom_os_full-1.0.0.uf2
+picotool load -x harucom_os_full-2.0.0.uf2
 ```
 
 `-x` を付けると、書き込みが終わったあとに Harucom が自動的に再起動します。
