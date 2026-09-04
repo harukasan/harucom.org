@@ -24,6 +24,7 @@ ref: docs
 
 - [プログラミングリファレンス](/docs/reference/) 
   - [Keyboard クラス](/docs/reference/keyboard/)
+  - [InputMethod（日本語入力）](/docs/reference/input-method/)
   - [DVI モジュール](/docs/reference/dvi/)
   - [P5 描画ライブラリ](/docs/reference/p5/)
   - [オーディオ](/docs/reference/audio/)

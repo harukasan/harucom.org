@@ -55,6 +55,16 @@ when Keyboard::ENTER  then puts "Enter"
 end
 ```
 
+### [InputMethod（日本語入力）](input-method/)
+
+日本語入力を自分のプログラムから使う API です。
+グローバル変数 `$ime` にキーを通すと、変換されて確定した文字列を受け取れます。
+
+```ruby
+text += $ime.take_committed if $ime.process(key) == :commit
+```
+
+
 ### [オーディオ](audio/)
 
 PWM オーディオでの音の再生と、音そのものを作る Synth の API です。

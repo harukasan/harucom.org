@@ -23,8 +23,6 @@ Two input methods are available.
   - [Words with Okurigana](#words-with-okurigana)
   - [Registering Unknown Words](#registering-unknown-words)
 - [Typing Kanji with T-Code](#typing-kanji-with-t-code)
-- [About the Dictionary](#about-the-dictionary)
-- [Japanese Input in Your Own Program](#japanese-input-in-your-own-program)
 
 ## Switching Input Methods
 
@@ -133,39 +131,8 @@ The two keystrokes have to be typed within 0.5 seconds. After that, the first ke
 committed as a plain character. Keys that are not part of the T-Code layout are typed as
 plain characters too.
 
-T-Code needs the dictionary. Without it, the input method is skipped when cycling.
+## Related Pages
 
-## About the Dictionary
-
-The conversion dictionary lives in its own flash region, separate from the firmware.
-You can check whether it is installed.
-
-```ruby
-irb> InputMethod.dict_available?
-=> true
-```
-
-If this returns `false`, flash the firmware that includes the dictionary (`harucom_os_full.uf2`).
-
-## Japanese Input in Your Own Program
-
-The input method is available as the global variable `$ime`.
-A program that draws its own screen can accept Japanese by passing key input through it.
-
-```ruby
-key = $keyboard.read_char
-if key
-  case $ime.process(key)
-  when :commit
-    buffer << $ime.take_committed   # take the committed text
-  when :consumed
-    # composing. redraw $ime.preedit and $ime.candidates
-  when :passthrough
-    # the input method did not take it, so handle the key as usual
-  end
-end
-```
-
-`$ime.preedit` is the text being composed, `$ime.candidates` holds the conversion candidates,
-and `$ime.mode_label` is the mode indicator such as `[あ]`.
-Where they appear on screen is up to your program.
+- [InputMethod (Japanese Input)](../reference/input-method/) — using Japanese input in your own program
+- [Settings and Screen Zoom](../settings/) — changing the keyboard layout
+- [Text Editor](../app/edit/) — Japanese can be typed in the editor too

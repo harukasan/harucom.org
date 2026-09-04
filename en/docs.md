@@ -24,6 +24,7 @@ The version you are running is shown on screen at boot, and `HARUCOM_VERSION` re
 
 - [Programming Reference](/en/docs/reference/)
   - [Keyboard Class](/en/docs/reference/keyboard/)
+  - [InputMethod (Japanese Input)](/en/docs/reference/input-method/)
   - [DVI Module](/en/docs/reference/dvi/)
   - [P5 Drawing Library](/en/docs/reference/p5/)
   - [Audio](/en/docs/reference/audio/)

@@ -53,6 +53,16 @@ when Keyboard::ENTER  then puts "Enter"
 end
 ```
 
+### [InputMethod (Japanese Input)](input-method/)
+
+An API for using Japanese input from your own program.
+Pass keys through the global variable `$ime` and take the committed text back out.
+
+```ruby
+text += $ime.take_committed if $ime.process(key) == :commit
+```
+
+
 ### [Audio](audio/)
 
 Playing sound through PWM audio, and building sounds with Synth.
