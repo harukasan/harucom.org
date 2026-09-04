@@ -6,6 +6,9 @@ lang: ja
 ref: docs-reference-dmx
 ---
 
+> このページの機能は Harucom OS 2.0 から使えます。
+{: .note}
+
 DMX モジュールは、舞台照明で使われている DMX512 の信号を出力します。
 ムービングライトやパーライトを Harucom から制御できます。
 

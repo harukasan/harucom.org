@@ -6,6 +6,9 @@ lang: en
 ref: docs-johakyu
 ---
 
+> Everything on this page is new in Harucom OS 2.0.
+{: .note}
+
 Johakyu is a live coding environment that drives sound and light from patterns.
 It follows the same ideas as [TidalCycles](https://tidalcycles.org/) and
 [Strudel](https://strudel.cc/): you perform by editing short pieces of code.

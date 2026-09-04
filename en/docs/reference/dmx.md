@@ -6,6 +6,9 @@ lang: en
 ref: docs-reference-dmx
 ---
 
+> Everything on this page is new in Harucom OS 2.0.
+{: .note}
+
 The DMX module sends DMX512, the protocol used for stage lighting.
 Moving heads and par cans can be driven from Harucom.
 

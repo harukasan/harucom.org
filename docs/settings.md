@@ -32,7 +32,7 @@ CONSOLE_ZOOM: 1
 | 設定 | 値 | 説明 |
 |------|-----|------|
 | `KEYBOARD_LAYOUT` | `us` / `jis` | キーボードの配列 |
-| `CONSOLE_ZOOM` | `1` / `2` | 起動したときの文字の大きさ |
+| `CONSOLE_ZOOM` <span class="badge-v2">2.0</span> | `1` / `2` | 起動したときの文字の大きさ |
 
 保存したら <kbd><kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>Delete</kbd></kbd> で[再起動](../restart/)すると設定が反映されます。
 
@@ -66,6 +66,7 @@ irb> ENV["KEYBOARD_LAYOUT"]
 知らない名前を書いた場合は `us` として起動します。
 
 ## 画面をズームする
+{: .since-v2}
 
 テキスト画面は2つの大きさを切り替えられます。
 テレビにつないだときなど、文字が小さくて読みづらいときに使います。

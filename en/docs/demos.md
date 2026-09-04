@@ -93,6 +93,7 @@ See [Board::Pad](../reference/pad/) for reading the buttons from a program.
 These demos need a DMX fixture connected. See the [DMX module](../reference/dmx/) for wiring.
 
 ### dmx_demo
+{: .since-v2}
 
 A lighting desk that drives DMX channels through a bank of faders.
 Fixture definitions placed in `/data/dmx/fixtures` give the faders names.
@@ -111,6 +112,7 @@ Fixture definitions placed in `/data/dmx/fixtures` give the faders names.
 | <kbd>q</kbd> / <kbd>Esc</kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>C</kbd></kbd> | Blackout and quit |
 
 ### johakyu_demo
+{: .since-v2}
 
 A demo of [Johakyu](../johakyu/), which drives sound and light from one pattern.
 Five presets are provided, and switching between them lands at the start of the next cycle.

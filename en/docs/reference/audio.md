@@ -90,6 +90,7 @@ audio.beep(0, A::G4, 200)
 ```
 
 ### Assigning a Source to a Channel
+{: .since-v2}
 
 `audio.channel(0)` returns the channel object, which takes a source and plays it.
 
@@ -107,6 +108,7 @@ There are three kinds of source: waveforms, samples, and streams.
 See [Sources](#sources) for the details.
 
 ### Playing an Audio Sample
+{: .since-v2}
 
 The drum sounds live as WAV files in `/data/drums`.
 Read one, wrap it in a `PWMAudio::Sample`, and a channel plays it.
@@ -185,6 +187,7 @@ Mutes the channel. Its frequency, source, and other settings stay as they are,
 so unmuting picks up where it was. The change fades over a few milliseconds.
 
 ### Board::PWMAudio#channel(index)
+{: .since-v2}
 
 ```ruby
 ch = audio.channel(3)
@@ -198,6 +201,7 @@ The same number always returns the same object.
 {: .tip}
 
 ### Board::PWMAudio#load_sample(slot, data)
+{: .since-v2}
 
 ```ruby
 audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
@@ -209,6 +213,7 @@ A slot outside that range, or data that is neither format, raises `ArgumentError
 Do not reload a slot while the sound in it is still playing.
 
 ### Board::PWMAudio#sample_clock
+{: .since-v2}
 
 ```ruby
 now = audio.sample_clock
@@ -219,6 +224,7 @@ It counts up from the moment the audio started, by 50,000 per second,
 and is the time base for [scheduling sound](#scheduling-sound).
 
 ### Board::PWMAudio#tone_at(at, channel, frequency, waveform:, volume:)
+{: .since-v2}
 
 ```ruby
 audio.tone_at(audio.sample_clock + 25_000, 0, 440)   # start in 0.5 s
@@ -229,6 +235,7 @@ Schedules a waveform to start at playback position `at`.
 Returns `true` when the event was queued and `false` when the queue is full.
 
 ### Board::PWMAudio#play_at(at, channel, volume, slot)
+{: .since-v2}
 
 Schedules the source to play at playback position `at`.
 Passing `slot` plays a sound from the [bank](#the-sample-bank)
@@ -236,11 +243,13 @@ instead of the source assigned to the channel.
 Like `tone_at`, it reports whether the event was queued.
 
 ### Board::PWMAudio#stop_at(at, channel)
+{: .since-v2}
 
 Schedules the channel to stop at playback position `at`.
 Like `tone_at`, it reports whether the event was queued.
 
 ### Board::PWMAudio#cancel_scheduled(channel)
+{: .since-v2}
 
 Drops the events still pending on the channel.
 Call it before retriggering a note so a stale scheduled stop cannot cut it.
@@ -250,6 +259,7 @@ Call it before retriggering a note so a stale scheduled stop cannot cut it.
 Stops the audio output and releases the hardware.
 
 ## Using the Channel Object
+{: .since-v2}
 
 `Board::PWMAudio#channel(index)` returns a `PWMAudio::Channel`.
 Reach for it when a source is involved.
@@ -345,6 +355,7 @@ Drops the events still pending on this channel.
 Returns the channel number.
 
 ## Sources
+{: .since-v2}
 
 There are three kinds of source. Each one is assigned to a channel and played from there.
 
@@ -400,6 +411,7 @@ Sounds sharing a channel cut each other off, which is what you want for
 an open and a closed hihat.
 
 ## Scheduling Sound
+{: .since-v2}
 
 When the timing has to be exact, on the beat for instance, schedule against the
 playback position instead of waiting with `sleep`.
@@ -430,9 +442,9 @@ The queue holds 32 events, and a full queue returns `false`.
 
 | Constant | Value |
 |----------|-------|
-| `Board::PWMAudio::SAMPLE_RATE` | 50000 (samples per second) |
-| `Board::PWMAudio::CHANNELS` | 8 (mixer channels) |
-| `Board::PWMAudio::NUM_BANKS` | 16 (sample bank slots) |
+| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">2.0</span> | 50000 (samples per second) |
+| `Board::PWMAudio::CHANNELS` <span class="badge-v2">2.0</span> | 8 (mixer channels) |
+| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">2.0</span> | 16 (sample bank slots) |
 | `Board::PWMAudio::SINE` | Sine wave |
 | `Board::PWMAudio::SQUARE` | Square wave (default) |
 | `Board::PWMAudio::TRIANGLE` | Triangle wave |
@@ -442,6 +454,7 @@ Note frequencies from `C4` to `C6` are defined as constants (`C4`, `CS4`, `D4`, 
 `S` stands for sharp, so `CS4` is C#4.
 
 ## Synth
+{: .since-v2}
 
 `Synth` builds sound itself from Ruby code. What it returns is WAV data,
 which goes straight into a `PWMAudio::Sample`.

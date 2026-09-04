@@ -154,19 +154,19 @@ As with `rm`, system directories need `-f`.
 |---------|-------------|
 | [`edit`](../app/edit/) | Edit a file in the text editor |
 | [`run`](../files/#running-scripts) | Run a Ruby script |
-| [`zoom`](../settings/#zooming-the-screen) | Change the text size on screen |
+| [`zoom`](../settings/#zooming-the-screen) | Change the text size on screen <span class="badge-v2">2.0</span> |
 | [`picorabbit`](../picorabbit/) | Show slides |
-| [`johakyu`](../johakyu/) | Live code sound and light |
+| [`johakyu`](../johakyu/) | Live code sound and light <span class="badge-v2">2.0</span> |
 
 IRB itself provides a few commands.
 
 | Command | Description |
 |---------|-------------|
-| `jobs` | Show whether an app is suspended |
-| `fg` | Resume the suspended app |
+| `jobs` | Show whether an app is suspended <span class="badge-v2">2.0</span> |
+| `fg` | Resume the suspended app <span class="badge-v2">2.0</span> |
 | `exit` | Quit IRB and start it again |
 
 An app that supports it, such as `picorabbit`, stops and hands you back to IRB when you press
-<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> while it runs. Typing `fg` picks it up where it left off.
+<kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> while it runs. Typing `fg` picks it up where it left off. <span class="badge-v2">2.0</span>
 
 To try out the built-in demos, see [Demo Apps](../demos/).

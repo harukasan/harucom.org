@@ -6,6 +6,9 @@ lang: ja
 ref: docs
 ---
 
+<span class="badge-v2">2.0</span> が付いている項目は、Harucom OS 2.0 から使えるようになった機能です。
+いま動いているバージョンは起動したときに画面に表示されます。IRB では `HARUCOM_VERSION` で確認できます。
+
 ## 基本
 
 - [基本的な使い方](/docs/getting-started/)

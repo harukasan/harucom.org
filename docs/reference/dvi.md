@@ -123,7 +123,7 @@ DVI 出力を開始してからのフレーム数を返します。約60フレ�
 
 この定数は 640x480 のときの桁数・行数です。
 画面は 320x240 にも切り替えられるので、いま何桁あるかを調べるときは
-`DVI::Text.cols` と `DVI::Text.rows` を使います。
+`DVI::Text.cols` と `DVI::Text.rows` を使います。<span class="badge-v2">2.0</span>
 
 ```ruby
 DVI::Text.cols   #=> 106
@@ -131,6 +131,7 @@ DVI::Text.rows   #=> 37
 ```
 
 #### DVI::Text.set_resolution(width, height)
+{: .since-v2}
 
 ```ruby
 DVI::Text.set_resolution(320, 240)   # 53桁 x 18行（文字が2倍の大きさになる）

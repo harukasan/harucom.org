@@ -101,19 +101,20 @@ irb> loop do
 | <kbd>Backspace</kbd> | 文字を削除する |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | カーソルを移動する |
 | <kbd>Home</kbd> / <kbd>End</kbd> | 行頭に移動する / 行末に移動する |
-| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | 行頭に移動する / 行末に移動する |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | 行頭に移動する / 行末に移動する <span class="badge-v2">2.0</span> |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | ページスクロール |
 | <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | 画面をクリアする |
-| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | ファイルを読み込んで入力欄に貼り付ける |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | 画面の文字の大きさを切り替える |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | ファイルを読み込んで入力欄に貼り付ける <span class="badge-v2">2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | 画面の文字の大きさを切り替える <span class="badge-v2">2.0</span> |
 | <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | IRB を終了する（すぐに起動し直します） |
 
-画面の幅より長い行を入力すると、カーソルに合わせて横にスクロールします。
+画面の幅より長い行を入力すると、カーソルに合わせて横にスクロールします。 <span class="badge-v2">2.0</span>
 
 `/app` にあるコマンドの名前を入力すると、その部分の色が変わります。
 入力したものがコマンドとして実行されるかどうかが、実行する前にわかります。
 
 ### ファイルを読み込んで実行する
+{: .since-v2}
 
 <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> を押すとファイル名を聞かれます。
 入力すると、そのファイルの中身が入力欄に読み込まれます。

@@ -6,6 +6,9 @@ lang: en
 ref: docs
 ---
 
+Items marked <span class="badge-v2">2.0</span> are features that arrived in Harucom OS 2.0.
+The version you are running is shown on screen at boot, and `HARUCOM_VERSION` reports it from IRB.
+
 ## Basics
 
 - [Getting Started](/en/docs/getting-started/)

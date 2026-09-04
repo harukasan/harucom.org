@@ -89,6 +89,7 @@ audio.beep(0, A::G4, 200)
 ```
 
 ### チャンネルに音源を割り当てる
+{: .since-v2}
 
 `audio.channel(0)` でチャンネルオブジェクトを取り出すと、音源を割り当てて鳴らせます。
 
@@ -106,6 +107,7 @@ ch.stop
 くわしくは[音源](#音源)をご覧ください。
 
 ### オーディオサンプルを鳴らす
+{: .since-v2}
 
 ドラムの音は WAV ファイルとして `/data/drums` に入っています。
 読み込んで `PWMAudio::Sample` に渡すと、チャンネルで鳴らせます。
@@ -184,6 +186,7 @@ audio.mute(0, false)   # 元に戻す
 戻すと続きから聞こえます。切り替えは数ミリ秒かけて行われます。
 
 ### Board::PWMAudio#channel(index)
+{: .since-v2}
 
 ```ruby
 ch = audio.channel(3)
@@ -197,6 +200,7 @@ ch = audio.channel(3)
 {: .tip}
 
 ### Board::PWMAudio#load_sample(slot, data)
+{: .since-v2}
 
 ```ruby
 audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
@@ -208,6 +212,7 @@ audio.load_sample(0, File.open("/data/drums/hh.wav", "r") { |f| f.read })
 その音を鳴らしている最中のスロットには読み込み直さないでください。
 
 ### Board::PWMAudio#sample_clock
+{: .since-v2}
 
 ```ruby
 now = audio.sample_clock
@@ -218,6 +223,7 @@ now = audio.sample_clock
 [時間を指定して鳴らす](#時間を指定して鳴らす)ときの基準に使います。
 
 ### Board::PWMAudio#tone_at(at, channel, frequency, waveform:, volume:)
+{: .since-v2}
 
 ```ruby
 audio.tone_at(audio.sample_clock + 25_000, 0, 440)   # 0.5秒後に鳴らす
@@ -228,17 +234,20 @@ audio.tone_at(audio.sample_clock + 25_000, 0, 440)   # 0.5秒後に鳴らす
 予約できたら `true`、予約がいっぱいのときは `false` を返します。
 
 ### Board::PWMAudio#play_at(at, channel, volume, slot)
+{: .since-v2}
 
 再生位置 `at` になったときに音源を鳴らすよう予約します。
 `slot` を渡すと、チャンネルに割り当てた音源のかわりに[バンク](#サンプルバンク)の音を鳴らします。
 `tone_at` と同じく、予約できたかどうかを返します。
 
 ### Board::PWMAudio#stop_at(at, channel)
+{: .since-v2}
 
 再生位置 `at` になったときに音を止めるよう予約します。
 `tone_at` と同じく、予約できたかどうかを返します。
 
 ### Board::PWMAudio#cancel_scheduled(channel)
+{: .since-v2}
 
 そのチャンネルに残っている予約を取り消します。
 同じ音を鳴らし直すときは、古い停止予約に切られないよう先に呼びます。
@@ -248,6 +257,7 @@ audio.tone_at(audio.sample_clock + 25_000, 0, 440)   # 0.5秒後に鳴らす
 オーディオ出力を停止して後始末をします。
 
 ## チャンネルオブジェクトを使う
+{: .since-v2}
 
 `Board::PWMAudio#channel(index)` が返すのが `PWMAudio::Channel` です。
 音源を割り当てて鳴らすときはこちらを使います。
@@ -341,6 +351,7 @@ ch.mute = true
 チャンネル番号を返します。
 
 ## 音源
+{: .since-v2}
 
 音源は3種類あります。どれもチャンネルに割り当てて鳴らします。
 
@@ -396,6 +407,7 @@ ch.play(slot: 0)
 ハイハットのオープンとクローズのように、同時に鳴ってほしくない音に使います。
 
 ## 時間を指定して鳴らす
+{: .since-v2}
 
 拍に合わせて鳴らすときなど、正確なタイミングが必要な場面では、
 `sleep` で待つかわりに再生位置を指定して予約します。
@@ -426,9 +438,9 @@ audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 
 | 定数 | 値 |
 |------|-----|
-| `Board::PWMAudio::SAMPLE_RATE` | 50000（1秒あたりのサンプル数） |
-| `Board::PWMAudio::CHANNELS` | 8（チャンネル数） |
-| `Board::PWMAudio::NUM_BANKS` | 16（サンプルバンクのスロット数） |
+| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">2.0</span> | 50000（1秒あたりのサンプル数） |
+| `Board::PWMAudio::CHANNELS` <span class="badge-v2">2.0</span> | 8（チャンネル数） |
+| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">2.0</span> | 16（サンプルバンクのスロット数） |
 | `Board::PWMAudio::SINE` | サイン波 |
 | `Board::PWMAudio::SQUARE` | 矩形波（既定） |
 | `Board::PWMAudio::TRIANGLE` | 三角波 |
@@ -438,6 +450,7 @@ audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 `CS4` はド♯、`DS4` はレ♯のように、`S` はシャープを表します。
 
 ## Synth（音を作る）
+{: .since-v2}
 
 `Synth` は Ruby のコードから音そのものを作るライブラリです。
 作った音は WAV のデータとして返るので、`PWMAudio::Sample` にそのまま渡せます。

@@ -6,6 +6,9 @@ lang: ja
 ref: docs-johakyu
 ---
 
+> このページの機能は Harucom OS 2.0 から使えます。
+{: .note}
+
 Johakyu（序破急）は、音と照明をパターンで動かすライブコーディングの環境です。
 [TidalCycles](https://tidalcycles.org/) や [Strudel](https://strudel.cc/) と同じ考え方で、
 短いコードを書き換えながら演奏します。
