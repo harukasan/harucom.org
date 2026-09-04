@@ -56,15 +56,6 @@ Once assembly is complete, follow the [Getting Started](../getting-started/) gui
 
 ## Updating the Firmware
 
-You can update the Harucom firmware by mounting the board as a USB mass storage device and copying `harucom_os.uf2` onto it.
+You can update the Harucom firmware straight from your browser on the [Upgrade Harucom OS](/en/flash/) page. Use Chrome or Edge.
 
-1. Hold down the BOOTSEL button on the Harucom Board while you plug the USB-C cable into your computer. If the board is already connected, you can instead hold BOOTSEL and press the RESET button.
-
-2. The board will appear on your computer as a USB storage device named `RP2350`.
-
-3. Download `harucom_os.uf2` from the [GitHub releases page](https://github.com/harukasan/harucom-os/releases) and copy it to that USB storage device.
-
-4. Once the file is written, Harucom will automatically restart and boot into the new firmware.
-
-> Make sure to use `harucom_os.uf2`. Writing a different uf2 file may prevent the board from booting correctly.
-{: .tip}
+If your browser is not supported, download the UF2 file and write it yourself. Each file is written a different way, so see "Writing without a browser" on the same page.

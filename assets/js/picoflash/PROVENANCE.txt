@@ -1,0 +1,19 @@
+# picoflash (vendored)
+
+PICOBOOT protocol implementation for RP2040 / RP2350, used by `/flash/` to write
+Harucom OS over WebUSB.
+
+- Upstream: https://github.com/piersfinlayson/picoflash (the `pkg/` directory)
+- Version: 0.1.3
+- Commit: 6783554 (2026-08-25)
+- License: MIT (see `LICENSE`)
+
+The files are used as-is. Do not edit them locally: to update, copy `pkg/*.js`
+from a newer upstream release and record the version and commit above.
+
+## Why `index.js` is not here
+
+Upstream's `index.js` re-exports `FLASH_END_RP2040` and `FLASH_END_RP2350`, which
+`constants.js` no longer defines. Importing it fails at module resolution time, so
+`flasher.js` imports `picoboot.js` and `target.js` directly instead. Check whether
+this is still the case when updating.

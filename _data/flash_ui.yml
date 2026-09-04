@@ -1,0 +1,176 @@
+# Strings for the /flash/ widget. They are handed to assets/js/flash.js as JSON,
+# so keep them plain text: no HTML tags, and nothing that could close a script
+# tag. Markup belongs in _includes/flash-tool.html instead.
+
+ja:
+  step_download: ダウンロード
+  step_erase: 消去
+  step_write: 書き込み
+  step_verify: 確認
+  start_button: 書き込む
+  version_label: 書き込むバージョン
+  picker_hint: >-
+    ボタンを押すと、つながっている USB 機器の一覧が出ます。Harucom 以外のボードが並ぶことがあるので、
+    RP2350 Boot を選んでください。
+  do_not_unplug: 書き込みが終わるまで、USB ケーブルを抜かないでください。
+  done_title: 書き込みが終わりました
+  done_body: >-
+    Harucom が自動的に再起動します。画面が表示されたら、新しいファームウェアで動いています。
+    Harucom に保存したファイルはそのまま残っています。
+  again: もう一度書き込む
+  retry: もう一度試す
+  tech_details: 技術的な詳細
+  safe_note: >-
+    途中で失敗しても Harucom が壊れることはありません。BOOTSEL ボタンを押しながらつなぎ直せば、
+    いつでもやり直せます。
+  local_summary: 手元の UF2 ファイルを書き込む
+  local_note: >-
+    古いバージョンに戻したいときや、自分でビルドしたファームウェアを書き込みたいときに使います。
+  local_missing: >-
+    このページにはファームウェアが同梱されていません。下から UF2 ファイルを選んで書き込んでください。
+
+  unsupported_title: このブラウザからは書き込めません
+  unsupported_body: >-
+    書き込みには WebUSB に対応したブラウザが必要です。Chrome または Edge でこのページを開いてください。
+    Firefox と Safari、iPhone・iPad からは書き込めません。その場合は、下の「ブラウザを使わずに書き込む」をご覧ください。
+  insecure_title: 安全な接続でひらいてください
+  insecure_body: >-
+    書き込みは https:// のページからのみ行えます。https://harucom.org/flash/ をひらき直してください。
+  phases:
+    download: ファームウェアをダウンロードしています
+    erase: 古いファームウェアを消しています
+    write: 新しいファームウェアを書き込んでいます
+    verify: 書き込んだ内容を確認しています
+  error_titles:
+    cancelled: Harucom が見つかりませんでした
+    permission: Harucom をひらけませんでした
+    busy: Harucom がほかのソフトに使われています
+    disconnected: Harucom との接続が切れました
+    timeout: Harucom から応答がありません
+    verify-failed: 書き込んだ内容を確認できませんでした
+    download: ファームウェアをダウンロードできませんでした
+    invalid: ファームウェアのファイルが読めません
+    family: Harucom 用のファームウェアではありません
+    out-of-range: このファイルは書き込めません
+    unaligned-segment: ファームウェアのファイルが読めません
+    usb: 書き込み中にエラーが起きました
+  errors:
+    cancelled: >-
+      BOOTSEL ボタンを押したまま USB-C ケーブルをつなぎ直して、もう一度お試しください。
+      すでにつないでいる場合は、BOOTSEL ボタンを押しながら RESET ボタンを押してください。
+    permission: >-
+      Harucom を USB デバイスとしてひらけませんでした。ケーブルをつなぎ直して、もう一度お試しください。
+    permission_linux: >-
+      Linux では USB デバイスへのアクセス許可の設定が必要です。/etc/udev/rules.d/99-picoboot.rules
+      に SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", MODE="0666", TAG+="uaccess" と書いて保存し、
+      sudo udevadm control --reload-rules && sudo udevadm trigger を実行してから、
+      Harucom をつなぎ直してください。snap 版の Chromium をお使いの場合は
+      sudo snap connect chromium:raw-usb も必要です。
+    busy: >-
+      picotool や Arduino IDE など、Harucom を使っているソフトを終了してから、もう一度お試しください。
+    disconnected: >-
+      USB ケーブルがはずれたようです。ケーブルを確認して、BOOTSEL ボタンを押しながらつなぎ直し、
+      最初からやり直してください。
+    timeout: >-
+      USB-C ケーブルを抜いて、BOOTSEL ボタンを押しながらつなぎ直してから、もう一度お試しください。
+    verify-failed: >-
+      書き込んだ内容が期待どおりではありませんでした。もう一度書き込んでみてください。
+    download: >-
+      ネットワークの状態を確認して、ページを再読み込みしてからもう一度お試しください。
+    invalid: >-
+      ファイルが壊れているか、UF2 形式ではありません。別のファイルを選んでください。
+    family: >-
+      このファイルは Harucom Board（RP2350）用ではありません。Harucom OS の UF2 ファイルを選んでください。
+    out-of-range: >-
+      このファイルは Harucom のファイル領域に書き込もうとしています。保存したファイルを守るため中止しました。
+    unaligned-segment: >-
+      ファイルが壊れているか、UF2 形式ではありません。別のファイルを選んでください。
+    usb: >-
+      もう一度お試しください。何度も失敗する場合は、USB ケーブルを替えるか、別の USB ポートをお試しください。
+
+en:
+  step_download: Download
+  step_erase: Erase
+  step_write: Write
+  step_verify: Check
+  start_button: Write
+  version_label: Version to write
+  picker_hint: >-
+    The button opens a list of connected USB devices. Other boards may show up there,
+    so pick the one named RP2350 Boot.
+  do_not_unplug: Do not unplug the USB cable until writing has finished.
+  done_title: Writing finished
+  done_body: >-
+    Harucom restarts on its own. Once the screen comes up it is running the new firmware.
+    The files you saved on Harucom are still there.
+  again: Write again
+  retry: Try again
+  tech_details: Technical details
+  safe_note: >-
+    A failure part way through cannot break Harucom. Hold BOOTSEL while reconnecting the board
+    and you can always start over.
+  local_summary: Write a UF2 file from this computer
+  local_note: >-
+    Use this to go back to an older version, or to write firmware you built yourself.
+  local_missing: >-
+    This page has no firmware bundled with it. Choose a UF2 file below to write it instead.
+
+  unsupported_title: This browser cannot write to Harucom
+  unsupported_body: >-
+    Writing firmware needs a browser with WebUSB. Please open this page in Chrome or Edge.
+    Firefox, Safari, iPhone and iPad cannot write to the board. See "Writing without a browser" below instead.
+  insecure_title: Open this page over a secure connection
+  insecure_body: >-
+    Firmware can only be written from an https:// page. Please open https://harucom.org/en/flash/ again.
+  phases:
+    download: Downloading the firmware
+    erase: Erasing the old firmware
+    write: Writing the new firmware
+    verify: Checking what was written
+  error_titles:
+    cancelled: Harucom was not found
+    permission: Harucom could not be opened
+    busy: Another program is using Harucom
+    disconnected: Harucom was disconnected
+    timeout: Harucom is not responding
+    verify-failed: The written firmware could not be checked
+    download: The firmware could not be downloaded
+    invalid: The firmware file could not be read
+    family: This firmware is not for Harucom
+    out-of-range: This file cannot be written
+    unaligned-segment: The firmware file could not be read
+    usb: Something went wrong while writing
+  errors:
+    cancelled: >-
+      Hold the BOOTSEL button down, plug the USB-C cable back in, and try again.
+      If the board is already plugged in, hold BOOTSEL and press RESET.
+    permission: >-
+      Harucom could not be opened as a USB device. Reconnect the cable and try again.
+    permission_linux: >-
+      On Linux you need a udev rule to allow access. Put
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", MODE="0666", TAG+="uaccess"
+      in /etc/udev/rules.d/99-picoboot.rules, run
+      sudo udevadm control --reload-rules && sudo udevadm trigger,
+      then reconnect the board. With the snap build of Chromium you also need
+      sudo snap connect chromium:raw-usb.
+    busy: >-
+      Quit any program that is using the board, such as picotool or the Arduino IDE, and try again.
+    disconnected: >-
+      The USB cable seems to have come loose. Check the cable, hold BOOTSEL while plugging it back in,
+      and start again from the beginning.
+    timeout: >-
+      Unplug the USB-C cable, hold BOOTSEL while plugging it back in, and try again.
+    verify-failed: >-
+      What was read back does not match what was written. Please write the firmware again.
+    download: >-
+      Check your network connection, reload the page and try again.
+    invalid: >-
+      The file is damaged or is not a UF2 image. Please choose another file.
+    family: >-
+      This file is not for Harucom Board (RP2350). Please choose a Harucom OS UF2 file.
+    out-of-range: >-
+      This file would write into the area where your own files are kept, so it was rejected.
+    unaligned-segment: >-
+      The file is damaged or is not a UF2 image. Please choose another file.
+    usb: >-
+      Please try again. If it keeps failing, try a different USB cable or a different USB port.

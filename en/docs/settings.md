@@ -45,7 +45,7 @@ irb> ENV["KEYBOARD_LAYOUT"]
 
 You can add settings of your own. Whatever you write ends up in `ENV`.
 
-> A firmware update rewrites the system files, `/etc/env.yml` included.
+> A [firmware update](/en/flash/) rewrites the system files, `/etc/env.yml` included.
 > Set your preferences again after updating.
 {: .tip}
 

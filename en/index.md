@@ -22,6 +22,7 @@ By removing the complexities of modern computing, the goal is to let you touch t
 * [Getting Started](/en/docs/getting-started/)
 * [Programming Reference](/en/docs/reference/)
 * [PicoRabbit](/en/docs/picorabbit/)
+* [Upgrade Harucom OS](/en/flash/)
 
 ## Get a Harucom Board
 

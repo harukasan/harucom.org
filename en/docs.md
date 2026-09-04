@@ -8,6 +8,7 @@ ref: docs
 
 Items carrying the <span class="badge-v2">New in 2.0</span> badge arrived in Harucom OS 2.0.
 The version you are running is shown on screen at boot, and `HARUCOM_VERSION` reports it from IRB.
+If you are on an older version, [upgrading Harucom OS](/en/flash/) gets you the newest features.
 
 ## Basics
 
@@ -15,6 +16,7 @@ The version you are running is shown on screen at boot, and `HARUCOM_VERSION` re
 - [Harucom Board](/en/docs/harucom-board/)
 - [Harucom Bundle with acrylic panels](/en/docs/harucom-bundle/)
 - [Restart](/en/docs/restart/)
+- [Upgrade Harucom OS](/en/flash/)
 - [File I/O](/en/docs/files/)
 - [Commands](/en/docs/commands/)
 - [Japanese Input](/en/docs/japanese-input/)

@@ -1,0 +1,247 @@
+// ============================================================
+// Firmware flasher (/flash/)
+// ============================================================
+// The widget shows one thing at a time. Which one is decided by the
+// data-state attribute that assets/js/flash.js sets on .flash, and each
+// child declares the states it belongs to in data-when.
+
+.flash {
+  --flash-accent: #1F75BC;
+  --flash-accent-text: #ffffff;
+  --flash-done: #1a7f37;
+  --flash-danger: #cf222e;
+  --flash-track: var(--color-bg-tertiary);
+
+  margin: 32px 0;
+}
+
+html[data-theme="dark"] .flash {
+  --flash-accent: #72B5F5;
+  --flash-accent-text: #10233a;
+  --flash-done: #3fb950;
+  --flash-danger: #ff7b72;
+}
+
+.flash [data-when] {
+  display: none;
+}
+
+// The state selector below outranks anything a block sets for itself, so a
+// block that is not laid out as a plain box says so through --flash-display
+// rather than by setting display directly.
+@each $state in unsupported, insecure, idle, selecting, downloading, flashing, done, error, cancelled {
+  .flash[data-state="#{$state}"] [data-when~="#{$state}"] {
+    display: var(--flash-display, block);
+  }
+}
+
+// Buttons
+
+.flash-button {
+  display: inline-block;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--flash-accent);
+  color: var(--flash-accent-text);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--flash-accent);
+    outline-offset: 2px;
+  }
+}
+
+.flash-button-secondary {
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+}
+
+// Steps
+
+.flash-steps {
+  --flash-display: flex;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  counter-reset: flash-step;
+}
+
+.flash-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+  counter-increment: flash-step;
+
+  &::before {
+    content: counter(flash-step);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 50%;
+    background-color: var(--color-bg-tertiary);
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+
+  &[data-step-state="active"] {
+    border-color: var(--flash-accent);
+    color: var(--color-text);
+    font-weight: bold;
+
+    &::before {
+      background-color: var(--flash-accent);
+      color: var(--flash-accent-text);
+    }
+  }
+
+  &[data-step-state="done"] {
+    color: var(--color-text-secondary);
+
+    &::before {
+      content: "\2713";
+      background-color: var(--flash-done);
+      color: #ffffff;
+    }
+  }
+}
+
+// Action
+
+.flash-meta,
+.flash-hint {
+  margin: 12px 0 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+}
+
+// Progress
+
+.flash-progress-phase {
+  margin: 0 0 8px;
+  font-weight: bold;
+}
+
+.flash-bar {
+  height: 12px;
+  border-radius: 6px;
+  background-color: var(--flash-track);
+  overflow: hidden;
+}
+
+.flash-bar-fill {
+  width: 0;
+  height: 100%;
+  background-color: var(--flash-accent);
+  transition: width 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-bar-fill {
+    transition: none;
+  }
+}
+
+.flash-progress-detail {
+  margin: 8px 0 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.flash-warning {
+  margin: 12px 0 0;
+  color: var(--flash-danger);
+  font-weight: bold;
+}
+
+// Notices and results: same shape as the .tip / .warning callouts.
+
+.flash-notice,
+.flash-result {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-text-tertiary);
+  background-color: var(--color-bg-secondary);
+
+  > p:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.flash-notice-title,
+.flash-result-title {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.flash-result-done {
+  border-left-color: var(--flash-done);
+}
+
+.flash[data-state="error"] .flash-result-error {
+  border-left-color: var(--flash-danger);
+}
+
+.flash-result-body,
+.flash-result-note {
+  white-space: pre-line;
+}
+
+.flash-result-note {
+  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+}
+
+.flash-result .flash-button {
+  margin-top: 12px;
+}
+
+.flash-tech {
+  margin-top: 12px;
+  font-size: 0.85rem;
+
+  pre {
+    margin: 8px 0 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+// Local file fallback
+
+.flash-local {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+
+.flash-local-note {
+  margin: 12px 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.9rem;
+}

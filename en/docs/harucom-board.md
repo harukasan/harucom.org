@@ -60,7 +60,7 @@ You can connect a keyboard directly to the USB-A port.
 
 ### USB-C (Device Port)
 
-Used for power supply and data communication. Connected to the RP2350's native USB PHY, so it is also used for firmware updates.
+Used for power supply and data communication. Connected to the RP2350's native USB PHY, so it is also used for [firmware updates](/en/flash/).
 
 ## Audio
 
