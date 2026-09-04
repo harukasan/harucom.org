@@ -10,7 +10,7 @@ Harucom で使える Ruby API のリファレンスです。
 
 ## Harucom API
 
-Harucom は画面描画やキーボード入力、音や照明を扱うためのライブラリを備えています。
+Harucom は画面の描画やキーボード入力、日本語入力を扱うためのライブラリを備えています。
 
 ### [DVI モジュール](dvi/)
 
@@ -64,6 +64,11 @@ end
 text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
+
+## Board（基板の周辺機能）
+
+Harucom Board に載っている周辺機能は `Board` モジュールにまとまっています。
+使うときは `require` で読み込みます。
 
 ### [Board::PWMAudio（オーディオ）](audio/)
 

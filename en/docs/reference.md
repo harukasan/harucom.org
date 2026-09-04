@@ -10,7 +10,7 @@ Reference for the Ruby API available on Harucom.
 
 ## Harucom API
 
-Harucom comes with libraries for screen drawing, keyboard input, sound, and lighting.
+Harucom comes with libraries for screen drawing, keyboard input, and Japanese input.
 
 ### [DVI Module](dvi/)
 
@@ -62,6 +62,11 @@ Pass keys through the global variable `$ime` and take the committed text back ou
 text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
+
+## Board (Board Peripherals)
+
+The peripherals on the Harucom Board live under the `Board` module.
+Load the one you need with `require`.
 
 ### [Board::PWMAudio (Audio)](audio/)
 
