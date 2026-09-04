@@ -26,6 +26,17 @@ Harucom で使える Ruby API のリファレンスです。
   - [システム](#システム)
   - [組み込みクラス](#組み込みクラス)
   - [Kernel](#kernel)
+    - [puts](#putsargs)
+    - [print](#printargs)
+    - [p](#pargs)
+    - [gets](#gets)
+    - [getc](#getc)
+    - [sleep](#sleepsec)
+    - [sleep_ms](#sleep_msms)
+    - [usleep](#usleepusec)
+    - [require](#requirename)
+    - [load](#loadpath)
+    - [exit](#exitstatus--0)
 
 ## Harucom API
 
@@ -204,30 +215,84 @@ Dir.mkdir("/mydir")
 | [Regexp](https://picoruby.org/Regexp.html) | 正規表現 |
 | [Data](https://picoruby.org/Data.html) | 値だけを持つクラスを作る |
 
-(PicoRuby) が付いているものは、PicoRuby が足したメソッドがそちらに載っています。
-
 ### Kernel
 
 クラスを書かずにそのまま呼べるメソッドです。
 
-| メソッド | 説明 |
-|----------|------|
-| `puts` / `print` / `p` | `$stdout` に書き出します。Harucom では画面に表示されます |
-| `gets` / `getc` | `$stdin` から1行 / 1文字読みます |
-| `sleep(秒)` / `sleep_ms(ミリ秒)` / `usleep(マイクロ秒)` | 指定した時間だけ待ちます |
-| `require` | ライブラリを読み込みます |
-| `exit` | プログラムを終わります |
+#### puts(*args)
 
 ```ruby
-require "p5"   # $LOAD_PATH（デフォルト: ["/lib"]）から検索
+puts "hello"
+```
+
+`$stdout` に書き出して、最後に改行します。Harucom では画面に表示されます。
+
+#### print(*args)
+
+改行を付けずに `$stdout` に書き出します。
+
+#### p(*args)
+
+それぞれの引数を `inspect` して、1行ずつ書き出します。
+引数が1つのときはその値を、複数のときは配列を返すので、式の途中に挟んで中身を覗けます。
+
+#### gets
+
+`$stdin` から1行読んで返します。読むものがなければ `nil` を返します。
+
+#### getc
+
+`$stdin` から1文字読んで返します。読むものがなければ `nil` を返します。
+
+#### sleep(sec)
+
+```ruby
+sleep 1      # 1秒待つ
+sleep 0.5    # 0.5秒待つ
+```
+
+指定した秒数だけ待ちます。小数も渡せます。
+待っているあいだはほかのタスクが動くので、音の再生などは止まりません。
+
+引数を省略すると、そのタスクは起こされるまで止まったままになります。
+負の数を渡すと `ArgumentError` になります。
+
+#### sleep_ms(ms)
+
+```ruby
 sleep_ms 100
 ```
 
-`sleep` の仲間はタスクに対応していて、待っているあいだはほかのタスクが動きます。
+指定したミリ秒だけ待ちます。`sleep` と同じく、待っているあいだはほかのタスクが動きます。
+
+#### usleep(usec)
+
+指定したマイクロ秒だけ待ちます。
+
+#### require(name)
+
+```ruby
+require "p5"
+```
+
+ライブラリを読み込みます。`$LOAD_PATH`（既定は `["/lib"]`）から探すので、
+`/lib` に置いたスクリプトは名前だけで読み込めます。
+すでに読み込んでいるときは何もせずに `false` を返します。
+
+#### load(path)
+
+`require` と違って、読み込み済みでももう一度読み込みます。
+書きかえたライブラリを試すときに使えます。
+
+#### exit(status = 0)
+
+プログラムを終了します。`SystemExit` を投げるので、アプリの中で呼ぶと IRB に戻ります。
+
+---
 
 乱数の `rand` はありません。かわりに
 [RNG](https://picoruby.org/RNG.html) の `RNG.random_int` を使ってください。
 
-この表のメソッドは PicoRuby と mruby のどちらのリファレンスにも載っていません。
+ここに挙げたメソッドは PicoRuby と mruby のどちらのリファレンスにも載っていません。
 mruby から受け継いだ `tap` や `then` は
 [mruby のリファレンス](https://mruby.org/docs/api/Kernel.html)にあります。

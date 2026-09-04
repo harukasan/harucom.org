@@ -26,6 +26,17 @@ Reference for the Ruby API available on Harucom.
   - [System](#system)
   - [Built-in Classes](#built-in-classes)
   - [Kernel](#kernel)
+    - [puts](#putsargs)
+    - [print](#printargs)
+    - [p](#pargs)
+    - [gets](#gets)
+    - [getc](#getc)
+    - [sleep](#sleepsec)
+    - [sleep_ms](#sleep_msms)
+    - [usleep](#usleepusec)
+    - [require](#requirename)
+    - [load](#loadpath)
+    - [exit](#exitstatus--0)
 
 ## Harucom API
 
@@ -205,29 +216,83 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 | [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
 | [Data](https://picoruby.org/Data.html) | Building classes that hold values |
 
-A trailing (PicoRuby) link is where the methods PicoRuby adds to that class are documented.
-
 ### Kernel
 
 Methods you can call without naming a class.
 
-| Method | Description |
-|--------|-------------|
-| `puts` / `print` / `p` | Write to `$stdout`, which on Harucom is the screen |
-| `gets` / `getc` | Read a line or a character from `$stdin` |
-| `sleep(sec)` / `sleep_ms(ms)` / `usleep(us)` | Wait for the given time |
-| `require` | Load a library |
-| `exit` | End the program |
+#### puts(*args)
 
 ```ruby
-require "p5"   # Searches $LOAD_PATH (default: ["/lib"])
+puts "hello"
+```
+
+Writes to `$stdout` and ends with a newline. On Harucom that is the screen.
+
+#### print(*args)
+
+Writes to `$stdout` without the newline.
+
+#### p(*args)
+
+Writes `inspect` of each argument, one per line. It returns the argument when given one
+and the array when given several, so it can sit in the middle of an expression.
+
+#### gets
+
+Reads a line from `$stdin`, or returns `nil` when there is nothing to read.
+
+#### getc
+
+Reads a character from `$stdin`, or returns `nil` when there is nothing to read.
+
+#### sleep(sec)
+
+```ruby
+sleep 1      # one second
+sleep 0.5    # half a second
+```
+
+Waits the given number of seconds, fractions included.
+Other tasks keep running while it waits, so playback does not stop.
+
+Called with no argument, the task stays stopped until something wakes it.
+A negative number raises `ArgumentError`.
+
+#### sleep_ms(ms)
+
+```ruby
 sleep_ms 100
 ```
 
-The `sleep` family is task-aware: other tasks keep running while one waits.
+Waits the given number of milliseconds. Like `sleep`, other tasks keep running.
+
+#### usleep(usec)
+
+Waits the given number of microseconds.
+
+#### require(name)
+
+```ruby
+require "p5"
+```
+
+Loads a library, searching `$LOAD_PATH` (`["/lib"]` by default), so a script in `/lib` can
+be loaded by name alone. It returns `false` and does nothing when the library is already
+loaded.
+
+#### load(path)
+
+Unlike `require`, loads the file again even if it is already loaded. Useful when trying out
+edits to a library.
+
+#### exit(status = 0)
+
+Ends the program. It raises `SystemExit`, so calling it inside an app returns to IRB.
+
+---
 
 There is no `rand`. Use `RNG.random_int` from [RNG](https://picoruby.org/RNG.html) instead.
 
-None of the methods in this table appear in either reference. The ones inherited from
-mruby — `tap`, `then` and the like — are in the
+None of the methods above appear in either reference. The ones inherited from mruby —
+`tap`, `then` and the like — are in the
 [mruby reference](https://mruby.org/docs/api/Kernel.html).
