@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: 設定と画面のズーム
+title: 設定
 permalink: /docs/settings/
 lang: ja
 ref: docs-settings

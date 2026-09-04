@@ -298,7 +298,7 @@ USB HID modifier key bitmasks.
 
 Harucom supports the US and the JIS layout.
 Which one is used comes from `KEYBOARD_LAYOUT` in `/etc/env.yml`.
-See [Settings and Screen Zoom](../../settings/) for details.
+See [Settings](../../settings/) for details.
 
 | Value | Layout |
 |-------|--------|

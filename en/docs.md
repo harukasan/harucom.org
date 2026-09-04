@@ -18,7 +18,7 @@ The version you are running is shown on screen at boot, and `HARUCOM_VERSION` re
 - [File I/O](/en/docs/files/)
 - [Commands](/en/docs/commands/)
 - [Japanese Input](/en/docs/japanese-input/)
-- [Settings and Screen Zoom](/en/docs/settings/)
+- [Settings](/en/docs/settings/)
 
 ## Reference
 

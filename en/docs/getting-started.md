@@ -187,6 +187,6 @@ Open the editor again to check if the content is correct.
 * [Commands](../commands/)
 * [Text Editor](../app/edit/)
 * [Japanese Input](../japanese-input/)
-* [Settings and Screen Zoom](../settings/)
+* [Settings](../settings/)
 * [Demo Apps](../demos/)
 * [Programming Reference](../reference/)

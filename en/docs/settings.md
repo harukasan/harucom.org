@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: Settings and Screen Zoom
+title: Settings
 permalink: /en/docs/settings/
 lang: en
 ref: docs-settings

@@ -18,7 +18,7 @@ ref: docs
 - [ファイルの入出力](/docs/files/)
 - [コマンド](/docs/commands/)
 - [日本語を入力する](/docs/japanese-input/)
-- [設定と画面のズーム](/docs/settings/)
+- [設定](/docs/settings/)
 
 ## リファレンス
 

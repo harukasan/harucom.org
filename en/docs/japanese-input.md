@@ -134,5 +134,5 @@ plain characters too.
 ## Related Pages
 
 - [InputMethod (Japanese Input)](../reference/input-method/) — using Japanese input in your own program
-- [Settings and Screen Zoom](../settings/) — changing the keyboard layout
+- [Settings](../settings/) — changing the keyboard layout
 - [Text Editor](../app/edit/) — Japanese can be typed in the editor too
