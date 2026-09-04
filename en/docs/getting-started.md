@@ -101,14 +101,14 @@ irb> loop do
 | <kbd>Backspace</kbd> | Delete a character |
 | <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>←</kbd> / <kbd>↓</kbd> | Move the cursor |
 | <kbd>Home</kbd> / <kbd>End</kbd> | Jump to beginning / end of line |
-| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | Jump to beginning / end of line <span class="badge-v2">2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>A</kbd></kbd> / <kbd><kbd>Ctrl</kbd>-<kbd>E</kbd></kbd> | Jump to beginning / end of line <span class="badge-v2">New in 2.0</span> |
 | <kbd>PageUp</kbd> / <kbd>PageDown</kbd> | Page scroll |
 | <kbd><kbd>Ctrl</kbd>-<kbd>L</kbd></kbd> | Clear the screen |
-| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | Load a file into the input <span class="badge-v2">2.0</span> |
-| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | Switch the text size on screen <span class="badge-v2">2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>O</kbd></kbd> | Load a file into the input <span class="badge-v2">New in 2.0</span> |
+| <kbd><kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>=</kbd></kbd> | Switch the text size on screen <span class="badge-v2">New in 2.0</span> |
 | <kbd><kbd>Ctrl</kbd>-<kbd>D</kbd></kbd> | Quit IRB (it starts again right away) |
 
-A line longer than the screen scrolls sideways as the cursor moves. <span class="badge-v2">2.0</span>
+A line longer than the screen scrolls sideways as the cursor moves. <span class="badge-v2">New in 2.0</span>
 
 Typing the name of a command in `/app` colors that part of the line,
 so you can tell it will run as a command before pressing Enter.

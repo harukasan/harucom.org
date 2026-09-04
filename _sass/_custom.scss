@@ -896,7 +896,9 @@ html[data-theme="dark"] ::selection {
   vertical-align: middle;
 }
 
-// Inline form, written into the page itself: table cells and sentences.
+// Inline form, written into the page itself: table cells and sentences. The
+// label text is spelled out there — "2.0 から" in Japanese pages, "New in 2.0"
+// in English ones — and must match the heading form below.
 .badge-v2 {
   @include version-badge;
   margin-left: 0.25em;

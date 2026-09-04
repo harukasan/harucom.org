@@ -122,7 +122,7 @@ Each cell has a character code and an attribute (foreground and background color
 | `DVI::Text::ROWS` | 37 (rows) |
 
 These constants describe the grid at 640x480. The screen can also run at 320x240,
-so read `DVI::Text.cols` and `DVI::Text.rows` for the current grid. <span class="badge-v2">2.0</span>
+so read `DVI::Text.cols` and `DVI::Text.rows` for the current grid. <span class="badge-v2">New in 2.0</span>
 
 ```ruby
 DVI::Text.cols   #=> 106

@@ -32,7 +32,7 @@ CONSOLE_ZOOM: 1
 | 設定 | 値 | 説明 |
 |------|-----|------|
 | `KEYBOARD_LAYOUT` | `us` / `jis` | キーボードの配列 |
-| `CONSOLE_ZOOM` <span class="badge-v2">2.0</span> | `1` / `2` | 起動したときの文字の大きさ |
+| `CONSOLE_ZOOM` <span class="badge-v2">2.0 から</span> | `1` / `2` | 起動したときの文字の大きさ |
 
 保存したら <kbd><kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>Delete</kbd></kbd> で[再起動](../restart/)すると設定が反映されます。
 

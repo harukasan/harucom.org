@@ -32,7 +32,7 @@ CONSOLE_ZOOM: 1
 | Setting | Values | Description |
 |---------|--------|-------------|
 | `KEYBOARD_LAYOUT` | `us` / `jis` | Keyboard layout |
-| `CONSOLE_ZOOM` <span class="badge-v2">2.0</span> | `1` / `2` | Text size at boot |
+| `CONSOLE_ZOOM` <span class="badge-v2">New in 2.0</span> | `1` / `2` | Text size at boot |
 
 Save the file and [restart](../restart/) with <kbd><kbd>Ctrl</kbd>-<kbd>Alt</kbd>-<kbd>Delete</kbd></kbd> to apply the settings.
 

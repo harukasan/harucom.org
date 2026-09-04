@@ -438,9 +438,9 @@ audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 
 | 定数 | 値 |
 |------|-----|
-| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">2.0</span> | 50000（1秒あたりのサンプル数） |
-| `Board::PWMAudio::CHANNELS` <span class="badge-v2">2.0</span> | 8（チャンネル数） |
-| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">2.0</span> | 16（サンプルバンクのスロット数） |
+| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">2.0 から</span> | 50000（1秒あたりのサンプル数） |
+| `Board::PWMAudio::CHANNELS` <span class="badge-v2">2.0 から</span> | 8（チャンネル数） |
+| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">2.0 から</span> | 16（サンプルバンクのスロット数） |
 | `Board::PWMAudio::SINE` | サイン波 |
 | `Board::PWMAudio::SQUARE` | 矩形波（既定） |
 | `Board::PWMAudio::TRIANGLE` | 三角波 |

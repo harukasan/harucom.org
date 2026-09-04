@@ -162,8 +162,8 @@ These are usable directly from a Ruby program.
 |---------|-------|
 | GPIO | [GPIO](https://picoruby.org/GPIO.html) |
 | ADC | ADC |
-| UART | UART <span class="badge-v2">2.0</span> |
-| PWM | PWM <span class="badge-v2">2.0</span> |
+| UART | UART <span class="badge-v2">New in 2.0</span> |
+| PWM | PWM <span class="badge-v2">New in 2.0</span> |
 
 I2C and SPI are not available from Ruby yet. They need an implementation in the firmware, in C.
 

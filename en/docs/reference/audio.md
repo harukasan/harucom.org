@@ -442,9 +442,9 @@ The queue holds 32 events, and a full queue returns `false`.
 
 | Constant | Value |
 |----------|-------|
-| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">2.0</span> | 50000 (samples per second) |
-| `Board::PWMAudio::CHANNELS` <span class="badge-v2">2.0</span> | 8 (mixer channels) |
-| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">2.0</span> | 16 (sample bank slots) |
+| `Board::PWMAudio::SAMPLE_RATE` <span class="badge-v2">New in 2.0</span> | 50000 (samples per second) |
+| `Board::PWMAudio::CHANNELS` <span class="badge-v2">New in 2.0</span> | 8 (mixer channels) |
+| `Board::PWMAudio::NUM_BANKS` <span class="badge-v2">New in 2.0</span> | 16 (sample bank slots) |
 | `Board::PWMAudio::SINE` | Sine wave |
 | `Board::PWMAudio::SQUARE` | Square wave (default) |
 | `Board::PWMAudio::TRIANGLE` | Triangle wave |

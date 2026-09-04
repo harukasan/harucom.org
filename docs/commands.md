@@ -155,19 +155,19 @@ irb> rmdir data
 |----------|------|
 | [`edit`](../app/edit/) | テキストエディタでファイルを編集する |
 | [`run`](../files/#スクリプトを実行する) | Ruby スクリプトを実行する |
-| [`zoom`](../settings/#画面をズームする) | 画面の文字の大きさを変える <span class="badge-v2">2.0</span> |
+| [`zoom`](../settings/#画面をズームする) | 画面の文字の大きさを変える <span class="badge-v2">2.0 から</span> |
 | [`picorabbit`](../picorabbit/) | スライドを表示する |
-| [`johakyu`](../johakyu/) | 音と照明のライブコーディングをする <span class="badge-v2">2.0</span> |
+| [`johakyu`](../johakyu/) | 音と照明のライブコーディングをする <span class="badge-v2">2.0 から</span> |
 
 IRB そのものにも次のコマンドがあります。
 
 | コマンド | 説明 |
 |----------|------|
-| `jobs` | 中断しているアプリがあるか確認する <span class="badge-v2">2.0</span> |
-| `fg` | 中断しているアプリを再開する <span class="badge-v2">2.0</span> |
+| `jobs` | 中断しているアプリがあるか確認する <span class="badge-v2">2.0 から</span> |
+| `fg` | 中断しているアプリを再開する <span class="badge-v2">2.0 から</span> |
 | `exit` | IRB を終了して起動し直す |
 
 `picorabbit` のように中断に対応しているアプリは、実行中に <kbd><kbd>Ctrl</kbd>-<kbd>Z</kbd></kbd> を押すと
-止めたまま IRB に戻れます。`fg` と入力すると続きから再開します。 <span class="badge-v2">2.0</span>
+止めたまま IRB に戻れます。`fg` と入力すると続きから再開します。 <span class="badge-v2">2.0 から</span>
 
 デモを試したい場合は[デモアプリ](../demos/)をご覧ください。
