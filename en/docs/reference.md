@@ -109,7 +109,8 @@ puts "up" if pad.read.up?
 Harucom runs on [PicoRuby](https://picoruby.org/).
 
 These libraries are built in.
-Where there is a link, the PicoRuby reference behind it has the details.
+Where there is a link, the PicoRuby or [mruby](https://mruby.org/) reference behind it has
+the details.
 
 ### Filesystem
 
@@ -174,9 +175,18 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 | [Kernel](https://picoruby.org/Kernel.html) | Basic methods like `puts`, `sleep` |
 | [Proc](https://picoruby.org/Proc.html) | Blocks and lambdas |
 | [Data](https://picoruby.org/Data.html) | Building classes that hold values |
+| [Array](https://mruby.org/docs/api/Array.html) | Arrays |
+| [Hash](https://mruby.org/docs/api/Hash.html) | Hashes |
+| [Integer](https://mruby.org/docs/api/Integer.html) | Integers |
+| [Float](https://mruby.org/docs/api/Float.html) | Floating-point numbers |
+| [Range](https://mruby.org/docs/api/Range.html) | Ranges |
+| [Symbol](https://mruby.org/docs/api/Symbol.html) | Symbols |
+| [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map`, `select`, and the rest of the iteration methods |
+| [Comparable](https://mruby.org/docs/api/Comparable.html) | Ordering |
+| [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | Walking the live objects |
+| [Rational](https://mruby.org/docs/api/Rational.html) | Exact fractions <span class="badge-v2">New in 2.0</span> |
 
-The mruby built-ins `Array`, `Hash`, `Integer`, `Float`, `Symbol`, `Range`, and `Math` are
-there as well. So is `Rational`, for exact fractions. <span class="badge-v2">New in 2.0</span>
+`Math` is available too, but has no reference page.
 
 ### require
 

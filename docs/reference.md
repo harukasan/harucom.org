@@ -108,7 +108,8 @@ dmx[6] = 255
 Harucom は [PicoRuby](https://picoruby.org/) で動いています。
 
 以下のライブラリが組み込まれています。
-リンクの付いているものは、リンク先の PicoRuby リファレンスに詳しい説明があります。
+リンクの付いているものは、リンク先の PicoRuby または [mruby](https://mruby.org/) の
+リファレンスに詳しい説明があります。
 
 ### ファイルシステム
 
@@ -173,9 +174,18 @@ Dir.mkdir("/mydir")
 | [Kernel](https://picoruby.org/Kernel.html) | `puts`、`sleep` などの基本メソッド |
 | [Proc](https://picoruby.org/Proc.html) | ブロックと lambda |
 | [Data](https://picoruby.org/Data.html) | 値だけを持つクラスを作る |
+| [Array](https://mruby.org/docs/api/Array.html) | 配列 |
+| [Hash](https://mruby.org/docs/api/Hash.html) | ハッシュ |
+| [Integer](https://mruby.org/docs/api/Integer.html) | 整数 |
+| [Float](https://mruby.org/docs/api/Float.html) | 浮動小数点数 |
+| [Range](https://mruby.org/docs/api/Range.html) | 範囲 |
+| [Symbol](https://mruby.org/docs/api/Symbol.html) | シンボル |
+| [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map` や `select` などの繰り返しの操作 |
+| [Comparable](https://mruby.org/docs/api/Comparable.html) | 大小の比較 |
+| [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | 生きているオブジェクトをたどる |
+| [Rational](https://mruby.org/docs/api/Rational.html) | 有理数 <span class="badge-v2">2.0 から</span> |
 
-`Array`、`Hash`、`Integer`、`Float`、`Symbol`、`Range`、`Math` といった mruby の
-組み込みクラスもそのまま使えます。有理数の `Rational` も使えます。<span class="badge-v2">2.0 から</span>
+数学関数の `Math` も使えますが、リファレンスのページはありません。
 
 ### require
 
