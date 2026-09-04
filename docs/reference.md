@@ -10,7 +10,7 @@ Harucom で使える Ruby API のリファレンスです。
 
 ## Harucom API
 
-Harucom は画面の描画やキーボード入力、日本語入力、それに基板の周辺機能を扱うためのライブラリを備えています。
+Harucom は画面の描画やキーボード入力、日本語入力、基板の周辺機能を扱うためのライブラリを備えています。
 
 ### [DVI モジュール](dvi/)
 
@@ -65,7 +65,7 @@ text += $ime.take_committed if $ime.process(key) == :commit
 ```
 
 
-### Board（基板の周辺機能）
+### Boardモジュール（周辺機能）
 
 Harucom Board に載っている周辺機能は `Board` モジュールにまとまっています。
 使うときは `require` で読み込みます。
@@ -81,6 +81,15 @@ audio = Board::PWMAudio.new
 audio.beep(0, Board::PWMAudio::A4, 200)
 ```
 
+#### [Board::Pad（ボタン入力）](pad/)
+
+基板に載っている8つのボタンを読み取る API です。
+
+```ruby
+require "board/pad"
+pad = Board::Pad.new(Board::PAD0_PIN)
+puts "up" if pad.read.up?
+```
 
 #### [Board::DMX（DMX モジュールの制御）](dmx/)
 
@@ -94,36 +103,30 @@ dmx[6] = 255
 ```
 
 
-#### [Board::Pad（ボタン入力）](pad/)
-
-基板に載っている8つのボタンを読み取る API です。
-
-```ruby
-require "board/pad"
-pad = Board::Pad.new(Board::PAD0_PIN)
-puts "上" if pad.read.up?
-```
-
-
 ## PicoRuby ライブラリ
 
 Harucom は [PicoRuby](https://picoruby.org/) で動いています。
 
-以下の PicoRuby ライブラリが使えます。
-詳しい使い方は各リンク先の PicoRuby リファレンスを参照してください。
+以下のライブラリが組み込まれています。
+リンクの付いているものは、リンク先の PicoRuby リファレンスに詳しい説明があります。
 
 ### ファイルシステム
 
 | クラス | 説明 |
 |--------|------|
 | [File](https://picoruby.org/File.html) | ファイルの読み書き |
+| [File::Stat](https://picoruby.org/File_Stat.html) | ファイルの大きさや更新日時 |
 | [Dir](https://picoruby.org/Dir.html) | ディレクトリの操作 |
+| [VFS](https://picoruby.org/VFS.html) | ファイルシステムのマウント |
+| [Littlefs](https://picoruby.org/Littlefs.html) | フラッシュメモリのファイルシステム |
 
 ```ruby
 File.open("/data.txt", "r") { |f| f.read(256) }
 File.open("/data.txt", "w") { |f| f.write("hello") }
 Dir.mkdir("/mydir")
 ```
+
+ファイルの置き場所は[ファイルの入出力](../files/)をご覧ください。
 
 ### データ形式
 
@@ -135,25 +138,44 @@ Dir.mkdir("/mydir")
 | [Base64](https://picoruby.org/Base64.html) | Base64 エンコード・デコード |
 | [Base16](https://picoruby.org/Base16.html) | 16進文字列の変換 |
 
-### ハードウェア・システム
+### ハードウェア
 
 | クラス | 説明 |
 |--------|------|
 | [GPIO](https://picoruby.org/GPIO.html) | GPIO ピンの制御 |
-| [Time](https://picoruby.org/Time.html) | 時刻の取得・操作 |
+| [ADC](https://picoruby.org/ADC.html) | アナログ入力の読み取り |
+| [UART](https://picoruby.org/UART.html) | シリアル通信 <span class="badge-v2">2.0 から</span> |
+| [PWM](https://picoruby.org/PWM.html) | PWM 出力 <span class="badge-v2">2.0 から</span> |
 | [Watchdog](https://picoruby.org/Watchdog.html) | ウォッチドッグタイマー |
-| [Math](https://picoruby.org/Math.html) | 数学関数 |
+
+どのピンが何につながっているかは [Harucom Board](../harucom-board/#gpio-の割り当て)をご覧ください。
+
+### システム
+
+| クラス | 説明 |
+|--------|------|
+| [Machine](https://picoruby.org/Machine.html) | 起動からの経過時間、スリープ、再起動、個体の ID |
+| [Time](https://picoruby.org/Time.html) | 時刻の取得・操作 |
+| [Task](https://picoruby.org/Task.html) | タスクの生成と制御 |
+| [Sandbox](https://picoruby.org/Sandbox.html) | Ruby のコードを別のタスクで実行する |
+| [PicoRubyVM](https://picoruby.org/PicoRubyVM.html) | メモリの使用状況を調べる |
+| [RNG](https://picoruby.org/RNG.html) | 乱数 |
+| [ENV](https://picoruby.org/ENVClass.html) | 環境変数（[設定](../settings/)の内容が入ります） |
+| [Logger](https://picoruby.org/Logger.html) | ログの出力 |
+| [Editor](https://picoruby.org/Editor.html) | テキスト編集のバッファと、全角を数える文字幅の計算 |
 
 ### 組み込みクラス
 
 | クラス | 説明 |
 |--------|------|
 | [String](https://picoruby.org/String.html) | 文字列 |
-| [Array](https://picoruby.org/Array.html) | 配列 |
-| [Hash](https://picoruby.org/Hash.html) | ハッシュ |
-| [Integer](https://picoruby.org/Integer.html) | 整数 |
-| [Float](https://picoruby.org/Float.html) | 浮動小数点数 |
+| [Regexp](https://picoruby.org/Regexp.html) | 正規表現 |
 | [Kernel](https://picoruby.org/Kernel.html) | `puts`、`sleep` などの基本メソッド |
+| [Proc](https://picoruby.org/Proc.html) | ブロックと lambda |
+| [Data](https://picoruby.org/Data.html) | 値だけを持つクラスを作る |
+
+`Array`、`Hash`、`Integer`、`Float`、`Symbol`、`Range`、`Math` といった mruby の
+組み込みクラスもそのまま使えます。有理数の `Rational` も使えます。<span class="badge-v2">2.0 から</span>
 
 ### require
 

@@ -108,21 +108,26 @@ puts "up" if pad.read.up?
 
 Harucom runs on [PicoRuby](https://picoruby.org/).
 
-The following PicoRuby libraries are available.
-For detailed usage, refer to the PicoRuby reference at each link.
+These libraries are built in.
+Where there is a link, the PicoRuby reference behind it has the details.
 
 ### Filesystem
 
 | Class | Description |
 |-------|-------------|
 | [File](https://picoruby.org/File.html) | File reading and writing |
+| [File::Stat](https://picoruby.org/File_Stat.html) | File size and timestamps |
 | [Dir](https://picoruby.org/Dir.html) | Directory operations |
+| [VFS](https://picoruby.org/VFS.html) | Mounting filesystems |
+| [Littlefs](https://picoruby.org/Littlefs.html) | The flash filesystem |
 
 ```ruby
 File.open("/data.txt", "r") { |f| f.read(256) }
 File.open("/data.txt", "w") { |f| f.write("hello") }
 Dir.mkdir("/mydir")
 ```
+
+For where files belong, see [File I/O](../files/).
 
 ### Data Formats
 
@@ -134,25 +139,44 @@ Dir.mkdir("/mydir")
 | [Base64](https://picoruby.org/Base64.html) | Base64 encoding and decoding |
 | [Base16](https://picoruby.org/Base16.html) | Hex string conversion |
 
-### Hardware & System
+### Hardware
 
 | Class | Description |
 |-------|-------------|
 | [GPIO](https://picoruby.org/GPIO.html) | GPIO pin control |
-| [Time](https://picoruby.org/Time.html) | Time retrieval and manipulation |
+| [ADC](https://picoruby.org/ADC.html) | Reading analog input |
+| [UART](https://picoruby.org/UART.html) | Serial communication <span class="badge-v2">New in 2.0</span> |
+| [PWM](https://picoruby.org/PWM.html) | PWM output <span class="badge-v2">New in 2.0</span> |
 | [Watchdog](https://picoruby.org/Watchdog.html) | Watchdog timer |
-| [Math](https://picoruby.org/Math.html) | Math functions |
+
+For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
+
+### System
+
+| Class | Description |
+|-------|-------------|
+| [Machine](https://picoruby.org/Machine.html) | Uptime, sleep, reboot, and the board's unique ID |
+| [Time](https://picoruby.org/Time.html) | Time retrieval and manipulation |
+| [Task](https://picoruby.org/Task.html) | Creating and controlling tasks |
+| [Sandbox](https://picoruby.org/Sandbox.html) | Running Ruby code in a task of its own |
+| [PicoRubyVM](https://picoruby.org/PicoRubyVM.html) | Inspecting memory use |
+| [RNG](https://picoruby.org/RNG.html) | Random numbers |
+| [ENV](https://picoruby.org/ENVClass.html) | Environment variables (holding the [settings](../settings/)) |
+| [Logger](https://picoruby.org/Logger.html) | Logging |
+| [Editor](https://picoruby.org/Editor.html) | Text buffers, and display widths that count full-width characters |
 
 ### Built-in Classes
 
 | Class | Description |
 |-------|-------------|
 | [String](https://picoruby.org/String.html) | Strings |
-| [Array](https://picoruby.org/Array.html) | Arrays |
-| [Hash](https://picoruby.org/Hash.html) | Hashes |
-| [Integer](https://picoruby.org/Integer.html) | Integers |
-| [Float](https://picoruby.org/Float.html) | Floating-point numbers |
+| [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
 | [Kernel](https://picoruby.org/Kernel.html) | Basic methods like `puts`, `sleep` |
+| [Proc](https://picoruby.org/Proc.html) | Blocks and lambdas |
+| [Data](https://picoruby.org/Data.html) | Building classes that hold values |
+
+The mruby built-ins `Array`, `Hash`, `Integer`, `Float`, `Symbol`, `Range`, and `Math` are
+there as well. So is `Rational`, for exact fractions. <span class="badge-v2">New in 2.0</span>
 
 ### require
 
