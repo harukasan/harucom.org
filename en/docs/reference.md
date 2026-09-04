@@ -170,7 +170,7 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 
 | Class | Description |
 |-------|-------------|
-| [String](https://mruby.org/docs/api/String.html) ([PicoRuby](https://picoruby.org/String.html)) | Strings |
+| [String](https://mruby.org/docs/api/String.html) | Strings |
 | [Array](https://mruby.org/docs/api/Array.html) | Arrays |
 | [Hash](https://mruby.org/docs/api/Hash.html) | Hashes |
 | [Integer](https://mruby.org/docs/api/Integer.html) | Integers |
@@ -181,17 +181,32 @@ For what each pin is wired to, see [Harucom Board](../harucom-board/#gpio-map).
 | [Symbol](https://mruby.org/docs/api/Symbol.html) | Symbols |
 | [Enumerable](https://mruby.org/docs/api/Enumerable.html) | `map`, `select`, and the rest of the iteration methods |
 | [Comparable](https://mruby.org/docs/api/Comparable.html) | Ordering |
-| [Kernel](https://mruby.org/docs/api/Kernel.html) ([PicoRuby](https://picoruby.org/Kernel.html)) | Basic methods like `puts`, `sleep` |
-| [Proc](https://mruby.org/docs/api/Proc.html) ([PicoRuby](https://picoruby.org/Proc.html)) | Blocks and lambdas |
+| [Kernel](https://mruby.org/docs/api/Kernel.html) | `tap`, `then`, and the other object methods |
+| [Proc](https://mruby.org/docs/api/Proc.html) | Blocks and lambdas |
 | [ObjectSpace](https://mruby.org/docs/api/ObjectSpace.html) | Walking the live objects |
 | [Regexp](https://picoruby.org/Regexp.html) | Regular expressions |
 | [Data](https://picoruby.org/Data.html) | Building classes that hold values |
 
-A trailing (PicoRuby) link is where the methods PicoRuby adds are documented — bit
-operations like `String#bit_count`, for instance.
+A trailing (PicoRuby) link is where the methods PicoRuby adds to that class are documented.
 
-### require
+### Methods Available Everywhere
+
+Methods you can call without naming a class. Neither the PicoRuby nor the mruby reference
+covers them, so they are collected here.
+
+| Method | Description |
+|--------|-------------|
+| `puts` / `print` / `p` | Write to `$stdout`, which on Harucom is the screen |
+| `gets` / `getc` | Read a line or a character from `$stdin` |
+| `sleep(sec)` / `sleep_ms(ms)` / `usleep(us)` | Wait for the given time |
+| `require` | Load a library |
+| `exit` | End the program |
 
 ```ruby
 require "p5"   # Searches $LOAD_PATH (default: ["/lib"])
+sleep_ms 100
 ```
+
+The `sleep` family is task-aware: other tasks keep running while one waits.
+
+There is no `rand`. Use `RNG.random_int` from [RNG](https://picoruby.org/RNG.html) instead.
