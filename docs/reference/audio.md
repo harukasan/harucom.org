@@ -55,6 +55,9 @@ Harucom Board はステレオの PWM オーディオ出力を備えていて、3
 - [時間を指定して鳴らす](#時間を指定して鳴らす)
 - [定数](#定数)
 - [Synth（音を作る）](#synth音を作る)
+  - [Synth.render](#synthrenderrate-seed)
+  - [波形を作る](#波形を作る)
+  - [音を組み立てる](#音を組み立てる)
   - [ドラムキット](#ドラムキット)
 
 ## 基本的な使い方
@@ -453,6 +456,7 @@ audio.stop_at(now + 50_000, 0)        # 1秒後に止める
 {: .since-v2}
 
 `Synth` は Ruby のコードから音そのものを作るライブラリです。
+サイン波やノイズを組み合わせ、フィルタで削って形を整えると、ドラムのような短い音ができます。
 作った音は WAV のデータとして返るので、`PWMAudio::Sample` にそのまま渡せます。
 
 ```ruby
@@ -468,30 +472,187 @@ ch.source = kick
 ch.play
 ```
 
-ブロックの中では次の音のもとが使えます。
+この例では、160Hz から 44Hz へ落ちていくサイン波（バスドラムの胴の音）に、
+高いところだけを残した短いノイズ（叩いたときのアタック）を重ねています。
 
-| メソッド | 音 |
-|----------|-----|
-| `sweep(seconds, from:, to:, curve:, decay:)` | 音程が変わっていくサイン波。バスドラムやタムに使う |
-| `noise(seconds, decay:)` | ホワイトノイズ。スネアやハイハットのもとになる |
-| `metallic(seconds, decay:, partials:)` | 金属的な音。ハイハットに使う |
-| `silence(seconds)` | 無音 |
+音づくりは2つの段階に分かれます。
+まず[波形を作る](#波形を作る)のメソッドでサイン波やノイズを作り、
+それを[音を組み立てる](#音を組み立てる)の操作で削ったり重ねたりします。
+できあがったものを `Synth.render` が WAV にします。
 
-これらは `Synth::Buffer` という値になり、次の操作でつなげられます。
+### Synth.render(rate:, seed:)
 
-| 操作 | 説明 |
-|------|------|
-| `+` | 音を重ねる |
-| `*` | 音量を変える |
-| `highpass(cutoff)` / `lowpass(cutoff)` | 高い音 / 低い音だけ通す |
-| `bandpass(center, q:)` | ある高さの音だけ通す |
-| `env(decay, at:, cut:, level:)` | 音の減衰を付ける |
-| `normalize(peak:)` | 音量をそろえる |
-| `fade_tail(ms:)` | 終わりを滑らかに消す |
+```ruby
+data = Synth.render(rate: 44100) { noise(0.1, decay: 30) }
+```
+
+ブロックの中身を音にして、WAV（16ビット・モノラル）のデータを返します。
+ブロックは[波形を組み立てた結果](#音を組み立てる)（`Synth::Buffer`）を返してください。
+ほかの値を返すと `ArgumentError` になります。
+
+`rate` はサンプリングレート（1秒あたりのサンプル数）で、省略すると 44100 です。
+Harucom の出力は 50,000 ですが、鳴らすときにエンジンが変換するので、
+どの値で作っても構いません。`rate: 50000` にすると変換なしでそのまま鳴らせます。
+
+`seed` はノイズのシードです。同じシードからはいつも同じ音ができるので、
+一度気に入った音は何度でも同じものが作れます。
+鳴らすたびにノイズを変えたいときは `seed: RNG.random_int` を渡します。
+
+返す直前に、音量を整える [`normalize`](#synthbuffernormalizepeak) と
+終わりをフェードアウトさせる [`fade_tail`](#synthbufferfade_tailms) が自動でかかります。
+
+> 波形の計算そのものは C で行いますが、それでもドラム1つで数十ミリ秒ほどかかります。
+> 鳴らす直前に作るのではなく、起動時にまとめて作っておくのがおすすめです。
+{: .tip}
+
+### 波形を作る
+
+ブロックの中では次のメソッドが使えます。
+どれも、これから削ったり重ねたりしていく波形（`Synth::Buffer`）を作って返します。
+
+#### sweep(seconds, from:, to:, curve:, decay:)
+
+```ruby
+sweep(0.28, from: 160, to: 44, curve: 28, decay: 12)   # バスドラム
+sweep(0.05, from: 1700, decay: 90)                     # リムショット
+```
+
+音程が下がっていくサイン波を `seconds` 秒ぶん作ります。
+バスドラムやタムのように、叩いた瞬間に音程がすとんと落ちる音に使います。
+
+`from` は始まりの周波数（Hz）、`to` は終わりの周波数です。
+`to` を省略すると `from` のままになり、音程は変わりません。
+
+`curve` は音程が下がる速さで、大きいほど速く `to` に近づきます。省略すると 0（変わらない）です。
+`decay` は音量が減衰する速さで、大きいほど短く鳴ります。
+
+#### noise(seconds, decay:)
+
+```ruby
+noise(0.22, decay: 14)
+```
+
+ホワイトノイズを `seconds` 秒ぶん作ります。スネアやハイハット、クラップのもとになります。
+`decay` は音量が減衰する速さで、省略すると 0（減衰しない）です。
+
+そのままではザーッという音なので、[`highpass`](#synthbufferhighpasscutoff) や
+[`bandpass`](#synthbufferbandpasscenter-q) で余分な周波数を削って使います。
+
+#### metallic(seconds, decay:, partials:)
+
+```ruby
+metallic(0.09, decay: 46).bandpass(10000, q: 1.2).highpass(8000)   # ハイハット
+```
+
+周波数の違う矩形波を重ねた、金属的な音を作ります。ハイハットやシンバルのもとです。
+倍音が混ざりあうことで、音程の定まらないざらついた高音になります。
+
+`partials` は重ねる矩形波の周波数の配列で、省略すると `Synth::HIHAT_PARTIALS`
+（204、298、366、515、540、800 Hz の6つ）が使われます。
+上の例のように高い周波数だけを残すと、ハイハットの音になります。
+
+#### silence(seconds)
+
+```ruby
+noise(0.02, decay: 300) + silence(0.5)
+```
+
+無音を `seconds` 秒ぶん作ります。
+音を重ねると長いほうの長さになるので、全体を伸ばしたいときに足します。
+
+### 音を組み立てる
+
+[作った波形](#波形を作る)は `Synth::Buffer` という値です。
+次の操作で重ねたり削ったりして、音を作り込みます。
+どの操作も新しい `Synth::Buffer` を返すので、`.` でつなげて書けます。
+
+#### Synth::Buffer#+(other)
+
+```ruby
+sweep(0.28, from: 160, to: 44, curve: 28, decay: 12) +
+  noise(0.02, decay: 300) * 0.5
+```
+
+2つの音を重ねます（ミックスします）。長さは長いほうにあわせます。
+
+#### Synth::Buffer#*(value)
+
+```ruby
+noise(0.02, decay: 300) * 0.5   # 音量を半分にする
+```
+
+音量を変えます。1.0 でそのまま、0.5 で半分です。
+重ねる音のバランスを取るのに使います。
+
+#### Synth::Buffer#highpass(cutoff)
+
+```ruby
+noise(0.02, decay: 300).highpass(900)
+```
+
+`cutoff`（Hz）より高い音だけを残して、低い音を削ります。
+ノイズから低い音を削ると、シャッというアタックの音になります。
+
+#### Synth::Buffer#lowpass(cutoff)
+
+```ruby
+noise(0.1, decay: 20).lowpass(400)
+```
+
+`highpass` の逆で、`cutoff`（Hz）より低い音だけを残します。
+
+#### Synth::Buffer#bandpass(center, q:)
+
+```ruby
+noise(0.28).bandpass(1100, q: 1.6)
+```
+
+`center`（Hz）のまわりの周波数だけを残します。
+`q` は共振の鋭さで、大きいほど残す幅が狭くなり、その周波数が強調されます。省略すると 1.0 です。
+クラップのパチンという音は、この強調から生まれます。
+
+#### Synth::Buffer#env(decay, at:, cut:, level:)
+
+```ruby
+source = noise(0.28).bandpass(1100, q: 1.6)
+
+source.env(220, cut: 0.009, level: 0.75) +
+  source.env(220, at: 0.009, cut: 0.009, level: 0.85) +
+  source.env(220, at: 0.018)
+```
+
+エンベロープをかけて、音量の変化を付けます。
+`at` 秒までは無音で、そこから `decay` の速さで減衰していきます。
+`cut` を渡すと、`at` から `cut` 秒ぶんだけ鳴らして、そこで切ります。
+`level` は音量の倍率です。`at` は 0、`level` は 1.0 が既定で、`cut` は省略すると切りません。
+
+同じ音に `at` をずらした `env` をいくつもかけて足すと、
+クラップのように何度も叩く音が作れます。上の例がその形です。
+
+#### Synth::Buffer#normalize(peak:)
+
+```ruby
+buffer.normalize(peak: 0.9)
+```
+
+いちばん大きいところが `peak` になるように、全体の音量を上げ下げします。省略すると 0.9 です。
+
+#### Synth::Buffer#fade_tail(ms:)
+
+```ruby
+buffer.fade_tail(ms: 4)
+```
+
+終わりの `ms` ミリ秒をフェードアウトさせて、音がちょうど0で終わるようにします。省略すると 4.0 です。
+途中で切れるとぷつっというノイズが出るので、それを防ぎます。
+
+> `normalize` と `fade_tail` は `Synth.render` が自動でかけるので、
+> ふつうは自分で呼ぶ必要はありません。
+{: .tip}
 
 ### ドラムキット
 
-よく使うドラムの音はあらかじめ定義されています。
+よく使うドラムの音はあらかじめ定義されていて、名前で作れます。
 
 ```ruby
 require "synth"
@@ -505,3 +666,30 @@ snare = PWMAudio::Sample.new(Synth::DrumKit.render("sd"))
 
 同じ音は `/data/drums` に WAV としても入っているので、
 そちらを読み込んだほうが速く鳴らせます。
+
+#### Synth::DrumKit.render(name, rate:, seed:)
+
+`name` の音を作って、WAV のデータを返します。
+`rate` と `seed` は [`Synth.render`](#synthrenderrate-seed) と同じです。
+登録されていない名前を渡すと `ArgumentError` になります。
+
+#### Synth::DrumKit.names
+
+```ruby
+Synth::DrumKit.names  #=> ["bd", "sd", "hh", "oh", "cp", "lt", "ht", "rim"]
+```
+
+登録されている名前の一覧を返します。
+
+#### Synth::DrumKit.define(name)
+
+```ruby
+Synth::DrumKit.define("kick2") do
+  sweep(0.4, from: 120, to: 38, curve: 20, decay: 8)
+end
+
+deep = PWMAudio::Sample.new(Synth::DrumKit.render("kick2"))
+```
+
+自分で作った音を名前で登録します。ブロックの中身は `Synth.render` に渡すものと同じです。
+すでにある名前を渡すと、その音を上書きします。

@@ -56,6 +56,9 @@ The rendering runs on its own in C, so Ruby only changes parameters.
 - [Scheduling Sound](#scheduling-sound)
 - [Constants](#constants)
 - [Synth](#synth)
+  - [Synth.render](#synthrenderrate-seed)
+  - [Making Waveforms](#making-waveforms)
+  - [Building the Sound](#building-the-sound)
   - [The Drum Kit](#the-drum-kit)
 
 ## Getting Started
@@ -456,8 +459,9 @@ Note frequencies from `C4` to `C6` are defined as constants (`C4`, `CS4`, `D4`, 
 ## Synth
 {: .since-v2}
 
-`Synth` builds sound itself from Ruby code. What it returns is WAV data,
-which goes straight into a `PWMAudio::Sample`.
+`Synth` builds sound itself from Ruby code.
+Combine sine waves and noise, carve them with filters, and you get short sounds like drums.
+What it returns is WAV data, which goes straight into a `PWMAudio::Sample`.
 
 ```ruby
 require "synth"
@@ -472,30 +476,187 @@ ch.source = kick
 ch.play
 ```
 
-These sources are available inside the block.
+Here a sine falling from 160 Hz to 44 Hz, the body of the kick, is mixed with a short
+burst of noise with the low end taken off, which is the attack of the beater.
 
-| Method | Sound |
-|--------|-------|
-| `sweep(seconds, from:, to:, curve:, decay:)` | A sine whose pitch sweeps. Kicks and toms |
-| `noise(seconds, decay:)` | A white noise burst. Snares and hihats |
-| `metallic(seconds, decay:, partials:)` | A metallic stack of partials. Hihats |
-| `silence(seconds)` | Silence |
+Making a sound takes two steps. First [make a waveform](#making-waveforms) out of a sine
+or some noise, then [build the sound](#building-the-sound) by carving and layering it.
+`Synth.render` turns the result into WAV.
 
-Each one is a `Synth::Buffer`, and these operations combine them.
+### Synth.render(rate:, seed:)
 
-| Operation | Description |
-|-----------|-------------|
-| `+` | Mix two buffers |
-| `*` | Scale the level |
-| `highpass(cutoff)` / `lowpass(cutoff)` | Keep the high / low end |
-| `bandpass(center, q:)` | Keep a band |
-| `env(decay, at:, cut:, level:)` | Apply an envelope |
-| `normalize(peak:)` | Even out the level |
-| `fade_tail(ms:)` | Fade the tail out |
+```ruby
+data = Synth.render(rate: 44100) { noise(0.1, decay: 30) }
+```
+
+Renders the block and returns WAV data (16-bit mono).
+The block has to return the [built-up sound](#building-the-sound), a `Synth::Buffer`.
+Anything else raises `ArgumentError`.
+
+`rate` is the sample rate (samples per second), 44100 when omitted.
+Harucom outputs at 50,000, but the engine resamples on playback, so any rate works.
+`rate: 50000` plays back with no conversion at all.
+
+`seed` is the seed for the noise. The same seed always renders the same sound,
+so one you like can be reproduced exactly.
+Pass `seed: RNG.random_int` for a different noise take every time.
+
+Before returning, [`normalize`](#synthbuffernormalizepeak) evens out the level and
+[`fade_tail`](#synthbufferfade_tailms) fades the end out. Both are applied for you.
+
+> The waveform math itself runs in C, but a single drum still takes tens of milliseconds.
+> Render your sounds at startup rather than right before playing them.
+{: .tip}
+
+### Making Waveforms
+
+These methods are available inside the block.
+Each makes a waveform, a `Synth::Buffer`, for you to carve and layer.
+
+#### sweep(seconds, from:, to:, curve:, decay:)
+
+```ruby
+sweep(0.28, from: 160, to: 44, curve: 28, decay: 12)   # kick
+sweep(0.05, from: 1700, decay: 90)                     # rimshot
+```
+
+Makes `seconds` of a sine wave whose pitch falls.
+Use it for sounds that drop in pitch the moment they are struck, like kicks and toms.
+
+`from` is the starting frequency in Hz and `to` the ending one.
+Omit `to` and the pitch stays at `from`.
+
+`curve` is how fast the pitch falls, the larger the sooner it reaches `to`. It is 0 (no fall) when omitted.
+`decay` is how fast the level decays. The larger it is, the shorter the sound.
+
+#### noise(seconds, decay:)
+
+```ruby
+noise(0.22, decay: 14)
+```
+
+Makes `seconds` of white noise, the raw material for snares, hihats, and claps.
+`decay` is how fast the level decays, 0 (no decay) when omitted.
+
+On its own it is a flat hiss, so carve the frequencies you do not want with
+[`highpass`](#synthbufferhighpasscutoff) or [`bandpass`](#synthbufferbandpasscenter-q).
+
+#### metallic(seconds, decay:, partials:)
+
+```ruby
+metallic(0.09, decay: 46).bandpass(10000, q: 1.2).highpass(8000)   # hihat
+```
+
+Stacks square waves at different frequencies into a metallic sound, the source of hihats
+and cymbals. Their overtones clash into gritty highs with no pitch to them.
+
+`partials` is the array of square wave frequencies, `Synth::HIHAT_PARTIALS`
+(204, 298, 366, 515, 540, and 800 Hz) when omitted.
+Keep only the high frequencies, as above, and you have a hihat.
+
+#### silence(seconds)
+
+```ruby
+noise(0.02, decay: 300) + silence(0.5)
+```
+
+Makes `seconds` of silence.
+A mix spans the longer of the two, so add silence to stretch the whole thing out.
+
+### Building the Sound
+
+A [waveform](#making-waveforms) is a `Synth::Buffer`.
+These operations layer and carve it into the sound you want.
+Each returns a new `Synth::Buffer`, so they chain with `.`.
+
+#### Synth::Buffer#+(other)
+
+```ruby
+sweep(0.28, from: 160, to: 44, curve: 28, decay: 12) +
+  noise(0.02, decay: 300) * 0.5
+```
+
+Mixes two sounds. The result spans the longer of the two.
+
+#### Synth::Buffer#*(value)
+
+```ruby
+noise(0.02, decay: 300) * 0.5   # half the level
+```
+
+Scales the level. 1.0 leaves it alone, 0.5 halves it.
+Use it to balance the sounds you mix.
+
+#### Synth::Buffer#highpass(cutoff)
+
+```ruby
+noise(0.02, decay: 300).highpass(900)
+```
+
+Keeps what is above `cutoff` Hz and removes the low end.
+Taking the low end off noise leaves the sharp attack.
+
+#### Synth::Buffer#lowpass(cutoff)
+
+```ruby
+noise(0.1, decay: 20).lowpass(400)
+```
+
+The other way around: keeps what is below `cutoff` Hz.
+
+#### Synth::Buffer#bandpass(center, q:)
+
+```ruby
+noise(0.28).bandpass(1100, q: 1.6)
+```
+
+Keeps the frequencies around `center` Hz.
+`q` is the resonance, the larger the narrower the band and the more that frequency
+stands out. It is 1.0 when omitted.
+The crack of a clap comes out of that resonance.
+
+#### Synth::Buffer#env(decay, at:, cut:, level:)
+
+```ruby
+source = noise(0.28).bandpass(1100, q: 1.6)
+
+source.env(220, cut: 0.009, level: 0.75) +
+  source.env(220, at: 0.009, cut: 0.009, level: 0.85) +
+  source.env(220, at: 0.018)
+```
+
+Applies an envelope to shape the level.
+It is silent until `at` seconds, then decays at the rate of `decay`.
+Pass `cut` and it sounds for `cut` seconds from `at` and stops there.
+`level` scales the level. `at` defaults to 0 and `level` to 1.0, and nothing is cut when `cut` is omitted.
+
+Summing several `env` of one source at different offsets builds a sound struck several
+times, like a handclap. The example above is that shape.
+
+#### Synth::Buffer#normalize(peak:)
+
+```ruby
+buffer.normalize(peak: 0.9)
+```
+
+Scales the whole thing so its loudest point lands on `peak`, 0.9 when omitted.
+
+#### Synth::Buffer#fade_tail(ms:)
+
+```ruby
+buffer.fade_tail(ms: 4)
+```
+
+Fades the last `ms` milliseconds out so the sound ends exactly at zero, 4.0 when omitted.
+Cutting off mid-signal would click.
+
+> `Synth.render` applies `normalize` and `fade_tail` for you,
+> so you rarely need to call them yourself.
+{: .tip}
 
 ### The Drum Kit
 
-The board's drum sounds are defined this way.
+The board's drum sounds are already defined, and you render them by name.
 
 ```ruby
 require "synth"
@@ -508,3 +669,30 @@ The names are `bd` (kick), `sd` (snare), `hh` (hihat), `oh` (open hihat),
 `cp` (clap), `lt` (low tom), `ht` (high tom), and `rim` (rimshot).
 
 The same sounds are stored as WAV files in `/data/drums`, which load faster than rendering them.
+
+#### Synth::DrumKit.render(name, rate:, seed:)
+
+Renders `name` and returns WAV data.
+`rate` and `seed` work as they do in [`Synth.render`](#synthrenderrate-seed).
+A name that is not registered raises `ArgumentError`.
+
+#### Synth::DrumKit.names
+
+```ruby
+Synth::DrumKit.names  #=> ["bd", "sd", "hh", "oh", "cp", "lt", "ht", "rim"]
+```
+
+Returns the registered names.
+
+#### Synth::DrumKit.define(name)
+
+```ruby
+Synth::DrumKit.define("kick2") do
+  sweep(0.4, from: 120, to: 38, curve: 20, decay: 8)
+end
+
+deep = PWMAudio::Sample.new(Synth::DrumKit.render("kick2"))
+```
+
+Registers a sound of your own under a name. The block is the same one `Synth.render` takes.
+An existing name is overwritten.
